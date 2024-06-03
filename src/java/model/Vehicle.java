@@ -9,7 +9,6 @@ public class Vehicle {
     private Integer status;
     private Timestamp created_at;
     private Timestamp updated_at;
-    private String image;
     public int vehicle_Categoryid;
     public LinkedList<Route> route = new LinkedList<Route>();
     public LinkedList<Evaluate> evaluate = new LinkedList<Evaluate>();
@@ -17,12 +16,11 @@ public class Vehicle {
     public Vehicle() {
     }
 
-    public Vehicle(String licensePlate, Integer status, Timestamp created_at, Timestamp updated_at, int vehicle_Categoryid, String image) {
+    public Vehicle(String licensePlate, Integer status, Timestamp created_at, Timestamp updated_at, int vehicle_Categoryid) {
         this.licensePlate = licensePlate;
         this.status = status;
         this.created_at = created_at;
         this.updated_at = updated_at;
-        this.image = image;
         this.vehicle_Categoryid = vehicle_Categoryid;
     }
 
@@ -58,13 +56,6 @@ public class Vehicle {
         this.updated_at = updated_at;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
 
     public int getVehicle_Categoryid() {
         return vehicle_Categoryid;
@@ -90,9 +81,5 @@ public class Vehicle {
         this.evaluate = evaluate;
     }
 
-    @Override
-    public String toString() {
-        return "Vehicle{" + "licensePlate=" + licensePlate + ", status=" + status + ", created_at=" + created_at + ", updated_at=" + updated_at + ", image=" + image + ", vehicle_Categoryid=" + vehicle_Categoryid + ", route=" + route + ", evaluate=" + evaluate + '}';
-    }
 
 }

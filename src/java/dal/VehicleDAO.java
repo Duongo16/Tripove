@@ -29,7 +29,7 @@ public class VehicleDAO extends DBContext {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Vehicle a = new Vehicle(rs.getString("licensePlate"), rs.getInt("status"),
-                        rs.getTimestamp("created_at"), rs.getTimestamp("updated_at"), rs.getInt("vehicle_Categoryid"), rs.getString("image"));
+                        rs.getTimestamp("created_at"), rs.getTimestamp("updated_at"), rs.getInt("vehicle_Categoryid"));
                 ls.add(a);
             }
             return ls;
@@ -47,7 +47,7 @@ public class VehicleDAO extends DBContext {
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 Vehicle a = new Vehicle(rs.getString("licensePlate"), rs.getInt("status"),
-                        rs.getTimestamp("created_at"), rs.getTimestamp("updated_at"), rs.getInt("vehicle_Categoryid"), rs.getString("image"));
+                        rs.getTimestamp("created_at"), rs.getTimestamp("updated_at"), rs.getInt("vehicle_Categoryid"));
                 return a;
             }
         } catch (Exception e) {
@@ -67,15 +67,14 @@ public class VehicleDAO extends DBContext {
     }
 
     public void updateVehicle(Vehicle vehicle) {
-        String sql = "UPDATE [dbo].[Vehicle] SET status = ?, created_at = ?, updated_at = ?, vehicle_Categoryid = ?, image = ? WHERE licensePlate = ?";
+        String sql = "UPDATE [dbo].[Vehicle] SET status = ?, created_at = ?, updated_at = ?, vehicle_Categoryid = ? WHERE licensePlate = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, vehicle.getStatus());
             st.setTimestamp(2, vehicle.getCreated_at());
             st.setTimestamp(3, vehicle.getUpdated_at());
             st.setInt(4, vehicle.getVehicle_Categoryid());
-            st.setString(5, vehicle.getImage());
-            st.setString(6, vehicle.getLicensePlate());
+            st.setString(5, vehicle.getLicensePlate());
 
             st.executeUpdate();
         } catch (Exception e) {
@@ -84,7 +83,7 @@ public class VehicleDAO extends DBContext {
     }
 
     public void addNewVehicle(Vehicle vehicle) {
-        String sql = "INSERT INTO [dbo].[Vehicle] (licensePlate, status, created_at, updated_at, vehicle_Categoryid, image) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO [dbo].[Vehicle] (licensePlate, status, created_at, updated_at, vehicle_Categoryid) VALUES (?, ?, ?, ?, ?)";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, vehicle.getLicensePlate());
@@ -92,7 +91,6 @@ public class VehicleDAO extends DBContext {
             st.setTimestamp(3, vehicle.getCreated_at());
             st.setTimestamp(4, vehicle.getUpdated_at());
             st.setInt(5, vehicle.getVehicle_Categoryid());
-            st.setString(6, vehicle.getImage());
             st.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);
@@ -140,7 +138,7 @@ public class VehicleDAO extends DBContext {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Vehicle a = new Vehicle(rs.getString("licensePlate"), rs.getInt("status"),
-                        rs.getTimestamp("created_at"), rs.getTimestamp("updated_at"), rs.getInt("vehicle_Categoryid"), rs.getString("image"));
+                        rs.getTimestamp("created_at"), rs.getTimestamp("updated_at"), rs.getInt("vehicle_Categoryid"));
                 ls.add(a);
             }
         } catch (Exception e) {
