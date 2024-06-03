@@ -138,6 +138,7 @@ public class VehicleCatControllerServlet extends HttpServlet {
         String seatQuantityStr = request.getParameter("seatQuantity");
         String utilities = request.getParameter("utilities");
         String createdAtStr = request.getParameter("created_at");
+        String image = "image/vehicle/" + request.getParameter("image");
 
         VehicleCatDAO vd = new VehicleCatDAO();
         int id = 0;
@@ -155,10 +156,10 @@ public class VehicleCatControllerServlet extends HttpServlet {
             seatQuantity = Integer.parseInt(seatQuantityStr);
             if (checkExisted) {
                 Timestamp created_at = Timestamp.valueOf(createdAtStr);
-                Vehicle_Category a = new Vehicle_Category(id, name, seatType, seatQuantity, utilities, created_at, new Timestamp(System.currentTimeMillis()));
+                Vehicle_Category a = new Vehicle_Category(id, name, seatType, seatQuantity, utilities, created_at, new Timestamp(System.currentTimeMillis()),image);
                 vd.updateVehicleCat(a);//chua update seat
             } else {
-                Vehicle_Category a = new Vehicle_Category(name, seatType, seatQuantity, utilities, new Timestamp(System.currentTimeMillis()));
+                Vehicle_Category a = new Vehicle_Category(name, seatType, seatQuantity, utilities, new Timestamp(System.currentTimeMillis()),image);
                 int checkNew = vd.addNewVehicleCat(a);
                 if (checkNew != -1) {
                     vd.addSeatForVehicleCat(vd.getVehicleCatByName(a.getName()));

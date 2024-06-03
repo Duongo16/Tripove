@@ -54,7 +54,6 @@
                                 <th>License Plate</th>
                                 <th>Status</th>
                                 <th>Vehicle Category</th>
-                                <th>Image</th>
                                 <th>Created at</th>
                                 <th>Updated at</th>
                                 <th style="min-width: 156px">Actions</th>
@@ -67,7 +66,6 @@
                                 <td><%=v.getLicensePlate()%></td>
                                 <td><%=v.getStatus()%></td>
                                 <td><%=vcd.getVehicleCatNameById(v.getVehicle_Categoryid())%></td>
-                                <td><img src="<%=v.getImage()%>"/></td>
                                 <td><fmt:formatDate pattern="dd/MM/yyyy HH:mm" value="<%=v.getCreated_at()%>"/></td>
                                 <td><fmt:formatDate pattern="dd/MM/yyyy HH:mm" value="<%=v.getUpdated_at()%>"/></td>
                                 <td>
@@ -83,8 +81,6 @@
                 <div class="col-md-2" id="right-column">
                     <c:set var="a" value="${requestScope.currentVehicle}"/>
                     <form action="vehicleController" method="post" style="width: 190px;">
-                        <strong>Ảnh minh hoạ: </strong>
-                        <input type="file" name="image" style="width: 100%">
                         <strong>Biển số xe:</strong><br> <input type="text" name="licensePlate" value="${a.licensePlate}" required/><br>
                         <strong>Trạng thái: </strong><input type="number" name="status" value="${a.status}" min="0" max="10" step="1"><br>
                         <strong>Loại xe:</strong><br>

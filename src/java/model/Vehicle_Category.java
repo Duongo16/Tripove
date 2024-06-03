@@ -12,13 +12,14 @@ public class Vehicle_Category {
     private Timestamp updated_at;
     private Integer seatQuantity;
     private String seatType;
+    private String image;
     public LinkedList<Vehicle> vehicle = new LinkedList<Vehicle>();
     public LinkedList<Seat> seat = new LinkedList<Seat>();
 
     public Vehicle_Category() {
     }
 
-    public Vehicle_Category(int id, String name, String seatType, Integer seatQuantity, String utilities, Timestamp created_at, Timestamp updated_at) {
+    public Vehicle_Category(int id, String name, String seatType, Integer seatQuantity, String utilities, Timestamp created_at, Timestamp updated_at, String image) {
         this.id = id;
         this.name = name;
         this.utilities = utilities;
@@ -26,14 +27,16 @@ public class Vehicle_Category {
         this.updated_at = updated_at;
         this.seatQuantity = seatQuantity;
         this.seatType = seatType;
+        this.image=image;
     }
     
-    public Vehicle_Category( String name, String seatType, Integer seatQuantity, String utilities, Timestamp created_at) {
+    public Vehicle_Category( String name, String seatType, Integer seatQuantity, String utilities, Timestamp created_at, String image) {
         this.name = name;
         this.utilities = utilities;
         this.created_at = created_at;
         this.seatQuantity = seatQuantity;
         this.seatType = seatType;
+        this.image=image;
     }
 
     public int getId() {
@@ -108,10 +111,15 @@ public class Vehicle_Category {
         this.seat = seat;
     }
 
-    @Override
-    public String toString() {
-        return "Vehicle_Category{" + "id=" + id + ", name=" + name + ", utilities=" + utilities + ", created_at=" + created_at + ", updated_at=" + updated_at + ", seatQuantity=" + seatQuantity + ", seatType=" + seatType + ", vehicle=" + vehicle + ", seat=" + seat + '}';
+    public String getImage() {
+        return image;
     }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    
     
     
 

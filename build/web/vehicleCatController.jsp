@@ -38,6 +38,7 @@ Author : Admin --%> <%@page contentType="text/html" pageEncoding="UTF-8"%>
                         <thead>
                             <tr>
                                 <th>Name</th>
+                                <th>Image</th>
                                 <th>Seat type</th>
                                 <th>Seat quantity</th>
                                 <th>Utilities</th>
@@ -50,6 +51,7 @@ Author : Admin --%> <%@page contentType="text/html" pageEncoding="UTF-8"%>
                             <c:forEach items="${requestScope.allVehicleCat}" var="list">
                                 <tr>
                                     <td>${list.name}</td>
+                                    <td><img src="${list.image}"/></td>
                                     <td>${list.seatType}</td>
                                     <td>${list.seatQuantity}</td>
                                     <td>${list.utilities}</td>
@@ -92,6 +94,8 @@ Author : Admin --%> <%@page contentType="text/html" pageEncoding="UTF-8"%>
                         method="post"
                         style="width: 190px"
                         >
+                        <strong>Ảnh minh hoạ: </strong>
+                        <input type="file" name="image" style="width: 100%">
                         <strong>Tên loại phương tiện:</strong><br />
                         <input type="text" name="name" value="${a.name}" required /><br />
                         <strong>Kiểu ghế:</strong><br />

@@ -125,7 +125,6 @@ public class VehicleControllerServlet extends HttpServlet {
         String licensePlate = request.getParameter("licensePlate");
         String status = request.getParameter("status");
         String vehicle_Categoryid = request.getParameter("vehicle_Categoryid");
-        String image = "image/vehicle/" + request.getParameter("image");
         String createdAtStr = request.getParameter("created_at");
 
         VehicleDAO vd = new VehicleDAO();
@@ -135,9 +134,6 @@ public class VehicleControllerServlet extends HttpServlet {
             if (o.getLicensePlate().equals(licensePlate)) {
                 checkExisted = true;
                 lp = o.getLicensePlate();
-                if (image.equals("image/vehicle/")) {
-                    image = o.getImage();
-                }
                 break;
             }
         }
@@ -147,10 +143,10 @@ public class VehicleControllerServlet extends HttpServlet {
             int vcid = Integer.parseInt(vehicle_Categoryid);
             if (checkExisted) {
                 Timestamp created_at = Timestamp.valueOf(createdAtStr);
-                Vehicle a = new Vehicle(lp, stt, created_at, new Timestamp(System.currentTimeMillis()), vcid, image);
+                Vehicle a = new Vehicle(lp, stt, created_at, new Timestamp(System.currentTimeMillis()), vcid);
                 vd.updateVehicle(a);
             } else {
-                Vehicle a = new Vehicle(licensePlate, stt, new Timestamp(System.currentTimeMillis()), null, vcid, image);
+                Vehicle a = new Vehicle(licensePlate, stt, new Timestamp(System.currentTimeMillis()), null, vcid);
                 vd.addNewVehicle(a);
             }
 

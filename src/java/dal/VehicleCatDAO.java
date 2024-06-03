@@ -15,7 +15,7 @@ import model.Vehicle_Category;
  * @author Admin
  */
 public class VehicleCatDAO extends DBContext {
-    
+
     public static void main(String[] args) {
         VehicleCatDAO v = new VehicleCatDAO();
         List<Vehicle_Category> ls = v.findVehicleCat(null, "Cabin", 0);
@@ -31,7 +31,7 @@ public class VehicleCatDAO extends DBContext {
             while (rs.next()) {
                 Vehicle_Category a = new Vehicle_Category(rs.getInt("id"), rs.getString("name"), rs.getString("seatType"),
                         rs.getInt("seatQuantity"), rs.getString("utilities"),
-                        rs.getTimestamp("created_at"), rs.getTimestamp("updated_at"));
+                        rs.getTimestamp("created_at"), rs.getTimestamp("updated_at"), rs.getString("image"));
                 ls.add(a);
             }
             return ls;
@@ -50,7 +50,7 @@ public class VehicleCatDAO extends DBContext {
             if (rs.next()) {
                 Vehicle_Category a = new Vehicle_Category(rs.getInt("id"), rs.getString("name"), rs.getString("seatType"),
                         rs.getInt("seatQuantity"), rs.getString("utilities"),
-                        rs.getTimestamp("created_at"), rs.getTimestamp("updated_at"));
+                        rs.getTimestamp("created_at"), rs.getTimestamp("updated_at"), rs.getString("image"));
                 return a;
             }
         } catch (Exception e) {
@@ -68,7 +68,7 @@ public class VehicleCatDAO extends DBContext {
             if (rs.next()) {
                 Vehicle_Category a = new Vehicle_Category(rs.getInt("id"), rs.getString("name"), rs.getString("seatType"),
                         rs.getInt("seatQuantity"), rs.getString("utilities"),
-                        rs.getTimestamp("created_at"), rs.getTimestamp("updated_at"));
+                        rs.getTimestamp("created_at"), rs.getTimestamp("updated_at"), rs.getString("image"));
                 return a;
             }
         } catch (Exception e) {
@@ -109,6 +109,7 @@ public class VehicleCatDAO extends DBContext {
                 + "      ,[updated_at] = ?\n"
                 + "      ,[seatQuantity] = ?\n"
                 + "      ,[seatType] = ?\n"
+                + "      ,[image] = ?\n"
                 + " WHERE [id]=?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -117,7 +118,8 @@ public class VehicleCatDAO extends DBContext {
             ps.setTimestamp(3, o.getUpdated_at());
             ps.setInt(4, o.getSeatQuantity());
             ps.setString(5, o.getSeatType());
-            ps.setInt(6, o.getId());
+            ps.setString(6, o.getImage());
+            ps.setInt(7, o.getId());
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);
@@ -131,8 +133,9 @@ public class VehicleCatDAO extends DBContext {
                 + "           ,[created_at]\n"
                 + "           ,[seatQuantity]\n"
                 + "           ,[seatType])\n"
+                + "           ,[image])\n"
                 + "     VALUES\n"
-                + "           (?,?,?,?,?)";
+                + "           (?,?,?,?,?,?)";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -141,6 +144,7 @@ public class VehicleCatDAO extends DBContext {
             ps.setTimestamp(3, o.getCreated_at());
             ps.setInt(4, o.getSeatQuantity());
             ps.setString(5, o.getSeatType());
+            ps.setString(6, o.getImage());
             ps.executeUpdate();
             return 0;
         } catch (Exception e) {
@@ -190,52 +194,53 @@ public class VehicleCatDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     public List<Vehicle_Category> findVehicleCat(String name, String seatType, Integer seatQuantity) {
-    List<Vehicle_Category> ls = new ArrayList<>();
-    StringBuilder sql = new StringBuilder("SELECT * FROM [dbo].[Vehicle_Category] WHERE 1=1");
-    
-    if (name != null && !name.isEmpty()) {
-        sql.append(" AND name LIKE ?");
-    }
-    if (seatType != null && !seatType.isEmpty()) {
-        sql.append(" AND seatType = ?");
-    }
-    if (seatQuantity != 0) {
-        sql.append(" AND seatQuantity = ?");
-    }
-    
-    try {
-        PreparedStatement ps = connection.prepareStatement(sql.toString());
-        
-        int i = 1;
+        List<Vehicle_Category> ls = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM [dbo].[Vehicle_Category] WHERE 1=1");
+
         if (name != null && !name.isEmpty()) {
-            ps.setString(i++, "%" + name + "%");
+            sql.append(" AND name LIKE ?");
         }
         if (seatType != null && !seatType.isEmpty()) {
-            ps.setString(i++, seatType);
+            sql.append(" AND seatType = ?");
         }
         if (seatQuantity != 0) {
-            ps.setInt(i++, seatQuantity);
+            sql.append(" AND seatQuantity = ?");
         }
-        
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            Vehicle_Category a = new Vehicle_Category(
-                rs.getInt("id"), 
-                rs.getString("name"), 
-                rs.getString("seatType"), 
-                rs.getInt("seatQuantity"), 
-                rs.getString("utilities"), 
-                rs.getTimestamp("created_at"), 
-                rs.getTimestamp("updated_at")
-            );
-            ls.add(a);
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql.toString());
+
+            int i = 1;
+            if (name != null && !name.isEmpty()) {
+                ps.setString(i++, "%" + name + "%");
+            }
+            if (seatType != null && !seatType.isEmpty()) {
+                ps.setString(i++, seatType);
+            }
+            if (seatQuantity != 0) {
+                ps.setInt(i++, seatQuantity);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Vehicle_Category a = new Vehicle_Category(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("seatType"),
+                        rs.getInt("seatQuantity"),
+                        rs.getString("utilities"),
+                        rs.getTimestamp("created_at"),
+                        rs.getTimestamp("updated_at"),
+                        rs.getString("image")
+                );
+                ls.add(a);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
         }
-    } catch (Exception e) {
-        System.out.println(e);
+        return ls;
     }
-    return ls;
-}
 
 }
