@@ -8,7 +8,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@page import="dal.LocationDAO"%>
+<%@page import="dal.RouteDAO"%>
+<%@page import="dal.Route_DetailDAO"%>
 <%@page import="model.Route"%>
+<%@page import="model.Route_Detail"%>
 <%@page import="java.util.*" %>
 <!DOCTYPE html>
 <% LocationDAO ld = new LocationDAO(); %>
@@ -43,10 +46,6 @@
                                     <option value="${ll.id}">${ll.name} </option>
                                 </c:forEach>
                             </select>
-                            <!--                            <strong>Date: </strong>
-                                                        <input class="filterElm" type="date" name="fDate">
-                                                        <strong>Time: </strong>
-                                                        <input class="filterElm" type="time" name="fTime">-->
                             <strong>Price:  </strong>
                             <input class="filterElm" type="number" name="fPrice">
                             <button class="entity-update" type="submit" style="width: 80px" >
@@ -96,8 +95,87 @@
                                     <a
                                         style="text-decoration: none"
                                         class="entity-detail"
-                                        href="#"
-                                        >Detail <i class="ti-arrow-down"></i></a>
+
+                                        onclick="displayDetail('<%=r.getId()%>')"
+                                        >Detail <i id="arrow<%=r.getId()%>" class="ti-arrow-down"></i></a>
+                                </td>
+                            </tr>
+                            <tr id="routeDetail<%=r.getId()%>" style="display: 
+                                <%= currentPage.contains("/tripove/routeController?action=updateDetail&routeID="+r.getId()) ? "table-row" : "none" %>">
+                                
+                                <%
+                                     Route_DetailDAO rdd = new Route_DetailDAO();
+                                     List<Route_Detail> ls = rdd.getAllRouteDetailByRouteId(r.getId());
+                                %>
+                                <td colspan="8">
+                                    <div class="row">
+                                        <div class="col-md-8" id="left-column">
+                                            <table class="entity">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>Time</th>                                
+                                                        <th>Vehicle</th>
+                                                        <th>Created at</th>
+                                                        <th>Updated at</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <%for (Route_Detail rd : ls) { %>
+                                                    <tr>
+                                                        <td><%=rd.getDepartureDate()%></td>
+                                                        <td><%=rd.getDepartureTime()%></td>
+                                                        <td><%=rd.getVehiclelicensePlate()%></td>
+                                                        <td><fmt:formatDate pattern="dd/MM/yyyy HH:mm" value="<%=rd.getCreated_at()%>"/></td>
+                                                        <td><fmt:formatDate pattern="dd/MM/yyyy HH:mm" value="<%=rd.getUpdated_at()%>"/></td>
+                                                        <td>
+                                                            <a
+                                                                style="text-decoration: none"
+                                                                class="entity-update"
+                                                                href="routeController?action=updateDetail&routeID=<%=r.getId()%>&id=<%=rd.getId()%>"
+                                                                >Update</a
+                                                            >
+                                                            <a
+                                                                style="text-decoration: none"
+                                                                class="entity-delete"
+                                                                onclick="doDeleteDetail('<%=rd.getId()%>')"
+                                                                >Delete</a
+                                                            >
+                                                        </td>
+                                                    </tr>
+                                                    <% }%>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-md-4" style="float:left" id="right-column">
+                                            <<form action="routeController" method="post">
+                                                <strong>Date:</strong>
+                                                <input type="date" value="${requestScope.currentRouteDetail.getDepartureDate()}}" name="date"/><br>
+                                                <strong>Time:</strong>
+                                                <input type="time" value="${requestScope.currentRouteDetail.getDepartureTime()}}" name="time"/><br>
+                                                <strong>Vehicle:</strong>
+                                                <select name="vehicle">
+                                                    <c:forEach items="${requestScope.vehicleList}" var="vl">
+                                                        <option value="${vl.getLicensePlate()}" 
+                                                                <c:if test="${requestScope.currentRouteDetail.getVehiclelicensePlate().equals(vl.getLicensePlate())}">
+                                                                    selected
+                                                                </c:if>>
+                                                            ${vl.getLicensePlate()}
+                                                        </option>
+                                                    </c:forEach>
+                                                </select><br />
+                                                <input type="hidden" name="created_at2" value="${requestScope.currentRouteDetail.getCreated_at()}" />
+                                                <input type="hidden" name="routeId" value="${requestScope.currentRouteDetail.getRouteId()}" />
+                                                <input
+                                                    type="submit"
+                                                    class="entity-update"
+                                                    value="Cập nhật/Thêm mới"
+                                                    />
+                                                <a class="entity-delete" href="routeController">Huỷ</a>
+                                            </form>
+                                        </div>      
+                                    </div>
                                 </td>
                             </tr>
                             <% }%>
@@ -162,6 +240,26 @@
                     window.location = "routeController?action=delete&id=" + id;
                 }
             }
+            function doDeleteDetail(id) {
+                if (confirm("Bạn có muốn xoá lượt xe này?")) {
+                    window.location = "routeController?action=deleteDetail&id=" + id;
+                }
+            }
+            function displayDetail(id) {
+                var detail = document.getElementById("routeDetail" + id);
+                var arrow = document.getElementById("arrow" + id);
+                if (detail.style.display === 'none') {
+                    detail.style.display = 'table-row';
+                    arrow.classList.remove("ti-arrow-down");
+                    arrow.classList.add("ti-arrow-up");
+                } else {
+                    detail.style.display = 'none';
+                    arrow.classList.remove("ti-arrow-up");
+                    arrow.classList.add("ti-arrow-down");
+
+                }
+            }
+
         </script>
         <%@include file="footer.jsp" %>
     </body>

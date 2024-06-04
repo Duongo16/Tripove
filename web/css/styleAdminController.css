@@ -63,6 +63,7 @@ table.entity td a:hover {
     border-color: white;
     color: white;
     background-color: #04aa6d;
+    cursor: pointer
 }
 
 .entity-delete {
@@ -71,6 +72,7 @@ table.entity td a:hover {
     border-color: white;
     color: white;
     background-color: #f44336;
+    cursor: pointer
 }
 
 .entity-detail {
@@ -79,6 +81,7 @@ table.entity td a:hover {
     border-color: white;
     color: white;
     background-color: #f7d017;
+    cursor: pointer
 }
 
 .filterController{

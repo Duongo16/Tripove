@@ -7,6 +7,7 @@ package controller;
 import dal.AccountDAO;
 import dal.LocationDAO;
 import dal.RouteDAO;
+import dal.Route_DetailDAO;
 import dal.VehicleDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,6 +22,7 @@ import java.sql.Date;
 import java.sql.Time;
 import model.Account;
 import model.Route;
+import model.Route_Detail;
 
 /**
  *
@@ -71,6 +73,7 @@ public class RouteControllerServlet extends HttpServlet {
 
         AccountDAO ad = new AccountDAO();
         RouteDAO rd = new RouteDAO();
+        Route_DetailDAO rdd = new Route_DetailDAO();
         VehicleDAO vd = new VehicleDAO();
         LocationDAO ld = new LocationDAO();
 
@@ -84,6 +87,8 @@ public class RouteControllerServlet extends HttpServlet {
 
         String id_raw = request.getParameter("id");
         String action = request.getParameter("action");
+
+        request.setAttribute("allRouteDetail", rdd.getAllRouteDetail());
 
         String fName = request.getParameter("fName");
         String fDepartureLocation = request.getParameter("fDepartureLocation");
@@ -119,7 +124,6 @@ public class RouteControllerServlet extends HttpServlet {
 //                }
 //            } catch (Exception e) {
 //            }
-
             request.setAttribute("allRoute", rd.findRoute(fName, fDepartureLocationid, fArrivalLocationid, fPrice));
         }
         if (action != null && !action.equals("search")) {
@@ -130,6 +134,12 @@ public class RouteControllerServlet extends HttpServlet {
                     response.sendRedirect("routeController");
                 } else if (action.equals("update")) {
                     request.setAttribute("currentRoute", rd.getRouteById(id));
+                    request.getRequestDispatcher("routeController.jsp").forward(request, response);
+                } else if (action.equals("deleteDetail")) {
+                    rdd.deleteRouteDetailById(id);
+                    response.sendRedirect("routeController");
+                } else if (action.equals("updateDetail")) {
+                    request.setAttribute("currentRouteDetail", rdd.getRouteDetailById(id));
                     request.getRequestDispatcher("routeController.jsp").forward(request, response);
                 }
             } catch (Exception e) {
@@ -159,50 +169,84 @@ public class RouteControllerServlet extends HttpServlet {
         String detail = request.getParameter("detail");
         String createdAtStr = request.getParameter("created_at");
 
-        RouteDAO rd = new RouteDAO();
-        boolean checkExisted = false;
-        int id = 0;
+        String routeIdStr = request.getParameter("routeId");
+        String departureDateStr = request.getParameter("date");
+        String departureTimeStr = request.getParameter("time");
+        String licensePlate = request.getParameter("vehicle");
+        String createdAt2Str = request.getParameter("created_at2");
 
-        for (Route o : rd.getAllRoute()) {
-            if (o.getName().equals(name)) {
-                checkExisted = true;
-                id = o.getId();
-                break;
+        if (departureDateStr == null && departureTimeStr == null && licensePlate == null) {
+            RouteDAO rd = new RouteDAO();
+            boolean checkExisted = false;
+            int id = 0;
+
+            for (Route o : rd.getAllRoute()) {
+                if (o.getName().equals(name)) {
+                    checkExisted = true;
+                    id = o.getId();
+                    break;
+                }
             }
-        }
 
-        try {
-            int price = Integer.parseInt(priceStr);
-            int departure_Locationid = Integer.parseInt(departure_LocationidStr);
-            int arrival_Locationid = Integer.parseInt(arrival_LocationidStr);
+            try {
+                int price = Integer.parseInt(priceStr);
+                int departure_Locationid = Integer.parseInt(departure_LocationidStr);
+                int arrival_Locationid = Integer.parseInt(arrival_LocationidStr);
 
+                Timestamp createdAt;
+                if (createdAtStr != null && !createdAtStr.isEmpty()) {
+                    createdAt = Timestamp.valueOf(createdAtStr);
+                } else {
+                    createdAt = new Timestamp(System.currentTimeMillis());
+                }
+
+                if (checkExisted) {
+                    Route r = new Route(id, name, price, departure_Locationid, arrival_Locationid, detail, createdAt, new Timestamp(System.currentTimeMillis()));
+                    rd.updateRoute(r);
+                } else {
+                    Route r = new Route(name, price, departure_Locationid, arrival_Locationid, detail, new Timestamp(System.currentTimeMillis()), null);
+                    rd.addNewRoute(r);
+                }
+
+                response.sendRedirect("routeController");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            Route_DetailDAO rdd = new Route_DetailDAO();
             //do sql.time đòi hỏi hh:mm:ss trong khi time của input nhận vào là hh:mm
-//            if (departureTimeStr.split(":").length == 2) {
-//                departureTimeStr += ":00";
-//            }
-//            Date departureDate = Date.valueOf(departureDateStr);
-//            Time departureTime = Time.valueOf(departureTimeStr);
-//
-            Timestamp createdAt;
-            if (createdAtStr != null && !createdAtStr.isEmpty()) {
-                createdAt = Timestamp.valueOf(createdAtStr);
-            } else {
-                createdAt = new Timestamp(System.currentTimeMillis());
+            if (departureTimeStr.split(":").length == 2) {
+                departureTimeStr += ":00";
             }
+            try {
+                int routeId = Integer.parseInt("routeIdStr");
+                Date date = Date.valueOf(departureDateStr);
+                Time time = Time.valueOf(departureTimeStr);
+                Timestamp createdAt2;
+                if (createdAt2Str != null && !createdAt2Str.isEmpty()) {
+                    createdAt2 = Timestamp.valueOf(createdAt2Str);
+                } else {
+                    createdAt2 = new Timestamp(System.currentTimeMillis());
+                }
 
-            if (checkExisted) {
-                Route r = new Route(id, name, price, departure_Locationid, arrival_Locationid, detail, createdAt, new Timestamp(System.currentTimeMillis()));
-                rd.updateRoute(r);
-            } else {
-                Route r = new Route(name, price, departure_Locationid, arrival_Locationid, detail, new Timestamp(System.currentTimeMillis()), null);
-                rd.addNewRoute(r);
+                for (Route_Detail o : rdd.getAllRouteDetail()) {
+                    if (o.getCreated_at().equals(createdAt2)) {
+                        rdd.updateRouteDetail(new Route_Detail(o.getId(), o.getRouteId(), o.getDepartureDate(),
+                                o.getDepartureTime(), o.getVehiclelicensePlate(),
+                                o.getCreated_at(), new Timestamp(System.currentTimeMillis())));
+                        break;
+                    } else {
+                        rdd.addRouteDetail(new Route_Detail(routeId, date, time, licensePlate, new Timestamp(System.currentTimeMillis()), null));
+                        break;
+                    }
+                }
+                response.sendRedirect("routeController");
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-            response.sendRedirect("routeController");
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+
     }
 
     /**

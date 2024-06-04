@@ -10,14 +10,23 @@ public class Route_Detail {
     public int routeId;
     private Date departureDate;
     private Time departureTime;
-    public Vehicle vehiclelicensePlate;
+    public String vehiclelicensePlate;
     private Timestamp created_at;
     private Timestamp updated_at;
 
     public Route_Detail() {
     }
+    
+    public Route_Detail(int routeId, Date departureDate, Time departureTime, String vehiclelicensePlate, Timestamp created_at, Timestamp updated_at) {
+        this.routeId = routeId;
+        this.departureDate = departureDate;
+        this.departureTime = departureTime;
+        this.vehiclelicensePlate = vehiclelicensePlate;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
 
-    public Route_Detail(int id, int routeId, Date departureDate, Time departureTime, Vehicle vehiclelicensePlate, Timestamp created_at, Timestamp updated_at) {
+    public Route_Detail(int id, int routeId, Date departureDate, Time departureTime, String vehiclelicensePlate, Timestamp created_at, Timestamp updated_at) {
         this.id = id;
         this.routeId = routeId;
         this.departureDate = departureDate;
@@ -59,11 +68,11 @@ public class Route_Detail {
         this.departureTime = departureTime;
     }
 
-    public Vehicle getVehiclelicensePlate() {
+    public String getVehiclelicensePlate() {
         return vehiclelicensePlate;
     }
 
-    public void setVehiclelicensePlate(Vehicle vehiclelicensePlate) {
+    public void setVehiclelicensePlate(String vehiclelicensePlate) {
         this.vehiclelicensePlate = vehiclelicensePlate;
     }
 
@@ -82,5 +91,12 @@ public class Route_Detail {
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
     }
+
+    @Override
+    public String toString() {
+        return "Route_Detail{" + "id=" + id + ", routeId=" + routeId + ", departureDate=" + departureDate + ", departureTime=" + departureTime + ", vehiclelicensePlate=" + vehiclelicensePlate + ", created_at=" + created_at + ", updated_at=" + updated_at + '}';
+    }
+    
+    
 
 }
