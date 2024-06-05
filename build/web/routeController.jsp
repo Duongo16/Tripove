@@ -23,6 +23,13 @@
         <link rel="stylesheet" href="css/styleAdminController.css" />
     </head>
     <body>
+        <%
+        String currentUri = request.getRequestURI();
+        String queryString = request.getQueryString();
+        if (queryString != null) {
+            currentUri += "?" + queryString;
+        }
+        %>
         <%@include file="header.jsp" %> <%@include file="admin-sideBar.jsp" %>
         <div id="main-content">
             <div class="row" style="padding: 50px 0; margin: 0">
@@ -69,7 +76,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <%--<c:forEach items="${requestScope.allRoute}" var="list">--%>
                             <%for (Route r : (List<Route>)request.getAttribute("allRoute")) { %>
                             <tr>
                                 <td><%=r.getName()%></td>
@@ -100,9 +106,9 @@
                                         >Detail <i id="arrow<%=r.getId()%>" class="ti-arrow-down"></i></a>
                                 </td>
                             </tr>
-                            <tr id="routeDetail<%=r.getId()%>" style="display: 
-                                <%= currentPage.contains("/tripove/routeController?action=updateDetail&routeID="+r.getId()) ? "table-row" : "none" %>">
-                                
+                            <tr id="routeDetail<%=r.getId()%>" style="display:
+                                <%= currentUri.contains("action=updateDetail&routeID="+r.getId()) ? "table-row" : "none" %>">
+
                                 <%
                                      Route_DetailDAO rdd = new Route_DetailDAO();
                                      List<Route_Detail> ls = rdd.getAllRouteDetailByRouteId(r.getId());
@@ -149,7 +155,7 @@
                                             </table>
                                         </div>
                                         <div class="col-md-4" style="float:left" id="right-column">
-                                            <<form action="routeController" method="post">
+                                            <form action="routeController" method="post">
                                                 <strong>Date:</strong>
                                                 <input type="date" value="${requestScope.currentRouteDetail.getDepartureDate()}}" name="date"/><br>
                                                 <strong>Time:</strong>
@@ -179,7 +185,6 @@
                                 </td>
                             </tr>
                             <% }%>
-                            <%--</c:forEach>--%>
                         </tbody>
                     </table>
                 </div>
