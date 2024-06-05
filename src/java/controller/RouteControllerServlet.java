@@ -108,22 +108,6 @@ public class RouteControllerServlet extends HttpServlet {
             if (fArrivalLocation != null && !fArrivalLocation.isEmpty()) {
                 fArrivalLocationid = Integer.parseInt(fArrivalLocation);
             }
-
-            //do sql.time đòi hỏi hh:mm:ss trong khi time của input nhận vào là hh:mm
-//            if (fTimeStr != null && fTimeStr.split(":").length == 2) {
-//                fTimeStr += ":00";
-//            }
-//            Date fDate = null;
-//            Time fTime = null;
-//            try {
-//                if (fDateStr != null && !fDateStr.isEmpty()) {
-//                    fDate = Date.valueOf(fDateStr);
-//                }
-//                if (fTimeStr != null && !fTimeStr.isEmpty()) {
-//                    fTime = Time.valueOf(fTimeStr);
-//                }
-//            } catch (Exception e) {
-//            }
             request.setAttribute("allRoute", rd.findRoute(fName, fDepartureLocationid, fArrivalLocationid, fPrice));
         }
         if (action != null && !action.equals("search")) {
@@ -143,6 +127,7 @@ public class RouteControllerServlet extends HttpServlet {
                     request.getRequestDispatcher("routeController.jsp").forward(request, response);
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
 
         } else {
@@ -214,33 +199,39 @@ public class RouteControllerServlet extends HttpServlet {
                 e.printStackTrace();
             }
         } else {
+
             Route_DetailDAO rdd = new Route_DetailDAO();
             //do sql.time đòi hỏi hh:mm:ss trong khi time của input nhận vào là hh:mm
             if (departureTimeStr.split(":").length == 2) {
                 departureTimeStr += ":00";
             }
             try {
-                int routeId = Integer.parseInt("routeIdStr");
-                Date date = Date.valueOf(departureDateStr);
-                Time time = Time.valueOf(departureTimeStr);
-                Timestamp createdAt2;
+                int routeId = Integer.parseInt(routeIdStr);
+                Date date = null;
+                Time time = null;
+                if (departureDateStr != null && !departureDateStr.isEmpty() && departureTimeStr != null && !departureTimeStr.isEmpty()) {
+                    date = Date.valueOf(departureDateStr);
+                    time = Time.valueOf(departureTimeStr);
+                }
+                
+                Timestamp createdAt2 = null;
                 if (createdAt2Str != null && !createdAt2Str.isEmpty()) {
                     createdAt2 = Timestamp.valueOf(createdAt2Str);
                 } else {
                     createdAt2 = new Timestamp(System.currentTimeMillis());
                 }
-
-                for (Route_Detail o : rdd.getAllRouteDetail()) {
+                for (Route_Detail o : rdd.getAllRouteDetailByRouteId(routeId)) {
                     if (o.getCreated_at().equals(createdAt2)) {
-                        rdd.updateRouteDetail(new Route_Detail(o.getId(), o.getRouteId(), o.getDepartureDate(),
-                                o.getDepartureTime(), o.getVehiclelicensePlate(),
+                        
+                        rdd.updateRouteDetail(new Route_Detail(o.getId(), o.getRouteId(), date,
+                                time, licensePlate,
                                 o.getCreated_at(), new Timestamp(System.currentTimeMillis())));
-                        break;
-                    } else {
-                        rdd.addRouteDetail(new Route_Detail(routeId, date, time, licensePlate, new Timestamp(System.currentTimeMillis()), null));
+                        response.sendRedirect("routeController");
                         break;
                     }
                 }
+                
+                rdd.addRouteDetail(new Route_Detail(routeId, date, time, licensePlate, new Timestamp(System.currentTimeMillis()), null));
                 response.sendRedirect("routeController");
             } catch (Exception e) {
                 e.printStackTrace();

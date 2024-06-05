@@ -162,6 +162,7 @@
                                                 <input type="time" value="${requestScope.currentRouteDetail.getDepartureTime()}}" name="time"/><br>
                                                 <strong>Vehicle:</strong>
                                                 <select name="vehicle">
+                                                    <option value="none"></option>
                                                     <c:forEach items="${requestScope.vehicleList}" var="vl">
                                                         <option value="${vl.getLicensePlate()}" 
                                                                 <c:if test="${requestScope.currentRouteDetail.getVehiclelicensePlate().equals(vl.getLicensePlate())}">
@@ -172,7 +173,7 @@
                                                     </c:forEach>
                                                 </select><br />
                                                 <input type="hidden" name="created_at2" value="${requestScope.currentRouteDetail.getCreated_at()}" />
-                                                <input type="hidden" name="routeId" value="${requestScope.currentRouteDetail.getRouteId()}" />
+                                                <input type="hidden" name="routeId" value="<%=r.getId()%>" />                                                
                                                 <input
                                                     type="submit"
                                                     class="entity-update"
