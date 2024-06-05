@@ -213,16 +213,17 @@ public class RouteControllerServlet extends HttpServlet {
                     date = Date.valueOf(departureDateStr);
                     time = Time.valueOf(departureTimeStr);
                 }
-                
+
                 Timestamp createdAt2 = null;
                 if (createdAt2Str != null && !createdAt2Str.isEmpty()) {
                     createdAt2 = Timestamp.valueOf(createdAt2Str);
                 } else {
                     createdAt2 = new Timestamp(System.currentTimeMillis());
                 }
+                int check = 0;
                 for (Route_Detail o : rdd.getAllRouteDetailByRouteId(routeId)) {
                     if (o.getCreated_at().equals(createdAt2)) {
-                        
+                        check = 1;
                         rdd.updateRouteDetail(new Route_Detail(o.getId(), o.getRouteId(), date,
                                 time, licensePlate,
                                 o.getCreated_at(), new Timestamp(System.currentTimeMillis())));
@@ -230,9 +231,11 @@ public class RouteControllerServlet extends HttpServlet {
                         break;
                     }
                 }
-                
-                rdd.addRouteDetail(new Route_Detail(routeId, date, time, licensePlate, new Timestamp(System.currentTimeMillis()), null));
-                response.sendRedirect("routeController");
+
+                if (check == 0) {
+                    rdd.addRouteDetail(new Route_Detail(routeId, date, time, licensePlate, new Timestamp(System.currentTimeMillis()), null));
+                    response.sendRedirect("routeController");
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

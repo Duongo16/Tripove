@@ -130,8 +130,8 @@
                                                 <tbody>
                                                     <%for (Route_Detail rd : ls) { %>
                                                     <tr>
-                                                        <td><%=rd.getDepartureDate()%></td>
-                                                        <td><%=rd.getDepartureTime()%></td>
+                                                        <td><fmt:formatDate pattern="dd/MM/yyyy" value="<%=rd.getDepartureDate()%>"/></td>
+                                                        <td><fmt:formatDate pattern="HH:mm" value="<%=rd.getDepartureTime()%>"/></td>
                                                         <td><%=rd.getVehiclelicensePlate()%></td>
                                                         <td><fmt:formatDate pattern="dd/MM/yyyy HH:mm" value="<%=rd.getCreated_at()%>"/></td>
                                                         <td><fmt:formatDate pattern="dd/MM/yyyy HH:mm" value="<%=rd.getUpdated_at()%>"/></td>
@@ -155,11 +155,11 @@
                                             </table>
                                         </div>
                                         <div class="col-md-4" style="float:left" id="right-column">
-                                            <form action="routeController" method="post">
+                                            <form action="routeController" style="float:left;text-align: left" method="post">
                                                 <strong>Date:</strong>
-                                                <input type="date" value="${requestScope.currentRouteDetail.getDepartureDate()}}" name="date"/><br>
+                                                <input type="date" value="${requestScope.currentRouteDetail.getDepartureDate()}" name="date"/><br>
                                                 <strong>Time:</strong>
-                                                <input type="time" value="${requestScope.currentRouteDetail.getDepartureTime()}}" name="time"/><br>
+                                                <input type="time" value="${requestScope.currentRouteDetail.getDepartureTime()}" name="time"/><br>
                                                 <strong>Vehicle:</strong>
                                                 <select name="vehicle">
                                                     <option value="none"></option>
