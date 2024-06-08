@@ -18,8 +18,8 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-@WebServlet(name="BuyingTicketServlet", urlPatterns={"/buyingTicket"})
-public class BuyingTicketServlet extends HttpServlet {
+@WebServlet(name="routeTicketServlet", urlPatterns={"/routeTicket"})
+public class RouteTicketServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -36,10 +36,10 @@ public class BuyingTicketServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BuyingTicketServlet</title>");  
+            out.println("<title>Servlet routeTicketServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet BuyingTicketServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet routeTicketServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,7 +58,7 @@ public class BuyingTicketServlet extends HttpServlet {
     throws ServletException, IOException {
         RouteDAO rd = new RouteDAO();
         request.setAttribute("allRoute", rd.getAllRoute());
-        request.getRequestDispatcher("buyingTicket.jsp").forward(request, response);
+        request.getRequestDispatcher("routeTicket.jsp").forward(request, response);
     } 
 
     /** 

@@ -27,7 +27,7 @@ public class RouteDAO extends DBContext {
 //        rd.updateRoute(new Route(2007, "Hà Nội Hải Phòng", 10002, Date.valueOf("2024-12-12"),
 //                Time.valueOf("12:12:00"), new Timestamp(System.currentTimeMillis()), null, 1,
 //                "98A-12345", 2));
-        System.out.println(rd.getVehicleImageByRouteId(2011));
+        System.out.println(rd.getVehicleCatImageByRouteId(1));
     }
 
     public List<Route> getAllRoute() {
@@ -198,7 +198,7 @@ public class RouteDAO extends DBContext {
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Route route =new Route(rs.getInt("id"),
+                Route route = new Route(rs.getInt("id"),
                         rs.getString("name"),
                         rs.getInt("price"),
                         rs.getInt("departure_Locationid"),
@@ -214,20 +214,34 @@ public class RouteDAO extends DBContext {
         return routes;
     }
 
-    public String getVehicleImageByRouteId(int routeId) {
-        String sql = "SELECT * FROM [dbo].[Vehicle] WHERE licensePlate = ("
-                + "SELECT VehiclelicensePlate FROM [dbo].[Route] WHERE id = ?"
-                + ")";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+    public List<String> getVehicleCatImageByRouteId(int routeId) {
+        List<String> listImage = new ArrayList<>();
+        int check = 0;
+        String sql = "SELECT vc.image FROM [dbo].[Vehicle_Category] vc "
+                + "JOIN [dbo].[Vehicle] v ON vc.id = v.Vehicle_Categoryid "
+                + "JOIN [dbo].[Route_Detail] rd ON v.licensePlate = rd.VehiclelicensePlate "
+                + "WHERE rd.Routeid = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, routeId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getString("image");
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    for(String ei : listImage){
+                        if(ei.equals(rs.getString("image"))){
+                            check = 1;
+                            break;
+                        }       
+                    }
+                    if(check==0){
+                        listImage.add(rs.getString("image"));
+                    } else {
+                        check = 0;
+                    }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return listImage;
     }
 }
