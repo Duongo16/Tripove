@@ -6,8 +6,17 @@
             <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/components/header.jsp</file>
         </group>
         <group name="PRJ301">
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/dal/AccountDAO.java</file>
             <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/css/styleRouteTicket.css</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/email/Email.java</file>
             <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/routeTicket.jsp</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/header.jsp</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/controller/ForgetPasswordServlet.java</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/changePassword.jsp</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/forgetPassword.jsp</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/controller/ChangePasswordServlet.java</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/register.jsp</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/routeController.jsp</file>
             <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/dal/RouteDAO.java</file>
         </group>
     </open-files>

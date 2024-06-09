@@ -46,6 +46,7 @@
                         <li><a href="accountController">Quản lý</a></li>
                         </c:if>
                     <li><a href="">Lịch sử mua vé</a></li>
+                    <li><a href="changePassword">Đổi mật khẩu</a></li>
                     <li><a style="color: red;" href="logout">Đăng xuất</a></li>
                 </ul>
             </div>

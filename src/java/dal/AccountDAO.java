@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import model.Account;
 
 /**
@@ -17,11 +18,13 @@ import model.Account;
  */
 public class AccountDAO extends DBContext {
 
-//    public static void main(String[] args) {
-//        AccountDAO a = new AccountDAO();
-//
-//        System.out.println(a.findAccounts("admin", null, null).size());
-//    }
+    private final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    public static void main(String[] args) {
+        AccountDAO a = new AccountDAO();
+
+        System.out.println(a.emailStatus("duongo604@gmail.com"));
+    }
 
     public void addNewAccount(Account a) {
         String sql = "INSERT INTO [dbo].[Account] "
@@ -241,5 +244,44 @@ public class AccountDAO extends DBContext {
             System.out.println(e);
         }
         return ls;
+    }
+
+    public boolean emailStatus(String email) {
+        String sql = "SELECT * FROM [dbo].[Account] WHERE email = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (!rs.next()) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (Exception e) {
+        }
+        return false;
+    }
+
+    public String generateRandomString() {
+        StringBuilder sb = new StringBuilder(8);
+        Random r = new Random();
+        for (int i = 0; i < 8; i++) {
+            int index = r.nextInt(CHARACTERS.length());
+            sb.append(CHARACTERS.charAt(index));
+        }
+        return sb.toString();
+    }
+
+    public void changePassword(String email, String newPassword) {
+        String updateSql = "UPDATE [dbo].[Account] SET password = ? WHERE email = ?";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(updateSql);
+            ps.setString(1, newPassword);
+            ps.setString(2, email);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
