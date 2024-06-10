@@ -23,7 +23,7 @@ public class AccountDAO extends DBContext {
     public static void main(String[] args) {
         AccountDAO a = new AccountDAO();
 
-        System.out.println(a.emailStatus("duongo604@gmail.com"));
+        System.out.println(a.getAllAccount(1,3));
     }
 
     public void addNewAccount(Account a) {
@@ -198,6 +198,39 @@ public class AccountDAO extends DBContext {
         }
         return null;
     }
+    
+    public List<Account> getAllAccount(int index, int numOfPage) {
+    List<Account> ls = new ArrayList<>();
+    String sql = "SELECT * FROM [dbo].[Account] ORDER BY id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+    try {
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setInt(1, numOfPage * (index - 1));
+        ps.setInt(2, numOfPage);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Account a = new Account(
+                    rs.getInt("id"), 
+                    rs.getString("role"), 
+                    rs.getString("username"),
+                    rs.getString("password"), 
+                    rs.getString("name"), 
+                    rs.getString("gender"),
+                    rs.getDate("dateOfBirth"), 
+                    rs.getInt("phoneNumber"), 
+                    rs.getString("email"), 
+                    rs.getString("address"), 
+                    rs.getString("image"),
+                    rs.getTimestamp("created_at"), 
+                    rs.getTimestamp("updated_at")
+            );
+            ls.add(a);
+        }
+    } catch (Exception e) {
+        System.out.println(e);
+    }
+    return ls;
+}
+
 
     public List<Account> findAccounts(String role, String name, String phoneNumber) {
         List<Account> ls = new ArrayList<>();
@@ -284,4 +317,18 @@ public class AccountDAO extends DBContext {
             e.printStackTrace();
         }
     }
+    
+    public int getNumberOfAccounts() {
+    String sql = "SELECT COUNT(*) FROM [dbo].[Account]";
+    try {
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1); 
+        }
+    } catch (SQLException e) {
+        System.out.println(e);
+    }
+    return 0;  
+}
 }

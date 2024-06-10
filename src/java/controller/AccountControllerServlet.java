@@ -75,8 +75,21 @@ public class AccountControllerServlet extends HttpServlet {
         String fName = request.getParameter("fName");
         String fPhoneNumber = request.getParameter("fPhoneNumber");
 
+        int itemOnPage = 3;
+        int index = 1;
+        int numOfItems = ad.getNumberOfAccounts();
+        int numOfPage = numOfItems / itemOnPage;
+        if (numOfItems != 0 && numOfItems % itemOnPage != 0) {
+            numOfPage++;//lẻ trang
+        }
+        try {
+            index = Integer.parseInt(request.getParameter("index"));
+        } catch (Exception e) {
+        }
+        request.setAttribute("index", index);
+        request.setAttribute("numOfPage", numOfPage);
         if (fRole == null && fName == null && fPhoneNumber == null) {
-            request.setAttribute("allAccount", ad.getAllAccount());
+            request.setAttribute("allAccount", ad.getAllAccount(index,itemOnPage));
         } else {
             request.setAttribute("allAccount", ad.findAccounts(fRole, fName, fPhoneNumber));
         }
@@ -100,7 +113,7 @@ public class AccountControllerServlet extends HttpServlet {
                     request.getRequestDispatcher("admin.jsp").forward(request, response);
                 } catch (Exception e) {
                 }
-            } 
+            }
         } else {
             request.getRequestDispatcher("admin.jsp").forward(request, response);
         }

@@ -39,7 +39,7 @@
                             </button>
                         </form>
                     </div>
-                    
+
                     <table class="entity" >
                         <thead>
                             <tr>
@@ -87,6 +87,30 @@
                             </c:forEach>
                         </tbody>
                     </table>
+                    <div style="">
+                        <nav aria-label="Page navigation example" >
+                            <ul class="pagination" style="color: red">
+                                <li class="page-item ${requestScope.index == 1 ? 'disabled' : ''}">
+                                    <a class="page-link" href="accountController?index=${requestScope.index - 1}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                                <c:forEach begin="1" end="${requestScope.numOfPage}" var="i">
+                                    <li class="page-item ${requestScope.index == i ? 'active' : ''}">
+                                        <a class="page-link" href="accountController?index=${i}">${i}</a>
+                                    </li>
+                                </c:forEach>
+                                <li class="page-item ${requestScope.index == requestScope.numOfPage ? 'disabled' : ''}">
+                                    <a class="page-link" href="accountController?index=${requestScope.index + 1}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+
                 </div>
                 <div class="col-md-2" id="right-column" style="padding-left: 10px;">
                     <c:set var="a" value="${requestScope.currentAccount}"/>
