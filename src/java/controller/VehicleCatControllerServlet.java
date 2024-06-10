@@ -98,7 +98,6 @@ public class VehicleCatControllerServlet extends HttpServlet {
                 String id_raw = request.getParameter("id");
                 try {
                     int id = Integer.parseInt(id_raw);
-                    vd.deleteSeatByVehicleCatId(id);
                     rd.deleteRouteByVehicleCatId(id);//error
                     v.deleteVehicleByVehicleCatId(id);
                     vd.deleteVehicleCat(id);
@@ -160,10 +159,7 @@ public class VehicleCatControllerServlet extends HttpServlet {
                 vd.updateVehicleCat(a);//chua update seat
             } else {
                 Vehicle_Category a = new Vehicle_Category(name, seatType, seatQuantity, utilities, new Timestamp(System.currentTimeMillis()),image);
-                int checkNew = vd.addNewVehicleCat(a);
-                if (checkNew != -1) {
-                    vd.addSeatForVehicleCat(vd.getVehicleCatByName(a.getName()));
-                }
+                vd.addNewVehicleCat(a);
             }
 
             response.sendRedirect("vehicleCatController");

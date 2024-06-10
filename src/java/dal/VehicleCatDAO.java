@@ -153,47 +153,6 @@ public class VehicleCatDAO extends DBContext {
         return -1;
     }
 
-    public void addSeatForVehicleCat(Vehicle_Category o) {
-        String sql = "INSERT INTO [dbo].[Seat]\n"
-                + "           ([name]\n"
-                + "           ,[Vehicle_Categoryid])\n"
-                + "     VALUES\n"
-                + "           (?,?)";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            for (int i = 1; i <= o.getSeatQuantity(); i++) {
-                ps.setString(1, ("S" + i));
-                ps.setInt(2, o.getId());
-                ps.addBatch();
-            }
-            ps.executeBatch();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
-
-    public void getAllSeatByVehicleCatId(int id) {
-        String sql = "SELECT *\n"
-                + "  FROM [dbo].[Seat]\n"
-                + "  WHERE [Vehicle_Categoryid] = ?";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, id);
-            ps.executeQuery();
-        } catch (Exception e) {
-        }
-    }
-
-    public void deleteSeatByVehicleCatId(int vehicleCatId) {
-        String sql = "DELETE FROM [dbo].[Seat] WHERE Vehicle_Categoryid = ?";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, vehicleCatId);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
 
     public List<Vehicle_Category> findVehicleCat(String name, String seatType, Integer seatQuantity) {
         List<Vehicle_Category> ls = new ArrayList<>();
