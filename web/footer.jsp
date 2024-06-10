@@ -31,8 +31,8 @@
             <i class="ti-email"></i>
             <a
               style="text-decoration: none; color: white"
-              href="mailto:duongnthe186310@fpt.edu.vn"
-              >duongnthe186310@fpt.edu.vn</a
+              href="mailto:tripove.work@gmail.com"
+              >tripove.work@gmail.com</a
             >
           </p>
           <p>

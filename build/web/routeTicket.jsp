@@ -18,7 +18,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <<link rel="stylesheet" href="css/styleRouteTicket.css"/>
+        <link rel="stylesheet" href="css/styleRouteTicket.css"/>
+        <style>
+            body{
+                background-color: rgb(242, 242, 242);
+            }
+        </style>
     </head>
     <body>
         <%@include file="header.jsp" %> 
@@ -35,24 +40,39 @@
                     </div>
                     <div id="route-content" class="col-md-6">
                         <h3><%=r.getName()%>
-<!--                            <i style="float: right;font-size: 25px" class="ti-heart"></i>-->
+                            <!--                            <i style="float: right;font-size: 25px" class="ti-heart"></i>-->
                         </h3>
                         <p>Xuất phát: <%=ld.getLocationNameById(r.getDeparture_Locationid())%></p>
                         <p>Điểm đến: <%=ld.getLocationNameById(r.getArrival_Locationid())%></p>
-                        <!--                        <p style="color: rgb(71, 143, 192); font-weight: 700">
-                                                    Giá tiền: <fmt:formatNumber value="<%=r.getPrice()%>" type="number" groupingUsed="true"/> VND/người
-                                                </p>-->
 
                     </div>
-                    <div class="col-md-2">
-                        <div class="row">
-                            <div class="col-md-3"></div>
-                            <a class="col-md-9" id="route-button" href="#">ĐẶT VÉ</a>
-                        </div>
+                        <div class="col-md-2" >
+                        <p style="color: rgb(71, 143, 192);
+                           font-weight: 700;
+                           font-size: 30px;
+                          ">
+                            <fmt:formatNumber value="<%=r.getPrice()%>" type="number" groupingUsed="true"/> VND
+                        </p>
                     </div>
+                    <!--                    <div class="col-md-2">
+                                            <div class="row">
+                                                <div class="col-md-3"></div>
+                                                <a class="col-md-9" id="route-button" href="#">ĐẶT VÉ</a>
+                                            </div>
+                                        </div>-->
 
-                    <div id="route-detail<%=r.getId()%>" style="display: none">
-                        Hello
+                    <div id="route-detail<%=r.getId()%>" style="display: none; margin-top: 25px">
+                        <strong>Lộ trình:</strong><br>
+                        <% 
+                            String[] loc = r.getDetail().split("-");
+                            for(int i = 0; i < loc.length; i++) {
+                                if (i != 0) {
+                        %>
+                        <i class="ti-more-alt"></i>
+                        <% } %>
+                        <span><%= loc[i] %></span>
+                        <% } %>
+
                     </div>
 
                     <a style="text-decoration: none;
