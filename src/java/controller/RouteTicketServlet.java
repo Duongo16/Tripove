@@ -5,6 +5,7 @@
 
 package controller;
 
+import dal.AccountDAO;
 import dal.RouteDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,6 +14,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.Account;
 
 /**
  *
@@ -57,6 +60,14 @@ public class RouteTicketServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         RouteDAO rd = new RouteDAO();
+        AccountDAO ad = new AccountDAO();
+        HttpSession session = request.getSession();
+        
+        Integer id = (Integer) session.getAttribute("id");
+        int i = (id != null) ? id : -1; 
+        
+        Account acc = ad.getAccountById(i);
+        request.setAttribute("account", acc);
         request.setAttribute("allRoute", rd.getAllRoute());
         request.getRequestDispatcher("routeTicket.jsp").forward(request, response);
     } 
