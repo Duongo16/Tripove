@@ -19,7 +19,8 @@ public class Route_DetailDAO extends DBContext {
 
     public static void main(String[] args) {
         Route_DetailDAO rdd = new Route_DetailDAO();
-        rdd.addRouteDetail(new Route_Detail(1, null, null, "98A-12345", new Timestamp(System.currentTimeMillis()), null));
+        //rdd.addRouteDetail(new Route_Detail(1, null, null, "98A-12345", new Timestamp(System.currentTimeMillis()), null));
+        System.out.println(rdd.getLastInsertRouteDetailId());
     }
 
     public List<Route_Detail> getAllRouteDetail() {
@@ -129,4 +130,18 @@ public class Route_DetailDAO extends DBContext {
         }
     }
 
+    public int getLastInsertRouteDetailId() {
+        String sql = "SELECT TOP 1 * FROM Route_Detail ORDER BY id DESC;";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return -1;
+    }
 }

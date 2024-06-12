@@ -8,6 +8,8 @@ import dal.AccountDAO;
 import dal.LocationDAO;
 import dal.RouteDAO;
 import dal.Route_DetailDAO;
+import dal.SeatDAO;
+import dal.VehicleCatDAO;
 import dal.VehicleDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -199,8 +201,9 @@ public class RouteControllerServlet extends HttpServlet {
                 e.printStackTrace();
             }
         } else {
-
+            VehicleCatDAO vcd = new VehicleCatDAO();
             Route_DetailDAO rdd = new Route_DetailDAO();
+            SeatDAO sd = new SeatDAO();
             //do sql.time đòi hỏi hh:mm:ss trong khi time của input nhận vào là hh:mm
             if (departureTimeStr.split(":").length == 2) {
                 departureTimeStr += ":00";
@@ -234,6 +237,7 @@ public class RouteControllerServlet extends HttpServlet {
 
                 if (check == 0) {
                     rdd.addRouteDetail(new Route_Detail(routeId, date, time, licensePlate, new Timestamp(System.currentTimeMillis()), null));
+                    sd.addSeatForNewRouteDetail(rdd.getLastInsertRouteDetailId(), vcd.getNumberOfSeatByLicensePlate(licensePlate));
                     response.sendRedirect("routeController");
                 }
             } catch (Exception e) {

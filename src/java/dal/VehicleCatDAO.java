@@ -18,8 +18,8 @@ public class VehicleCatDAO extends DBContext {
 
     public static void main(String[] args) {
         VehicleCatDAO v = new VehicleCatDAO();
-        List<Vehicle_Category> ls = v.findVehicleCat(null, "Cabin", 0);
-        System.out.println(ls);
+        
+        System.out.println(v.getNumberOfSeatByLicensePlate("98A-11111"));
     }
 
     public List<Vehicle_Category> getAllVehicleCat() {
@@ -153,7 +153,6 @@ public class VehicleCatDAO extends DBContext {
         return -1;
     }
 
-
     public List<Vehicle_Category> findVehicleCat(String name, String seatType, Integer seatQuantity) {
         List<Vehicle_Category> ls = new ArrayList<>();
         StringBuilder sql = new StringBuilder("SELECT * FROM [dbo].[Vehicle_Category] WHERE 1=1");
@@ -200,6 +199,23 @@ public class VehicleCatDAO extends DBContext {
             System.out.println(e);
         }
         return ls;
+    }
+
+    public int getNumberOfSeatByLicensePlate(String licensePlate) {
+        String sql = "SELECT vc.seatQuantity FROM [dbo].[Vehicle_Category] vc "
+                + "INNER JOIN [dbo].[Vehicle] v ON vc.id = v.Vehicle_Categoryid "
+                + "WHERE v.licensePlate = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, licensePlate);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("seatQuantity");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return -1; // Return -1 if license plate not found or error occurred
     }
 
 }

@@ -1,21 +1,19 @@
 package model;
 
-import java.sql.Timestamp;
-import java.util.LinkedList;
 
 public class Seat {
 
     private int id;
     private String name;
-    private int status;
+    private int surcharge;
 
     public Seat() {
     }
 
-    public Seat(int id, String name, int status) {
+    public Seat(int id, String name, int surcharge) {
         this.id = id;
         this.name = name;
-        this.status = status;
+        this.surcharge = surcharge;
     }
 
     public int getId() {
@@ -34,16 +32,13 @@ public class Seat {
         this.name = name;
     }
 
-    public int getStatus() {
-        return status;
+    public int getSurcharge() {
+        return surcharge;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setSurcharge(int surcharge) {
+        this.surcharge = surcharge;
     }
-    
-    
-    
-    
+ 
 
 }
