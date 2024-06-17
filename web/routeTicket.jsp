@@ -7,11 +7,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page import="model.Route" %>
+<%@page import="model.Route_Detail" %>
 <%@page import="dal.RouteDAO" %>
+<%@page import="dal.Route_DetailDAO" %>
 <%@page import="dal.LocationDAO" %>
 <%@page import="java.util.*" %> 
+<%@page import="java.sql.Date" %>
 <% RouteDAO rd = new RouteDAO();
    LocationDAO ld = new LocationDAO();
+   Route_DetailDAO rdd = new Route_DetailDAO();
 %>
 <!DOCTYPE html>
 <html>
@@ -28,38 +32,35 @@
     <body>
         <%@include file="header.jsp" %> 
         <div style="margin: 100px 0" class="row">
-            <div class="col-md-1"></div>
-            <div id="routeFilter" class="col-md-3"></div>
-            <div id="routeInfo" class="col-md-7">
+            <div class="col-md-2"></div>
+            <div id="routeFilter" class="col-md-2"></div>
+            <div id="routeInfo" class="col-md-6">
                 <% for(Route r : (List<Route>)request.getAttribute("allRoute")){%>
                 <div class="route row">
                     <div id="route-image" class="col-md-4">
                         <% for(String img : rd.getVehicleCatImageByRouteId(r.getId()) ) {%>
                         <img src="<%=img%>" alt="Hello" />
-                        <%}%>
+                        <%break;}%>
                     </div>
                     <div id="route-content" class="col-md-6">
-                        <h3><%=r.getName()%>
-                            <!--                            <i style="float: right;font-size: 25px" class="ti-heart"></i>-->
-                        </h3>
+                        <h5><%=r.getName()%></h5>
                         <p>Xuất phát: <%=ld.getLocationNameById(r.getDeparture_Locationid())%></p>
                         <p>Điểm đến: <%=ld.getLocationNameById(r.getArrival_Locationid())%></p>
 
                     </div>
-                        <div class="col-md-2" >
-                        <p style="color: rgb(71, 143, 192);
-                           font-weight: 700;
-                           font-size: 30px;
-                          ">
-                            <fmt:formatNumber value="<%=r.getPrice()%>" type="number" groupingUsed="true"/> VND
-                        </p>
+                    <div class="col-md-2" >
+                        <div>
+                            <p style="color: rgb(71, 143, 192);
+                               font-weight: 700;
+                               font-size: 23px;
+                               text-align: right;
+                               margin-top: 2px;
+                               ">
+                                chỉ từ <fmt:formatNumber value="<%=r.getPrice()%>" type="number" groupingUsed="true"/>đ
+                            </p>
+                        </div>
+                        <a style="" href="routeDetailTicket?routeId=<%=r.getId()%>">Tìm chuyến</a><br>
                     </div>
-                    <!--                    <div class="col-md-2">
-                                            <div class="row">
-                                                <div class="col-md-3"></div>
-                                                <a class="col-md-9" id="route-button" href="#">ĐẶT VÉ</a>
-                                            </div>
-                                        </div>-->
 
                     <div id="route-detail<%=r.getId()%>" style="display: none; margin-top: 25px">
                         <strong>Lộ trình:</strong><br>
@@ -72,9 +73,9 @@
                         <% } %>
                         <span><%= loc[i] %></span>
                         <% } %>
-
+                        <br>
                     </div>
-
+                        
                     <a style="text-decoration: none;
                        background-color: rgb(71, 143, 192);
                        color: white;
@@ -90,7 +91,7 @@
 
                 <%}%>
             </div>
-            <div class="col-md-1"></div>
+            <div class="col-md-2"></div>
 
         </div>
         <%@include file="footer.jsp" %>
@@ -107,9 +108,10 @@
                     detail.style.display = 'none';
                     arrow.classList.remove("ti-arrow-up");
                     arrow.classList.add("ti-arrow-down");
-
                 }
             }
+
+
         </script>
     </body>
 </html>

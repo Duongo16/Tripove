@@ -6,8 +6,9 @@ package dal;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 import model.Route_Detail;
 
@@ -20,7 +21,7 @@ public class Route_DetailDAO extends DBContext {
     public static void main(String[] args) {
         Route_DetailDAO rdd = new Route_DetailDAO();
         //rdd.addRouteDetail(new Route_Detail(1, null, null, "98A-12345", new Timestamp(System.currentTimeMillis()), null));
-        System.out.println(rdd.getLastInsertRouteDetailId());
+        
     }
 
     public List<Route_Detail> getAllRouteDetail() {
@@ -62,6 +63,32 @@ public class Route_DetailDAO extends DBContext {
             System.out.println(e);
         }
         return null;
+    }
+
+    public List<Route_Detail> getAllRouteDetailByRouteIdAndDate(int routeId, Date departureDate) {
+        List<Route_Detail> list = new ArrayList<>();
+        String sql = "SELECT * FROM Route_Detail WHERE Routeid = ? AND departureDate = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, routeId);
+            ps.setDate(2, new Date(departureDate.getTime()));
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Route_Detail rd = new Route_Detail(
+                        rs.getInt("id"),
+                        rs.getInt("Routeid"),
+                        rs.getDate("departureDate"),
+                        rs.getTime("departureTime"),
+                        rs.getString("vehiclelicensePlate"),
+                        rs.getTimestamp("created_at"),
+                        rs.getTimestamp("updated_at")
+                );
+                list.add(rd);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
     public boolean deleteRouteDetailById(int id) {
@@ -144,4 +171,38 @@ public class Route_DetailDAO extends DBContext {
         }
         return -1;
     }
+
+    public List<Date> getAllUniqueDateByRouteId(int routeId) {
+        List<Date> uniqueDates = new ArrayList<>();
+        String sql = "SELECT DISTINCT departureDate FROM Route_Detail WHERE Routeid = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, routeId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                uniqueDates.add(rs.getDate("departureDate"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return uniqueDates;
+    }
+    
+    public List<Time> getAllTimeByRouteIdAndDate(int routeId, Date date) {
+        List<Time> ls = new ArrayList<>();
+        String sql = "SELECT departureTime FROM Route_Detail WHERE Routeid = ? AND departureDate = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, routeId);
+            ps.setDate(2, date);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ls.add(rs.getTime("departureTime"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return ls;
+    }
+
 }
