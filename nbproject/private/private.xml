@@ -5,6 +5,11 @@
         <group name="Main">
             <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/components/header.jsp</file>
         </group>
-        <group name="PRJ301"/>
+        <group name="PRJ301">
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/controller/RouteDetailTicketServlet.java</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/dal/Route_DetailDAO.java</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/model/Route_Detail.java</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/routeDetailTicket.jsp</file>
+        </group>
     </open-files>
 </project-private>

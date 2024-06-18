@@ -21,23 +21,43 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link rel="stylesheet" href="css/styleRouteTicket.css"/>
+        <link rel="stylesheet" href="css/styleRouteDetailTicket.css"/>
     </head>
     <body>
         <%@include file="header.jsp" %> 
         <div style="margin-top: 100px">
-            <div>
+            <div class="box">
                 <h1><%=cr.getName()%></h1>
 
-                <c:forEach var="detail" items="<%=rdd.getAllUniqueDateByRouteId(cr.getId())%>">
-                    <a href="routeDetailTicket?routeId=<%=cr.getId()%>&date=${detail}"><fmt:formatDate pattern="dd/MM/yyyy" value="${detail}"/></a>
-                </c:forEach>
+                <div class="bar">
+                    <p>Ngày xuất phát:</p>
+                    <c:forEach var="detail" items="<%=rdd.getAllUniqueDateByRouteId(cr.getId())%>">
+                        <a class="${requestScope.currentDate.equals(detail)?'selected-item':'item'}" 
+                           href="routeDetailTicket?routeId=<%=cr.getId()%>&date=${detail}">
+                            <fmt:formatDate pattern="dd/MM/yyyy" value="${detail}"/>
+                        </a>
+                    </c:forEach>
+                </div>
 
-                <c:forEach var="t" items="${requestScope.listOfTime}">
-                    <a href="routeDetailTicket?routeId=<%=cr.getId()%>&time=${t}">${t}</a>
-                </c:forEach>
+                <div class="bar">
+                    <p>Thời gian xuất phát:</p>
+                    <c:forEach var="t" items="${requestScope.listOfTime}">
+                        <a class="${requestScope.currentTime.equals(t)?'selected-item':'item'}" 
+                           href="routeDetailTicket?routeId=<%=cr.getId()%>&date=${requestScope.currentDate}&time=${t}">
+                            <fmt:formatDate pattern="HH:mm" value="${t}"/>
+                        </a>
+                    </c:forEach>
+                </div class="bar">
+
+                <div>
+                    <c:forEach var="crd" items="${requestScope.allCurrentRouteDetail}">
+                        <p>${crd.vehiclelicensePlate}</p>
+                    </c:forEach>
+                </div>
 
             </div>
+
+
         </div>
         <%@include file="footer.jsp" %>
     </body>

@@ -21,7 +21,10 @@ public class Route_DetailDAO extends DBContext {
     public static void main(String[] args) {
         Route_DetailDAO rdd = new Route_DetailDAO();
         //rdd.addRouteDetail(new Route_Detail(1, null, null, "98A-12345", new Timestamp(System.currentTimeMillis()), null));
-        
+        java.sql.Date date = java.sql.Date.valueOf("2024-06-01"); // Correctly initialize date
+        java.sql.Time time = java.sql.Time.valueOf("05:00:00"); // Correctly initialize time
+        System.out.println(rdd.getAllRouteDetailByDateAndTime(1, date, time));
+
     }
 
     public List<Route_Detail> getAllRouteDetail() {
@@ -187,10 +190,10 @@ public class Route_DetailDAO extends DBContext {
         }
         return uniqueDates;
     }
-    
-    public List<Time> getAllTimeByRouteIdAndDate(int routeId, Date date) {
+
+    public List<Time> getAllUniqueTimeByRouteIdAndDate(int routeId, Date date) {
         List<Time> ls = new ArrayList<>();
-        String sql = "SELECT departureTime FROM Route_Detail WHERE Routeid = ? AND departureDate = ?";
+        String sql = "SELECT DISTINCT departureTime FROM Route_Detail WHERE Routeid = ? AND departureDate = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, routeId);
@@ -203,6 +206,33 @@ public class Route_DetailDAO extends DBContext {
             System.out.println(e);
         }
         return ls;
+    }
+
+    public List<Route_Detail> getAllRouteDetailByDateAndTime(int routeId, Date departureDate, Time departureTime) {
+        List<Route_Detail> routeDetails = new ArrayList<>();
+        String sql = "SELECT * FROM Route_Detail WHERE Routeid = ? AND departureDate = ? AND departureTime  =? ";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, routeId);
+            ps.setString(2, departureDate.toString());
+            ps.setString(3, departureTime.toString());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Route_Detail rd = new Route_Detail(
+                        rs.getInt("id"),
+                        rs.getInt("Routeid"),
+                        rs.getDate("departureDate"),
+                        rs.getTime("departureTime"),
+                        rs.getString("vehiclelicensePlate"),
+                        rs.getTimestamp("created_at"),
+                        rs.getTimestamp("updated_at")
+                );
+                routeDetails.add(rd);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return routeDetails;
     }
 
 }
