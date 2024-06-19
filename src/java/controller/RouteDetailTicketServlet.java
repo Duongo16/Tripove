@@ -46,6 +46,7 @@ public class RouteDetailTicketServlet extends HttpServlet {
             Date date = (dateStr != null && !dateStr.isEmpty()) ? Date.valueOf(dateStr) : null;
             Time time = (timeStr != null && !timeStr.isEmpty()) ? Time.valueOf(timeStr) : null;
             
+            
             request.setAttribute("currentRoute", rd.getRouteById(routeId));
             
             if (date != null) {

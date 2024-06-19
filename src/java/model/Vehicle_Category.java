@@ -119,6 +119,13 @@ public class Vehicle_Category {
         this.image = image;
     }
 
+    @Override
+    public String toString() {
+        return "Vehicle_Category{" + "id=" + id + ", name=" + name + ", utilities=" + utilities + ", created_at=" + created_at + ", updated_at=" + updated_at + ", seatQuantity=" + seatQuantity + ", seatType=" + seatType + ", image=" + image + ", vehicle=" + vehicle + ", seat=" + seat + '}';
+    }
+
+    
+
     
     
     

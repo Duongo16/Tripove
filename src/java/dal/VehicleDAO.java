@@ -39,7 +39,7 @@ public class VehicleDAO extends DBContext {
         return null;
     }
 
-    public Vehicle getVehicleById(String licensePlate) {
+    public Vehicle getVehicleByLicensePlate(String licensePlate) {
         String sql = "select * from [dbo].[Vehicle] where licensePlate = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);

@@ -18,8 +18,7 @@ public class VehicleCatDAO extends DBContext {
 
     public static void main(String[] args) {
         VehicleCatDAO v = new VehicleCatDAO();
-        
-        System.out.println(v.getNumberOfSeatByLicensePlate("98A-11111"));
+        System.out.println(v.getVehicleCatByLicensePlate("98A-11111"));
     }
 
     public List<Vehicle_Category> getAllVehicleCat() {
@@ -215,7 +214,48 @@ public class VehicleCatDAO extends DBContext {
         } catch (Exception e) {
             System.out.println(e);
         }
-        return -1; // Return -1 if license plate not found or error occurred
+        return -1;
+    }
+
+    public String getImageByLicensePlate(String licensePlate) {
+        String sql = "SELECT vc.image FROM [dbo].[Vehicle_Category] vc "
+                + "INNER JOIN [dbo].[Vehicle] v ON vc.id = v.Vehicle_Categoryid "
+                + "WHERE v.licensePlate = ?";
+        String image = null;
+
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, licensePlate);
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    image = rs.getString("image");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return image;
+    }
+
+    public Vehicle_Category getVehicleCatByLicensePlate(String licensePlate) {
+        String sql = "SELECT * FROM [dbo].[Vehicle_Category] vc "
+                + "INNER JOIN [dbo].[Vehicle] v ON vc.id = v.Vehicle_Categoryid "
+                + "WHERE v.licensePlate = ?";
+        Vehicle_Category a = new Vehicle_Category();
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, licensePlate);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                a = new Vehicle_Category(rs.getInt("id"), rs.getString("name"), rs.getString("seatType"),
+                        rs.getInt("seatQuantity"), rs.getString("utilities"),
+                        rs.getTimestamp("created_at"), rs.getTimestamp("updated_at"), rs.getString("image"));
+            }
+            return a;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return null;
     }
 
 }

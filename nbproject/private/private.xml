@@ -7,9 +7,11 @@
         </group>
         <group name="PRJ301">
             <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/controller/RouteDetailTicketServlet.java</file>
-            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/dal/Route_DetailDAO.java</file>
-            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/model/Route_Detail.java</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/css/styleRouteTicket.css</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/routeTicket.jsp</file>
             <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/routeDetailTicket.jsp</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/css/styleRouteDetailTicket.css</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/dal/VehicleCatDAO.java</file>
         </group>
     </open-files>
 </project-private>

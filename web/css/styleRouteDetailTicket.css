@@ -54,5 +54,12 @@
     text-decoration: none;
 }
 
+.route-detail{
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1), 0 0 1px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin: 0px 20px 20px 0px !important;
+    width: 100%
+}
+
 
 

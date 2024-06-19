@@ -101,7 +101,7 @@ public class VehicleControllerServlet extends HttpServlet {
                 vd.deleteVehicle(lp);
                 response.sendRedirect("vehicleController");
             } else if (action.equals("update")) {
-                Vehicle v = vd.getVehicleById(lp);
+                Vehicle v = vd.getVehicleByLicensePlate(lp);
                 request.setAttribute("currentVehicle", v);
                 request.getRequestDispatcher("vehicleController.jsp").forward(request, response);
             }
