@@ -31,8 +31,8 @@
         <%@ include file="header.jsp" %> 
         <div style="margin: 100px">
             <div class="box row">
-                <div class="col-md-6">
-                    <h1><%= cr.getName() %></h1>
+                <div class="col-md-7">
+                    <h2><%= cr.getName() %></h2>
                     <div class="bar">
                         <p>Ngày xuất phát:</p>
                         <c:forEach var="detail" items="<%= rdd.getAllUniqueDateByRouteId(cr.getId()) %>">
@@ -62,18 +62,21 @@
                             Vehicle_Category vc = vcd.getVehicleCatByLicensePlate(crd.getVehiclelicensePlate());
                         %>
                         <div class="route-detail row">
-                            <div class="col-md-2" style="padding:0">
+                            <div class="col-md-4" style="padding:0">
                                 <img style="width:100%" src="<%= vc.getImage() %>" alt="Vehicle Image" />
                             </div>
-                            <div class="col-md-8">
-                                <p><%= vc.getName() %></p>
+                            <div class="col-md-6">
+                                <h4><%= vc.getName() %></h4>
                                 <p>Ghế:  <%=vc.getSeatType()%></p>
                                 Tiện ích:
                                 <p><%=vc.getUtilities()%></p>
                             </div>
                             <div class="col-md-2">
-                                <form action="routeDetailTicket" method="post">
-                                    <input type="hidden" name="choosed-detailRoute" value="<%=crd%>"/>
+                                <form action="routeDetailTicket">
+                                    <input type="hidden" name="routeId" value="<%=crd.getRouteId()%>"/>
+                                    <input type="hidden" name="date" value="<%=crd.getDepartureDate()%>"/>
+                                    <input type="hidden" name="time" value="<%=crd.getDepartureTime()%>"/>
+                                    <input type="hidden" name="choosed-detailRoute" value="<%=crd.getId()%>"/>
                                     <input type="submit" value="Chọn chỗ"/>
                                 </form>
                                 Trạng thái:
@@ -85,9 +88,14 @@
                     <%}%>
                 </div>
 
-                <div class="col-md-6">
-                    <h1>Vé của bạn</h1>
+                <div class="col-md-5">
+                    <h2>Vé của bạn</h2>
                     <div id="seat">
+                        Họ và tên: ${requestScope.account.name}<br>
+                        Số điện thoại: 0${requestScope.account.phoneNumber}
+                        <c:forEach var="s" items="${requestScope.seats}">
+                            <p>${s.getName()}</p>
+                        </c:forEach>
                         <table>
                             <tr></tr>
                         </table>

@@ -11,6 +11,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 import model.Route_Detail;
+import model.Seat;
 
 /**
  *
@@ -21,9 +22,7 @@ public class Route_DetailDAO extends DBContext {
     public static void main(String[] args) {
         Route_DetailDAO rdd = new Route_DetailDAO();
         //rdd.addRouteDetail(new Route_Detail(1, null, null, "98A-12345", new Timestamp(System.currentTimeMillis()), null));
-        java.sql.Date date = java.sql.Date.valueOf("2024-06-01"); // Correctly initialize date
-        java.sql.Time time = java.sql.Time.valueOf("05:00:00"); // Correctly initialize time
-        System.out.println(rdd.getAllRouteDetailByDateAndTime(1, date, time));
+        System.out.println(rdd.getAllSeatByRouteDetailId(27));
 
     }
 
@@ -233,6 +232,28 @@ public class Route_DetailDAO extends DBContext {
             e.printStackTrace();
         }
         return routeDetails;
+    }
+
+    public List<Seat> getAllSeatByRouteDetailId(int routeDetailId) {
+        List<Seat> seats = new ArrayList<>();
+        String sql = "SELECT * FROM Seat WHERE Route_Detailid = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, routeDetailId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Seat seat = new Seat(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getInt("surcharge"),
+                        rs.getInt("Route_Detailid"),
+                        rs.getInt("accountId"));
+                seats.add(seat);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return seats;
     }
 
 }
