@@ -78,6 +78,7 @@ public class RouteControllerServlet extends HttpServlet {
         Route_DetailDAO rdd = new Route_DetailDAO();
         VehicleDAO vd = new VehicleDAO();
         LocationDAO ld = new LocationDAO();
+        SeatDAO sd = new SeatDAO();
 
         Integer idd = (Integer) session.getAttribute("id");
         int i = (idd != null) ? idd : -1;
@@ -116,12 +117,15 @@ public class RouteControllerServlet extends HttpServlet {
             try {
                 int id = Integer.parseInt(id_raw);
                 if (action.equals("delete")) {
+                    sd.deleteSeatByRouteId(id);
+                    rdd.deleteRouteDetailByRouteId(id);
                     rd.deleteRouteById(id);
                     response.sendRedirect("routeController");
                 } else if (action.equals("update")) {
                     request.setAttribute("currentRoute", rd.getRouteById(id));
                     request.getRequestDispatcher("routeController.jsp").forward(request, response);
                 } else if (action.equals("deleteDetail")) {
+                    sd.deleteSeatByRouteDetailId(id);
                     rdd.deleteRouteDetailById(id);
                     response.sendRedirect("routeController");
                 } else if (action.equals("updateDetail")) {

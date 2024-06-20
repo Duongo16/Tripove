@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import model.Vehicle_Category;
-
+import java.sql.SQLException;
 /**
  *
  * @author Admin
@@ -18,7 +18,7 @@ public class VehicleCatDAO extends DBContext {
 
     public static void main(String[] args) {
         VehicleCatDAO v = new VehicleCatDAO();
-        System.out.println(v.getVehicleCatByLicensePlate("98A-11111"));
+        System.out.println(v.addNewVehicleCat(new Vehicle_Category("Lambo", "Ngồi", 4, null , null, null)));
     }
 
     public List<Vehicle_Category> getAllVehicleCat() {
@@ -131,7 +131,7 @@ public class VehicleCatDAO extends DBContext {
                 + "           ,[utilities]\n"
                 + "           ,[created_at]\n"
                 + "           ,[seatQuantity]\n"
-                + "           ,[seatType])\n"
+                + "           ,[seatType]\n"
                 + "           ,[image])\n"
                 + "     VALUES\n"
                 + "           (?,?,?,?,?,?)";
@@ -146,8 +146,8 @@ public class VehicleCatDAO extends DBContext {
             ps.setString(6, o.getImage());
             ps.executeUpdate();
             return 0;
-        } catch (Exception e) {
-            System.out.println(e);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
         return -1;
     }

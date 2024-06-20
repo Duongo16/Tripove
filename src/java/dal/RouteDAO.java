@@ -120,16 +120,6 @@ public class RouteDAO extends DBContext {
         }
     }
 
-    public void deleteRouteByLicensePlate(String licensePlate) {
-        String sql = "DELETE FROM [dbo].[Route] WHERE VehiclelicensePlate = ?";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, licensePlate);
-            ps.executeUpdate();
-        } catch (Exception e) {
-
-        }
-    }
 
     public void deleteRouteByVehicleCatId(int vehicleCatId) {
         String sql = "DELETE FROM [dbo].[Route] "

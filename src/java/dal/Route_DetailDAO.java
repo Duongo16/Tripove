@@ -22,7 +22,7 @@ public class Route_DetailDAO extends DBContext {
     public static void main(String[] args) {
         Route_DetailDAO rdd = new Route_DetailDAO();
         //rdd.addRouteDetail(new Route_Detail(1, null, null, "98A-12345", new Timestamp(System.currentTimeMillis()), null));
-        System.out.println(rdd.getAllSeatByRouteDetailId(27));
+        System.out.println(rdd.deleteRouteDetailByVehicleCatId(4));
 
     }
 
@@ -99,6 +99,49 @@ public class Route_DetailDAO extends DBContext {
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+
+    public boolean deleteRouteDetailByRouteId(int routeId) {
+        String sql = "DELETE FROM Route_Detail WHERE Routeid = ?";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, routeId);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+
+    public boolean deleteRouteDetailByLicensePlate(String licensePlate) {
+        String sql = "DELETE FROM Route_Detail WHERE VehiclelicensePlate = ?";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, licensePlate);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+
+    public boolean deleteRouteDetailByVehicleCatId(int vehicleCatId) {
+        String sql = "DELETE FROM Route_Detail WHERE VehiclelicensePlate IN ("
+                + "SELECT licensePlate FROM Vehicle WHERE Vehicle_Categoryid = ?)" ;
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, vehicleCatId);
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0;
         } catch (Exception e) {

@@ -6,6 +6,8 @@ package controller;
 
 import dal.AccountDAO;
 import dal.RouteDAO;
+import dal.Route_DetailDAO;
+import dal.SeatDAO;
 import dal.VehicleCatDAO;
 import dal.VehicleDAO;
 import java.io.IOException;
@@ -68,7 +70,8 @@ public class VehicleControllerServlet extends HttpServlet {
         AccountDAO ad = new AccountDAO();
         VehicleDAO vd = new VehicleDAO();
         VehicleCatDAO vcd = new VehicleCatDAO();
-        RouteDAO rd = new RouteDAO();
+        SeatDAO sd = new SeatDAO();
+        Route_DetailDAO rdd = new Route_DetailDAO();
         HttpSession session = request.getSession();
         request.setAttribute("vehicleCatList", vcd.getAllVehicleCat());
 
@@ -97,7 +100,8 @@ public class VehicleControllerServlet extends HttpServlet {
         if (action != null && !action.equals("search")) {
             String lp = request.getParameter("licensePlate");
             if (action.equals("delete")) {
-                rd.deleteRouteByLicensePlate(lp);
+                sd.deleteSeatByLicensePlate(lp);
+                rdd.deleteRouteDetailByLicensePlate(lp);
                 vd.deleteVehicle(lp);
                 response.sendRedirect("vehicleController");
             } else if (action.equals("update")) {

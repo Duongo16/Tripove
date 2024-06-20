@@ -5,7 +5,8 @@
 package controller;
 
 import dal.AccountDAO;
-import dal.RouteDAO;
+import dal.Route_DetailDAO;
+import dal.SeatDAO;
 import dal.VehicleCatDAO;
 import dal.VehicleDAO;
 import java.io.IOException;
@@ -68,7 +69,8 @@ public class VehicleCatControllerServlet extends HttpServlet {
         AccountDAO ad = new AccountDAO();
         VehicleCatDAO vd = new VehicleCatDAO();
         VehicleDAO v = new VehicleDAO();
-        RouteDAO rd = new RouteDAO();
+        Route_DetailDAO rdd = new Route_DetailDAO();
+        SeatDAO sd = new SeatDAO();
         HttpSession session = request.getSession();
 
         Integer idd = (Integer) session.getAttribute("id");
@@ -98,7 +100,8 @@ public class VehicleCatControllerServlet extends HttpServlet {
                 String id_raw = request.getParameter("id");
                 try {
                     int id = Integer.parseInt(id_raw);
-                    rd.deleteRouteByVehicleCatId(id);//error
+                    sd.deleteSeatByVehicleCatId(id);
+                    rdd.deleteRouteDetailByVehicleCatId(id);
                     v.deleteVehicleByVehicleCatId(id);
                     vd.deleteVehicleCat(id);
                 } catch (Exception e) {

@@ -13,6 +13,16 @@
         <title>Tài khoản</title>
         <link rel="shortcut icon" type="image/jpg" href="image/logo-icon.png" />
         <link rel="stylesheet" href="css/styleAdminController.css">
+        <style>
+            .page-item a{
+                color: rgb(71, 143, 192) !important;
+            }
+            .page-item.active .page-link {
+                color: white !important;
+                background: rgb(71, 143, 192) !important;
+                border-color: rgb(71, 143, 192) !important;
+            }
+        </style>
     </head>
     <body>
         <%@include file="header.jsp" %>
@@ -89,7 +99,9 @@
                     </table>
                     <div style="">
                         <nav aria-label="Page navigation example" >
-                            <ul class="pagination" style="color: red">
+                            <ul class="pagination" style="display: flex;
+                                justify-content: center;
+                                margin-top: 30px;">
                                 <li class="page-item ${requestScope.index == 1 ? 'disabled' : ''}">
                                     <a class="page-link" href="accountController?index=${requestScope.index - 1}" aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
