@@ -72,6 +72,7 @@ public class RouteDetailTicketServlet extends HttpServlet {
 
             if (choosedDetailRouteId != null) {
                 int choosed = Integer.parseInt(choosedDetailRouteId);
+                request.setAttribute("currentPrice", rdd.getPriceByRouteDetailId(choosed));
                 request.setAttribute("seats", rdd.getAllSeatByRouteDetailId(choosed));
             }
 

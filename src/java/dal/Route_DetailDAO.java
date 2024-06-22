@@ -22,7 +22,7 @@ public class Route_DetailDAO extends DBContext {
     public static void main(String[] args) {
         Route_DetailDAO rdd = new Route_DetailDAO();
         //rdd.addRouteDetail(new Route_Detail(1, null, null, "98A-12345", new Timestamp(System.currentTimeMillis()), null));
-        System.out.println(rdd.deleteRouteDetailByVehicleCatId(4));
+        System.out.println(rdd.getPriceByRouteDetailId(1044));
 
     }
 
@@ -137,7 +137,7 @@ public class Route_DetailDAO extends DBContext {
 
     public boolean deleteRouteDetailByVehicleCatId(int vehicleCatId) {
         String sql = "DELETE FROM Route_Detail WHERE VehiclelicensePlate IN ("
-                + "SELECT licensePlate FROM Vehicle WHERE Vehicle_Categoryid = ?)" ;
+                + "SELECT licensePlate FROM Vehicle WHERE Vehicle_Categoryid = ?)";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -290,13 +290,30 @@ public class Route_DetailDAO extends DBContext {
                         rs.getString("name"),
                         rs.getInt("surcharge"),
                         rs.getInt("Route_Detailid"),
-                        rs.getInt("accountId"));
+                        rs.getInt("accountId"),
+                        rs.getDate("paymentDate"));
                 seats.add(seat);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return seats;
+    }
+    
+    public int getPriceByRouteDetailId(int routeDetailId) {
+        String sql = "SELECT price FROM Route r JOIN Route_Detail rd ON r.id = rd.Routeid WHERE rd.id = ?";
+        int price = 0;
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, routeDetailId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                price = rs.getInt("price");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return price;
     }
 
 }

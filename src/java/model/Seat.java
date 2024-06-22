@@ -1,20 +1,24 @@
 package model;
 
+import java.sql.Date;
+
 public class Seat {
 
     private int id;
     private String name;
     private int surcharge, routeDetailId, accountId;
+    private Date paymentDate;
 
     public Seat() {
     }
 
-    public Seat(int id, String name, int surcharge, int routeDetailId, int accountId) {
+    public Seat(int id, String name, int surcharge, int routeDetailId, int accountId, Date paymentDate) {
         this.id = id;
         this.name = name;
         this.surcharge = surcharge;
         this.routeDetailId = routeDetailId;
         this.accountId = accountId;
+        this.paymentDate = paymentDate;
     }
 
     public int getId() {
@@ -56,7 +60,14 @@ public class Seat {
     public void setAccountId(int accountId) {
         this.accountId = accountId;
     }
-    
-    
 
+    public Date getPaymentDate() {
+        return paymentDate;
+    }
+
+    public void setPaymentDate(Date paymentDate) {
+        this.paymentDate = paymentDate;
+    }
+
+    
 }

@@ -5,6 +5,10 @@
 package dal;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import model.Seat;
 
 /**
  *
@@ -14,7 +18,7 @@ public class SeatDAO extends DBContext {
 
     public static void main(String[] args) {
         SeatDAO sd = new SeatDAO();
-        sd.deleteSeatByVehicleCatId(3);
+        sd.addSeatForNewRouteDetail(1040,6);
     }
 
     public void addSeatForNewRouteDetail(int routeDetailId, int n) {
@@ -35,6 +39,22 @@ public class SeatDAO extends DBContext {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Seat> getSeatByRouteDetailId(int routeDetailId) {
+        List<Seat> ls = new ArrayList<>();
+        String sql = "SELECT * FROM [dbo].[Seat] WHERE Route_Detailid = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, routeDetailId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Seat s = new Seat(rs.getInt("id"), rs.getString("name"), rs.getInt("surcharge"), routeDetailId, rs.getInt("accountId"),rs.getDate("paymentDate"));
+                ls.add(s);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ls;
     }
 
     public void deleteSeatByVehicleCatId(int vehicleCatId) {
@@ -71,7 +91,7 @@ public class SeatDAO extends DBContext {
             e.printStackTrace();
         }
     }
-    
+
     public void deleteSeatByLicensePlate(String licensePlate) {
         String sql = "DELETE FROM [dbo].[Seat] WHERE Route_Detailid IN ("
                 + "SELECT id FROM [dbo].[Route_Detail] WHERE VehiclelicensePlate = ?) ";
