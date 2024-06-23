@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Vehicle_Category;
 import java.sql.SQLException;
+
 /**
  *
  * @author Admin
@@ -18,7 +19,7 @@ public class VehicleCatDAO extends DBContext {
 
     public static void main(String[] args) {
         VehicleCatDAO v = new VehicleCatDAO();
-        System.out.println(v.addNewVehicleCat(new Vehicle_Category("Lambo", "Ngồi", 4, null , null, null)));
+        System.out.println(v.getImageByVehicleCatId(1));
     }
 
     public List<Vehicle_Category> getAllVehicleCat() {
@@ -225,6 +226,24 @@ public class VehicleCatDAO extends DBContext {
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setString(1, licensePlate);
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    image = rs.getString("image");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return image;
+    }
+
+    public String getImageByVehicleCatId(int id) {
+        String sql = "SELECT image FROM Vehicle_Category WHERE id = ?";
+        String image = null;
+
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setInt(1, id);
             try (ResultSet rs = st.executeQuery()) {
                 if (rs.next()) {
                     image = rs.getString("image");

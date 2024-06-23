@@ -7,9 +7,7 @@
         </group>
         <group name="PRJ301">
             <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/controller/RouteDetailTicketServlet.java</file>
-            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/test.jsp</file>
-            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/controller/RouteControllerServlet.java</file>
-            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/dal/SeatDAO.java</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/dal/Route_DetailDAO.java</file>
             <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/routeDetailTicket.jsp</file>
             <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/routeController.jsp</file>
         </group>

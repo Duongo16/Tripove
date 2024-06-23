@@ -116,11 +116,8 @@ Author : Admin --%> <%@page contentType="text/html" pageEncoding="UTF-8"%>
                             name="seatQuantity"
                             value="${a.seatQuantity}"
                             /><br />
-                        <strong>Tiện ích:</strong><br /><input
-                            type="text"
-                            name="utilities"
-                            value="${a.utilities}"
-                            /><br /><br />
+                        <strong>Tiện ích:</strong><br /><textarea name="utilities" rows="4" cols="20" style="padding: 5px">${a.utilities}</textarea>
+                        <br /><br />
                         <input type="hidden" name="id" value="${a.id}" />
                         <input type="hidden" name="created_at" value="${a.created_at}" />
                         <input

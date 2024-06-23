@@ -140,13 +140,13 @@ public class VehicleCatControllerServlet extends HttpServlet {
         String seatQuantityStr = request.getParameter("seatQuantity");
         String utilities = request.getParameter("utilities");
         String createdAtStr = request.getParameter("created_at");
-        String image = "image/vehicle/" + request.getParameter("image");
+        String image = request.getParameter("image");
 
-        VehicleCatDAO vd = new VehicleCatDAO();
+        VehicleCatDAO vcd = new VehicleCatDAO();
         int id = 0;
         int seatQuantity = 0;
         boolean checkExisted = false;
-        for (Vehicle_Category o : vd.getAllVehicleCat()) {
+        for (Vehicle_Category o : vcd.getAllVehicleCat()) {
             if (o.getName().equals(name)) {
                 checkExisted = true;
                 id = o.getId();
@@ -158,11 +158,16 @@ public class VehicleCatControllerServlet extends HttpServlet {
             seatQuantity = Integer.parseInt(seatQuantityStr);
             if (checkExisted) {
                 Timestamp created_at = Timestamp.valueOf(createdAtStr);
+                if(image == null || image.isEmpty()){
+                   image = vcd.getImageByVehicleCatId(id);
+                } else {
+                    image = "image/vehicle/" + image;
+                }
                 Vehicle_Category a = new Vehicle_Category(id, name, seatType, seatQuantity, utilities, created_at, new Timestamp(System.currentTimeMillis()),image);
-                vd.updateVehicleCat(a);//chua update seat
+                vcd.updateVehicleCat(a);//chua update seat
             } else {
                 Vehicle_Category a = new Vehicle_Category(name, seatType, seatQuantity, utilities, new Timestamp(System.currentTimeMillis()),image);
-                vd.addNewVehicleCat(a);
+                vcd.addNewVehicleCat(a);
             }
 
             response.sendRedirect("vehicleCatController");
