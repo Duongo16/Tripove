@@ -61,5 +61,24 @@
     width: 100%
 }
 
+.selected .icon-selected {
+    fill: green;
+}
+.selected .icon-disabled {
+    fill: transparent;
+}
+
+.selected rect{
+    fill: rgb(139, 229, 176);
+    stroke: green;
+}
+
+.seat-container.selected {
+    border-color: green;
+}
+.seat-container {
+    cursor: pointer;
+}
+
 
 

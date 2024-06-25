@@ -8,17 +8,19 @@ public class Seat {
     private String name;
     private int surcharge, routeDetailId, accountId;
     private Date paymentDate;
+    private String pickUp;
 
     public Seat() {
     }
 
-    public Seat(int id, String name, int surcharge, int routeDetailId, int accountId, Date paymentDate) {
+    public Seat(int id, String name, int surcharge, int routeDetailId, int accountId, Date paymentDate, String pickUp) {
         this.id = id;
         this.name = name;
         this.surcharge = surcharge;
         this.routeDetailId = routeDetailId;
         this.accountId = accountId;
         this.paymentDate = paymentDate;
+        this.pickUp = pickUp;
     }
 
     public int getId() {
@@ -68,6 +70,16 @@ public class Seat {
     public void setPaymentDate(Date paymentDate) {
         this.paymentDate = paymentDate;
     }
+
+    public String getPickUp() {
+        return pickUp;
+    }
+
+    public void setPickUp(String pickUp) {
+        this.pickUp = pickUp;
+    }
+
+   
 
     
 }

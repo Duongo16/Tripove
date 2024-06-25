@@ -29,26 +29,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Route Detail Ticket</title>
         <link rel="stylesheet" href="css/styleRouteDetailTicket.css"/>
-        <style>
-            .selected .icon-selected {
-                fill: green;
-            }
-            .selected .icon-disabled {
-                fill: transparent;
-            }
-
-            .selected rect{
-                fill: rgb(139, 229, 176);
-                stroke: green;
-            }
-
-            .seat-container.selected {
-                border-color: green;
-            }
-            .seat-container {
-                cursor: pointer;
-            }
-        </style>
     </head>
     <body>
         <%@ include file="header.jsp" %> 
@@ -115,17 +95,17 @@
                     <div class="col-md-6">
 
                         <h2>Vé của bạn</h2>
-                        <div id="seat">
+                        <form action="buyTicket">
+                            <input type="hidden" value="${requestScope.currentRouteDetailId}" name="currentRouteDetailId" />
                             Họ và tên: ${requestScope.account.name}<br>
-                            Số điện thoại: 0${requestScope.account.phoneNumber}<br>
+                            Số điện thoại: 0${requestScope.account.phoneNumber}
 
                             <div class="row" >
                                 <div class="col-md-3" style="background-color: #eee;padding: 15px;margin-left: 10px;">
                                     <table >
                                         <%
                                         List<Seat> ss = (List<Seat>) request.getAttribute("seats");
-                                        int seatEachRow = 0;
-                                                                
+                                        int seatEachRow = 0;                                                          
                                         switch(ss.size()){
                                             case 6:
                                                 seatEachRow = 2;
@@ -159,18 +139,31 @@
                                             Seat o = ss.get(i);
                                             %>
                                             <td class="seat">
-                                                <div class="seat-container" data-disabled="false" onclick="totalBill(this)" color="#b8b8b8" style="padding-right: 10px" title="Ghế: <%=o.getName()%>" >
-                                                    <svg style="" width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <%
+                                                if (o.getAccountId() == 0) {
+                                                %>
+                                                <div class="seat-container" data-disabled="false" onclick="totalBill(this)" color="#b8b8b8" style="padding-right: 10px" title="Ghế: <%= o.getName() %>">
+                                                    <svg width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <rect x="8.75" y="2.75" width="22.5" height="26.5" rx="2.25" fill="#FFF" stroke="#B8B8B8" stroke-width="1.5" stroke-linejoin="round"></rect>
                                                     <rect x="10.25" y="11.75" width="14.5" height="5.5" rx="2.25" transform="rotate(90 10.25 11.75)" fill="#FFF" stroke="#B8B8B8" stroke-width="1.5" stroke-linejoin="round"></rect>
                                                     <rect x="35.25" y="11.75" width="14.5" height="5.5" rx="2.25" transform="rotate(90 35.25 11.75)" fill="#FFF" stroke="#B8B8B8" stroke-width="1.5" stroke-linejoin="round"></rect>
                                                     <rect x="8.75" y="22.75" width="22.5" height="6.5" rx="2.25" fill="#FFF" stroke="#B8B8B8" stroke-width="1.5" stroke-linejoin="round"></rect>
                                                     <path class="icon-selected" d="M20 6.333A6.67 6.67 0 0 0 13.334 13 6.67 6.67 0 0 0 20 19.667 6.67 6.67 0 0 0 26.667 13 6.669 6.669 0 0 0 20 6.333zm-1.333 10L15.333 13l.94-.94 2.394 2.387 5.06-5.06.94.946-6 6z" fill="transparent"></path>
-                                                    <path class="icon-disabled" d="M24.96 9.46l-1.42-1.42L20 11.59l-3.54-3.55-1.42 1.42L18.59 13l-3.55 3.54 1.42 1.42L20 14.41l3.54 3.55 1.42-1.42L21.41 13l3.55-3.54z" fill="transparent"></path>
                                                     </svg>
-                                                    <input type="hidden" value="<%=o.getName()%>" class="seatName"/>
-                                                    <input type="hidden" value="<%=o.getSurcharge()%>" class="seatSurcharge"/>
-                                                </div> 
+                                                    <input type="hidden" value="<%= o.getName() %>" class="seatName" />
+                                                    <input type="hidden" value="<%= o.getSurcharge() %>" class="seatSurcharge" />
+                                                </div>
+                                                <% } else { %>
+                                                <div class="seat-container" data-disabled="false"  onclick="none" color="#b8b8b8" style="padding-right: 10px;cursor: not-allowed" title="Ghế: <%= o.getName() %>">
+                                                    <svg width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <rect x="8.75" y="2.75" width="22.5" height="26.5" rx="2.25" fill="rgb(255, 177, 177)" stroke="red" stroke-width="1.5" stroke-linejoin="round"></rect>
+                                                    <rect x="10.25" y="11.75" width="14.5" height="5.5" rx="2.25" transform="rotate(90 10.25 11.75)" fill="rgb(255, 177, 177)" stroke="red" stroke-width="1.5" stroke-linejoin="round"></rect>
+                                                    <rect x="35.25" y="11.75" width="14.5" height="5.5" rx="2.25" transform="rotate(90 35.25 11.75)" fill="rgb(255, 177, 177)" stroke="red" stroke-width="1.5" stroke-linejoin="round"></rect>
+                                                    <rect x="8.75" y="22.75" width="22.5" height="6.5" rx="2.25" fill="rgb(255, 177, 177)" stroke="red" stroke-width="1.5" stroke-linejoin="round"></rect>
+                                                    <path class="icon-disabled" d="M24.96 9.46l-1.42-1.42L20 11.59l-3.54-3.55-1.42 1.42L18.59 13l-3.55 3.54 1.42 1.42L20 14.41l3.54 3.55 1.42-1.42L21.41 13l3.55-3.54z" fill="red"></path>
+                                                    </svg>
+                                                </div>
+                                                <% } %>
                                             </td>
                                             <%
                                                }
@@ -219,20 +212,24 @@
                             </div>
 
                             <div>
-
                                 Thông tin ghế: <p id="selectedSeats"></p>
-
+                                <input type="hidden" name="selectedSeatsHidden" id="selectedSeatsHidden">
                                 <div>
-                                    Điểm đón cụ thể:
-                                    <textarea name="" rows="2" cols="60" style="padding: 10px"></textarea>
+                                    Điểm đón cụ thể:<br>
+                                    <textarea name="pickUp" rows="2" cols="60" style="padding: 10px"></textarea>
                                 </div>
-                                Tổng tiền: <span id="totalAmount">0</span> VND<br>
                                 <input type="hidden" id="currentPrice" value="${requestScope.currentPrice}"/>
                             </div>
-
-
-
-                        </div> 
+                            <div class="row" style="float: bottom;font-size: 20px">
+                                <div class="col-md-6" style="color: rgb(71, 143, 192); margin: auto 0">
+                                    Tổng tiền: <span id="totalPrice"><fmt:formatNumber value=""/></span> VND
+                                    <input type="hidden" name="totalPriceHidden" id="totalPriceHidden">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="submit" class="selected-item" value="Đặt vé"/>
+                                </div>
+                            </div>
+                        </form> 
                     </div>
                 </c:if>
 
@@ -243,7 +240,7 @@
 
         <script>
             let selectedSeats = [];
-            let totalAmount = 0;
+            let totalPrice = 0;
 
             function totalBill(thisSeat) {
                 const seatName = thisSeat.querySelector('.seatName').value;
@@ -254,7 +251,7 @@
                     thisSeat.dataset.disabled = 'true';
                     thisSeat.classList.add('selected');
                     selectedSeats.push(seatName);
-                    totalAmount += price + seatSurcharge;
+                    totalPrice += price + seatSurcharge;
                 } else {
                     thisSeat.dataset.disabled = 'false';
                     thisSeat.classList.remove('selected');
@@ -262,12 +259,14 @@
                     if (index > -1) {
                         selectedSeats.splice(index, 1);
                     }
-                    totalAmount -= price + seatSurcharge;
+                    totalPrice -= price + seatSurcharge;
                 }
 
                 const selectedSeatsText = selectedSeats.join(', ');
-                document.getElementById('totalAmount').innerText = totalAmount;
+                document.getElementById('totalPrice').innerText = totalPrice;
                 document.getElementById('selectedSeats').innerText = selectedSeatsText;
+                document.getElementById('selectedSeatsHidden').value = selectedSeatsText;
+                document.getElementById('totalPriceHidden').value = totalPrice;
             }
 
 

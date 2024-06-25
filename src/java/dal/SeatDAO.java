@@ -4,6 +4,7 @@
  */
 package dal;
 
+import java.sql.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class SeatDAO extends DBContext {
 
     public static void main(String[] args) {
         SeatDAO sd = new SeatDAO();
-        sd.addSeatForNewRouteDetail(1040,6);
+        sd.buyTicket("S0", 1044, "HELLO", 1);
     }
 
     public void addSeatForNewRouteDetail(int routeDetailId, int n) {
@@ -48,7 +49,7 @@ public class SeatDAO extends DBContext {
             ps.setInt(1, routeDetailId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Seat s = new Seat(rs.getInt("id"), rs.getString("name"), rs.getInt("surcharge"), routeDetailId, rs.getInt("accountId"),rs.getDate("paymentDate"));
+                Seat s = new Seat(rs.getInt("id"), rs.getString("name"), rs.getInt("surcharge"), routeDetailId, rs.getInt("accountId"), rs.getDate("paymentDate"), rs.getString("pickUp"));
                 ls.add(s);
             }
         } catch (Exception e) {
@@ -100,6 +101,24 @@ public class SeatDAO extends DBContext {
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void buyTicket(String seatName, int routeDetailId, String pickUp, int accountId) {
+        String sql = "UPDATE [dbo].[Seat]\n"
+                + "   SET [Accountid] = ?\n"
+                + "      ,[paymentDate] = ?\n"
+                + "      ,[pickUp] = ?\n"
+                + " WHERE name = ? AND Route_Detailid = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, accountId);
+            ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
+            ps.setString(3, pickUp);
+            ps.setString(4, seatName);
+            ps.setInt(5, routeDetailId);
+            ps.executeUpdate();
+        } catch (Exception e) {
         }
     }
 

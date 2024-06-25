@@ -291,7 +291,8 @@ public class Route_DetailDAO extends DBContext {
                         rs.getInt("surcharge"),
                         rs.getInt("Route_Detailid"),
                         rs.getInt("accountId"),
-                        rs.getDate("paymentDate"));
+                        rs.getDate("paymentDate"),
+                        rs.getString("pickUp"));
                 seats.add(seat);
             }
         } catch (Exception e) {
@@ -299,7 +300,7 @@ public class Route_DetailDAO extends DBContext {
         }
         return seats;
     }
-    
+
     public int getPriceByRouteDetailId(int routeDetailId) {
         String sql = "SELECT price FROM Route r JOIN Route_Detail rd ON r.id = rd.Routeid WHERE rd.id = ?";
         int price = 0;

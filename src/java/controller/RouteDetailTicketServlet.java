@@ -14,9 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import model.Account;
-import model.Seat;
 
 @WebServlet(name = "RouteDetailTicketServlet", urlPatterns = {"/routeDetailTicket"})
 public class RouteDetailTicketServlet extends HttpServlet {
@@ -72,6 +70,7 @@ public class RouteDetailTicketServlet extends HttpServlet {
 
             if (choosedDetailRouteId != null) {
                 int choosed = Integer.parseInt(choosedDetailRouteId);
+                request.setAttribute("currentRouteDetailId", choosed);
                 request.setAttribute("currentPrice", rdd.getPriceByRouteDetailId(choosed));
                 request.setAttribute("seats", rdd.getAllSeatByRouteDetailId(choosed));
             }
