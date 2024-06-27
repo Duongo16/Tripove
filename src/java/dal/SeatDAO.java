@@ -19,7 +19,7 @@ public class SeatDAO extends DBContext {
 
     public static void main(String[] args) {
         SeatDAO sd = new SeatDAO();
-        sd.buyTicket("S0", 1044, "HELLO", 1);
+        System.out.println(sd.getSeatByAccountId(1));;
     }
 
     public void addSeatForNewRouteDetail(int routeDetailId, int n) {
@@ -56,6 +56,37 @@ public class SeatDAO extends DBContext {
             e.printStackTrace();
         }
         return ls;
+    }
+
+    public List<Seat> getSeatByAccountId(int accountId) {
+        List<Seat> ls = new ArrayList<>();
+        String sql = "SELECT * FROM [dbo].[Seat] WHERE Accountid = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, accountId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Seat s = new Seat(rs.getInt("id"), rs.getString("name"), rs.getInt("surcharge"), rs.getInt("Route_Detailid"), rs.getInt("accountId"), rs.getDate("paymentDate"), rs.getString("pickUp"));
+                ls.add(s);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ls;
+    }
+
+    public int getNumberOfEmptySeatByRouteDetailId(int routeDetailId) {
+        String sql = "SELECT * FROM [dbo].[Seat] WHERE Route_Detailid = ? AND Accountid IS NULL";
+        int num = 0;
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, routeDetailId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                num++;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return num;
     }
 
     public void deleteSeatByVehicleCatId(int vehicleCatId) {

@@ -32,15 +32,15 @@
                     </div>
                     <div class="col-md-1"></div>
                     <div class="info-in4-1 col-md-7">
-                        <label for="">Giới tính:</label>
+                        <strong>Giới tính:</strong>
                         <p>${requestScope.account.gender.equals('male')?'Nam':(requestScope.account.gender.equals('female')?'Nữ':'Khác')}</p>
-                        <label for="">Ngày sinh:</label>
+                        <strong>Ngày sinh:</strong>
                         <p><fmt:formatDate pattern="dd/MM/yyyy" value="${requestScope.account.dateOfBirth}"/></p>
-                        <label for="">Email:</label>
+                        <strong>Email:</strong>
                         <p>${requestScope.account.email}</p>
-                        <label for="">Số điện thoại:</label>
+                        <strong>Số điện thoại:</strong>
                         <p>0${requestScope.account.phoneNumber}</p>
-                        <label for="">Địa chỉ:</label>
+                        <strong>Địa chỉ:</strong>
                         <p>${requestScope.account.address}</p>
                         <button id="info-update" onclick="window.location.href = 'infoUpdate'">Cập nhật</button>
                         <button id="info-home" onclick="window.location.href = 'home'">Trở lại</button>

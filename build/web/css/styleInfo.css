@@ -1,6 +1,9 @@
 :root {
     --tripoveMainColor: rgb(71, 143, 192);
 }
+input {
+    padding: 2px
+}
 #info {
     margin-top: 90px;
     margin-bottom: 90px;
@@ -15,7 +18,7 @@
 }
 
 #info-avatar {
-    
+
     margin-left: 50px;
     padding-top: 110px;
 }
@@ -48,9 +51,6 @@
     font-weight: 450;
 }
 
-.info-in4-1 p {
-    padding-bottom: 15px;
-}
 
 .info-in4-1 button, #update-form button {
     margin-top: 20px;

@@ -6,6 +6,11 @@
 :root {
   --tripoveMainColor: rgb(71, 143, 192);
 }
+
+.h4, h4 {
+    font-size: 23px !important;
+}
+
 #footer {
   background-color: var(--tripoveMainColor);
   color: white;

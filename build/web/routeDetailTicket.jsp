@@ -33,8 +33,8 @@
     <body>
         <%@ include file="header.jsp" %> 
         <div style="margin: 100px">
-            <div class="box row">
-                <div class="col-md-6">
+            <div class="box row" style="padding: 30px">
+                <div class="col-md-7">
                     <h2><%= cr.getName() %></h2>
                     <div class="bar">
                         <p>Ngày xuất phát:</p>
@@ -83,7 +83,7 @@
                                     <input type="submit" value="Chọn chỗ"/>
                                 </form>
                                 Trạng thái:
-                                <p><%=vc.getSeatQuantity()%>/<%=vc.getSeatQuantity()%></p>
+                                <p><%=sd.getNumberOfEmptySeatByRouteDetailId(crd.getId())%>/<%=vc.getSeatQuantity()%></p>
                             </div>
                         </div>
                         <%}%>
@@ -92,7 +92,7 @@
                 </div>
 
                 <c:if test="${not empty requestScope.seats}">  
-                    <div class="col-md-6">
+                    <div class="col-md-5">
 
                         <h2>Vé của bạn</h2>
                         <form action="buyTicket">
@@ -222,7 +222,7 @@
                             </div>
                             <div class="row" style="float: bottom;font-size: 20px">
                                 <div class="col-md-6" style="color: rgb(71, 143, 192); margin: auto 0">
-                                    Tổng tiền: <span id="totalPrice"><fmt:formatNumber value=""/></span> VND
+                                    Tổng tiền: <span id="totalPrice">0</span> VND
                                     <input type="hidden" name="totalPriceHidden" id="totalPriceHidden">
                                 </div>
                                 <div class="col-md-6">
@@ -241,6 +241,10 @@
         <script>
             let selectedSeats = [];
             let totalPrice = 0;
+
+            function formatNumberWithCommas(number) {
+                return number.toLocaleString('de-DE');
+            }
 
             function totalBill(thisSeat) {
                 const seatName = thisSeat.querySelector('.seatName').value;
@@ -263,7 +267,7 @@
                 }
 
                 const selectedSeatsText = selectedSeats.join(', ');
-                document.getElementById('totalPrice').innerText = totalPrice;
+                document.getElementById('totalPrice').innerText = formatNumberWithCommas(totalPrice);
                 document.getElementById('selectedSeats').innerText = selectedSeatsText;
                 document.getElementById('selectedSeatsHidden').value = selectedSeatsText;
                 document.getElementById('totalPriceHidden').value = totalPrice;

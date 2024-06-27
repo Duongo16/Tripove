@@ -31,8 +31,10 @@
                 <input type="radio" name="gender" value="other" ${!requestScope.account.gender.equals('male') && !requestScope.account.gender.equals('female') ? 'checked' : ''}>Khác<br>
                 Ngày sinh: <br> <input type="date" name="dateOfBirth" value="${requestScope.account.dateOfBirth}"><br>
                 Email:<br><input type="email" name="email" value="${requestScope.account.email}"/><br>
-                Số điện thoại:<br><input type="number" name="phoneNumber" value="${requestScope.account.phoneNumber}"/><br>
-                Địa chỉ:<br><input type="text" name="address" value="${requestScope.account.address}"><br>
+                Số điện thoại:<br><input type="number" name="phoneNumber" value="0${requestScope.account.phoneNumber}"/><br>
+                Địa chỉ:<br>
+                <textarea style="padding: 2px" name="address" cols="20" rows="3" value="${requestScope.account.address}">${requestScope.account.address}</textarea>
+                <br>
                 <button id="info-update" type="submit">Cập nhật</button>
                 <button id="info-home" onclick="window.location.href = 'info'">Huỷ</button>
             </form>
