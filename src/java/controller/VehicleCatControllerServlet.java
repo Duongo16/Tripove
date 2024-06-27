@@ -80,11 +80,11 @@ public class VehicleCatControllerServlet extends HttpServlet {
         request.setAttribute("account", acc);
 
         String action = request.getParameter("action");
-        
+
         String fName = request.getParameter("fName");
         String fSeatType = request.getParameter("fSeatType");
         String fSeatQuantityStr = request.getParameter("fSeatQuantity");
-        
+
         if (fSeatType == null && fName == null && fSeatQuantityStr == null) {
             request.setAttribute("allVehicleCat", vd.getAllVehicleCat());
         } else {
@@ -156,17 +156,17 @@ public class VehicleCatControllerServlet extends HttpServlet {
 
         try {
             seatQuantity = Integer.parseInt(seatQuantityStr);
+            if (image == null || image.isEmpty()) {
+                image = vcd.getImageByVehicleCatId(id);
+            } else {
+                image = "image/vehicle/" + image;
+            }
             if (checkExisted) {
                 Timestamp created_at = Timestamp.valueOf(createdAtStr);
-                if(image == null || image.isEmpty()){
-                   image = vcd.getImageByVehicleCatId(id);
-                } else {
-                    image = "image/vehicle/" + image;
-                }
-                Vehicle_Category a = new Vehicle_Category(id, name, seatType, seatQuantity, utilities, created_at, new Timestamp(System.currentTimeMillis()),image);
-                vcd.updateVehicleCat(a);//chua update seat
+                Vehicle_Category a = new Vehicle_Category(id, name, seatType, seatQuantity, utilities, created_at, new Timestamp(System.currentTimeMillis()), image);
+                vcd.updateVehicleCat(a);
             } else {
-                Vehicle_Category a = new Vehicle_Category(name, seatType, seatQuantity, utilities, new Timestamp(System.currentTimeMillis()),image);
+                Vehicle_Category a = new Vehicle_Category(name, seatType, seatQuantity, utilities, new Timestamp(System.currentTimeMillis()), image);
                 vcd.addNewVehicleCat(a);
             }
 
