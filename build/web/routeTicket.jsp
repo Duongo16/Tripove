@@ -8,7 +8,9 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page import="model.Route" %>
 <%@page import="model.Route_Detail" %>
+<%@page import="model.Location" %>
 <%@page import="dal.RouteDAO" %>
+<%@page import="dal.LocationDAO" %>
 <%@page import="dal.Route_DetailDAO" %>
 <%@page import="dal.LocationDAO" %>
 <%@page import="java.util.*" %> 
@@ -33,33 +35,113 @@
         <%@include file="header.jsp" %> 
         <div style="margin: 100px 0" class="row">
             <div class="col-md-2"></div>
-            <div id="routeFilter" class="col-md-2"></div>
+            <div class="col-md-2" style="margin-right: 25px">
+                <div class="row">
+                    <div class="route">
+                        <div style="padding: 20px">
+                            <h5 style="margin-bottom: 20px"><strong>Sắp xếp</strong></h5>
+                            <div style="display: flex">
+                                <input type="radio" value="default" name="sort" checked/> 
+                                <p>Mặc định </p>
+                            </div>
+                            <div style="display: flex">
+                                <input type="radio" value="minToMax" name="sort"/>
+                                <p>Giá tăng dần</p>
+                            </div>
+                            <div style="display: flex">
+                                <input type="radio" value="maxToMin" name="sort"/>
+                                <p>Giá giảm dần </p>
+                            </div>
+                            <div style="display: flex">
+                                <input type="radio" value="minToMax" name="sort"/> 
+                                <p>Đánh giá cao nhất</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="route">
+                        <div style="padding: 20px">
+                            <h5 style="margin-bottom: 20px"><strong>Bộ lọc</strong></h5>
+                            <form action="routeTicket">
+                                <strong>Điểm xuất phát</strong>
+                                <select name="departureLocation">
+                                    <% for(Location l : ld.getAllLocation()){
+                                    %>
+                                    <option value="<%=l.getName()%>"><%=l.getName()%></option>
+                                    <% } %>
+                                </select>
+                                <br>
+                                <strong>Điểm đến</strong>
+                                <select name="arrivalLocation">
+                                    <% for(Location l : ld.getAllLocation()){
+                                    %>
+                                    <option value="<%=l.getName()%>"><%=l.getName()%></option>
+                                    <% } %>
+                                </select>
+                                <br>
+                                <strong>Giá tiền</strong>
+                                <input type="range" min="0" max="1000000" step="10000" name="priceRange ">
+                                <br>
+                                <input type="submit" value="Lọc"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div id="routeInfo" class="col-md-6">
                 <% for(Route r : (List<Route>)request.getAttribute("allRoute")){%>
                 <div class="route row">
-                    <div id="route-image" class="col-md-4">
+                    <div class="route-image col-md-4" style="padding: 0">
                         <% for(String img : rd.getVehicleCatImageByRouteId(r.getId()) ) {%>
                         <img src="<%=img%>" alt="Hello" />
                         <%break;}%>
                     </div>
-                    <div id="route-content" class="col-md-6">
-                        <h5><%=r.getName()%></h5>
-                        <p>Xuất phát: <%=ld.getLocationNameById(r.getDeparture_Locationid())%></p>
-                        <p>Điểm đến: <%=ld.getLocationNameById(r.getArrival_Locationid())%></p>
-
-                    </div>
-                    <div class="col-md-2" >
-                        <div>
-                            <p style="color: rgb(71, 143, 192);
-                               font-weight: 700;
-                               font-size: 23px;
-                               text-align: right;
-                               margin-top: 2px;
-                               ">
-                                chỉ từ <fmt:formatNumber value="<%=r.getPrice()%>" type="number" groupingUsed="true"/>đ
+                    <div class="route-content col-md-6" style="position: relative;padding-top: 10px">
+                        <h4 style="margin-bottom: 8px"><strong><%=r.getName()%></strong></h4>
+                        <div style="font-size: 14px;width: 100%">
+                            <p style="margin-bottom: 10px">
+                                <svg width="16px" height="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="#898989" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                                <strong>Xuất phát:</strong> <%=ld.getLocationNameById(r.getDeparture_Locationid())%>
+                            </p>
+                            <p>
+                                <svg width="16px" height="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="#009900" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                                <strong>Điểm đến:</strong> <%=ld.getLocationNameById(r.getArrival_Locationid())%>
                             </p>
                         </div>
-                        <a style="" href="routeDetailTicket?routeId=<%=r.getId()%>">Tìm chuyến</a><br>
+                        <a style="text-decoration: none;
+                           color: rgb(71, 143, 192);
+                           cursor: pointer;
+                           position: absolute;
+                           bottom: 8px;
+                           font-size: 15px
+                           "
+                           class="entity-detail"
+                           onclick="displayDetail('<%=r.getId()%>')"
+                           >Chi tiết <i id="arrow<%=r.getId()%>" class="ti-arrow-down"></i></a>
+                    </div>
+                    <div class="col-md-2" style="padding: 0">
+                        <div style="position: relative;height: 100%">
+                            <div>
+                                <p style="color: rgb(71, 143, 192);
+                                   font-weight: 700;
+                                   font-size: 23px;
+                                   text-align: right;
+                                   padding-top: 6px;
+                                   padding-right: 18px
+                                   ">
+                                    chỉ từ <fmt:formatNumber value="<%=r.getPrice()%>" type="number" groupingUsed="true"/>đ
+                                </p>
+                            </div>
+                            <a style="position: absolute;
+                               bottom: 8px;
+                               text-decoration: none;
+                               background: rgb(255, 199, 0);
+                               color: rgb(72, 72, 72);
+                               font-weight: 500;
+                               border-radius: 2px;
+                               border: none;
+                               padding: 8px 12px;"
+                               href="routeDetailTicket?routeId=<%=r.getId()%>">Tìm chuyến</a><br>
+                        </div>
                     </div>
 
                     <div id="route-detail<%=r.getId()%>" style="display: none; margin-top: 25px">
@@ -75,20 +157,7 @@
                         <% } %>
                         <br>
                     </div>
-                        
-                    <a style="text-decoration: none;
-                       background-color: rgb(71, 143, 192);
-                       color: white;
-                       cursor: pointer;
-                       text-align: center;
-                       border-bottom-right-radius: 10px;
-                       border-bottom-left-radius: 10px;
-                       padding: 6px 0;"
-                       class="entity-detail"
-                       onclick="displayDetail('<%=r.getId()%>')"
-                       >Detail <i id="arrow<%=r.getId()%>" class="ti-arrow-down"></i></a>
                 </div>
-
                 <%}%>
             </div>
             <div class="col-md-2"></div>
