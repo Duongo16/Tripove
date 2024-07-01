@@ -25,11 +25,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <link rel="stylesheet" href="css/styleRouteTicket.css"/>
+        <script src="js/locationBox.js" type="text/javascript"></script>
         <style>
             body{
                 background-color: rgb(242, 242, 242);
             }
-*          
+            *
         </style>
     </head>
     <body>
@@ -65,31 +66,52 @@
                         <div style="padding: 20px">
                             <h5 style="margin-bottom: 20px"><strong>Bộ lọc</strong></h5>
                             <form action="routeTicket">
-                                <strong>Điểm xuất phát:</strong>
-                                <select name="fDepartureLocation" style="margin-bottom: 16px">
-                                    <option value=""></option>
+                                <ul id="all-location" style="display: none">
                                     <% for(Location l : ld.getAllLocation()){
                                     %>
-                                    <option value="<%=l.getName()%>"><%=l.getName()%></option>
-                                    <% } %>
-                                </select>
-                                <br>
-                                <strong>Điểm đến: </strong>
-                                <select name="fArrivalLocation" style="margin-bottom: 16px">
-                                    <option value=""></option>
-                                    <% for(Location l : ld.getAllLocation()){
-                                    %>
-                                    <option value="<%=l.getName()%>"><%=l.getName()%></option>
-                                    <% } %>
-                                </select>
-                                <br>
-                                <strong>Giá tiền: </strong> <span id="priceValue">100.000</span>đ
-                                <div style="display: flex">
-                                    0đ<input type="range" min="0" max="600000" step="10000" name="fPrice" id="priceRange" value="600000">600kđ
+                                    <li value="<%=l.getName()%>"><%=l.getName()%></li>
+                                        <% } %>
+                                </ul>
+
+                                <div style="display: flex;margin-bottom: 18px">
+                                    <svg style="margin: auto 2px" width="27px" height="27px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="#2872ff" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                                    <div class="home-search-item" id="departure-box">
+                                        <input type="text" style="width: 164px;" value="${requestScope.fDepartureLocation}"  id="departure-input-box" name="fDepartureLocation" placeholder="Điểm xuất phát" autocomplete="off"/>
+                                        <div class="departure-result-box result-box"></div>
+                                    </div>
                                 </div>
-                                <br>
-                                <input type="submit" value="Lọc"/>
-                            </form>
+
+                                <div style="display: flex;margin-bottom: 18px">
+                                    <svg style="margin: auto 2px" width="27px" height="27px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="#f20000" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                                    <div class="home-search-item" id="arrival-box">
+                                        <input type="text" style="width: 164px" value="${requestScope.fArrivalLocation}" id="arrival-input-box" name="fArrivalLocation" placeholder="Điểm đến" autocomplete="off"/>
+                                        <div class="arrival-result-box result-box"></div>
+                                    </div>
+                                </div>
+
+                                <div class="home-search-item">
+                                    <div style="display: flex">
+                                        <strong style="margin: 3px 3px 3px 0;">Giá tiền: </strong>
+                                        <strong style="margin: auto 0"><p style="color: rgb(71, 143, 192);margin: auto 0" id="priceValue">600.000đ</p></strong>
+                                    </div>
+                                    <div class="price-range-container" style="display: flex">
+                                        <input style="padding: 5px" type="range" min="0" max="600000" step="50000" name="fPrice" id="priceRange" value="600000">
+                                    </div>
+                                </div>
+                                <button type="submit" id="home-search-button" 
+                                        style="    text-decoration: none;
+                                        background: rgb(255, 199, 0);
+                                        color: rgb(72, 72, 72);
+                                        font-weight: 800;
+                                        border-radius: 5px;
+                                        border: none;
+                                        float: right;
+                                        padding: 7px 18px;
+                                        margin: 11px 0;">
+                                    Lọc             
+                                </button>
+
+                            </form>                        
                         </div>
                     </div>
                 </div>
@@ -139,16 +161,7 @@
                                     chỉ từ <fmt:formatNumber value="<%=r.getPrice()%>" type="number" groupingUsed="true"/>đ
                                 </p>
                             </div>
-                            <a style="position: absolute;
-                               bottom: 8px;
-                               text-decoration: none;
-                               background: rgb(255, 199, 0);
-                               color: rgb(72, 72, 72);
-                               font-weight: 800;
-                               border-radius: 2px;
-                               border: none;
-                               padding: 8px 12px;"
-                               href="routeDetailTicket?routeId=<%=r.getId()%>">Tìm chuyến</a><br>
+                            <a class="routeTicket-button" href="routeDetailTicket?routeId=<%=r.getId()%>">Tìm chuyến</a><br>
                         </div>
                     </div>
 
@@ -172,32 +185,30 @@
 
         </div>
         <%@include file="footer.jsp" %>
+        <script src="js/locationBox.js" type="text/javascript"></script>
 
-        <script type="text/javascript">
-            const priceRange = document.getElementById('priceRange');
-            const priceValue = document.getElementById('priceValue');
+        <script>
+                               const priceRange = document.getElementById('priceRange');
+                               const priceValue = document.getElementById('priceValue');
 
-            function updatePrice() {
-                priceValue.textContent = Number(priceRange.value).toLocaleString('vi-VN');
-            }
-            priceRange.addEventListener('input', updatePrice);
+                               function updatePrice() {
+                                   priceValue.textContent = Number(priceRange.value).toLocaleString('vi-VN') + " đ";
+                               }
+                               priceRange.addEventListener('input', updatePrice);
 
-            function displayDetail(id) {
-                var detail = document.getElementById("route-detail" + id);
-                var arrow = document.getElementById("arrow" + id);
-                if (detail.style.display === 'none') {
-                    detail.style.display = 'table-row';
-                    arrow.classList.remove("ti-arrow-down");
-                    arrow.classList.add("ti-arrow-up");
-                } else {
-                    detail.style.display = 'none';
-                    F
-                    arrow.classList.remove("ti-arrow-up");
-                    arrow.classList.add("ti-arrow-down");
-                }
-            }
-
-
+                               function displayDetail(id) {
+                                   var detail = document.getElementById("route-detail" + id);
+                                   var arrow = document.getElementById("arrow" + id);
+                                   if (detail.style.display === 'none') {
+                                       detail.style.display = 'table-row';
+                                       arrow.classList.remove("ti-arrow-down");
+                                       arrow.classList.add("ti-arrow-up");
+                                   } else {
+                                       detail.style.display = 'none';
+                                       arrow.classList.remove("ti-arrow-up");
+                                       arrow.classList.add("ti-arrow-down");
+                                   }
+                               }
         </script>
     </body>
 </html>

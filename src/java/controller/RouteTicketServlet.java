@@ -75,6 +75,9 @@ public class RouteTicketServlet extends HttpServlet {
         } else {
             try{
                 int fPrice = Integer.parseInt(fPriceStr);
+                request.setAttribute("fDepartureLocation", fDepartureLocation);
+                request.setAttribute("fArrivalLocation", fArrivalLocation);
+                request.setAttribute("fPrice", fPrice);
                 request.setAttribute("allRoute", rd.getAllFilteredRoute(fDepartureLocation, fArrivalLocation, fPrice)); 
             }catch(Exception e){
                 

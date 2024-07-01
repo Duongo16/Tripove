@@ -12,11 +12,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link rel="shortcut icon" type="image/jpg" href="image/logo-icon.png" />
         <title>Tripove</title>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap"
-            rel="stylesheet"
-            />
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="css/styleHome.css" />
+
     </head>
     <body>
 
@@ -50,7 +48,7 @@
                     <div class="home-search-item">
                         <div style="display: flex">
                             <strong style="margin: 3px 3px 3px 0;">Giá tiền: </strong>
-                            <p style="color: red;margin: auto 0" id="priceValue">600.000đ</p>
+                            <p style="color: rgb(71, 143, 192);margin: auto 0" id="priceValue">600.000đ</p>
                         </div>
                         <div class="price-range-container" style="display: flex">
                             <input style="padding: 5px" type="range" min="0" max="600000" step="50000" name="fPrice" id="priceRange" value="600000">
@@ -68,8 +66,10 @@
         </div>
 
         <%@include file="footer.jsp" %>
-        <!--        <div class="loader" style=" background-image: url('image/background.png')"></div>-->
+        <!--                <div class="loader" style=" background-image: url('image/background.png')"></div>-->
+        <script src="js/locationBox.js" type="text/javascript">
 
+        </script>
         <script>
             window.addEventListener("load", () => {
                 const loader = document.querySelector(".loader");
@@ -79,54 +79,6 @@
                 });
             });
 
-
-            const departureResultsBox = document.querySelector(".departure-result-box");
-            const departureInputBox = document.getElementById("departure-input-box");
-            const departureBox = document.getElementById("departure-box");
-            const arrivalResultsBox = document.querySelector(".arrival-result-box");
-            const arrivalInputBox = document.getElementById("arrival-input-box");
-            const arrivalBox = document.getElementById("arrival-box");
-            const allLocationElements = document.querySelectorAll("#all-location li");
-            const allLocation = Array.from(allLocationElements).map(li => li.textContent);
-
-            function handleKeyUp(inputBox, resultsBox) {
-                let result = [];
-                let input = inputBox.value;
-                if (input.length) {
-                    result = allLocation.filter((keyword) => {
-                        return keyword.toLowerCase().includes(input.toLowerCase());
-                    });
-                }
-                const content = result.map((list) => {
-                    return "<li onclick='selectInput(\"" + inputBox.id + "\", \"" + list + "\")'>" + list + "</li>";
-                }).join("");
-
-                resultsBox.innerHTML = "<ul>" + content + "</ul>";
-            }
-
-
-            function selectInput(inputBoxId, value) {
-                document.getElementById(inputBoxId).value = value;
-                document.getElementById(inputBoxId).nextElementSibling.innerHTML = '';
-            }
-
-            departureInputBox.onkeyup = function () {
-                handleKeyUp(departureInputBox, departureResultsBox);
-            };
-
-            arrivalInputBox.onkeyup = function () {
-                handleKeyUp(arrivalInputBox, arrivalResultsBox);
-            };
-
-            departureBox.addEventListener('blur', function () {
-                departureResultsBox.innerHTML = '';
-            });
-
-            arrivalBox.addEventListener('blur', function () {
-                arrivalResultsBox.innerHTML = '';
-            });
-
-
             const priceRange = document.getElementById('priceRange');
             const priceValue = document.getElementById('priceValue');
 
@@ -134,8 +86,6 @@
                 priceValue.textContent = Number(priceRange.value).toLocaleString('vi-VN') + "đ";
             }
             priceRange.addEventListener('input', updatePrice);
-
-
         </script>
     </body>
 </html>
