@@ -106,7 +106,7 @@
                         <h4 style="margin-bottom: 8px"><strong><%=r.getName()%></strong></h4>
                         <div style="font-size: 14px;width: 100%">
                             <p style="margin-bottom: 0px">
-                                <svg width="16px" height="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="#898989" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                                <svg width="16px" height="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="#2872ff" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
                                 <strong>Xuất phát:</strong> <%=ld.getLocationNameById(r.getDeparture_Locationid())%>
                             </p>
                             <svg style="margin: 3px 0" width="16px" height="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z"/></svg>

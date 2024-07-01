@@ -6,6 +6,87 @@ body {
     --tripoveMainColor: rgb(71, 143, 192);
 }
 
+
+#home-search-button{
+    padding: 5px;
+}
+
+#home-search {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.home-search-item {
+    position: relative;
+    margin: auto 0;
+    margin-right: 20px;
+}
+
+.home-search-item strong {
+    margin-bottom: 8px;
+}
+
+
+#priceValue {
+    font-weight: bold;
+    color: #d32f2f;
+    margin-bottom: 8px;
+}
+
+input {
+    padding: 6px 8px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+}
+
+#home-search-button {
+    background-color: #ffce00;
+    color: #000;
+    border: none;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 650;
+    width: 115px;
+}
+
+#home-search-button:hover {
+    background-color: #ffc107;
+}
+.result-box{
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1), 0 0 1px 0 rgba(0, 0, 0, 0.1);
+    margin: 0;
+    position: absolute;
+    background-color: white;
+    width: 100%;
+    border-radius: 5PX
+}
+.result-box ul{
+    padding: 0;
+    margin: 0
+}
+
+.result-box ul li{
+    list-style: none;
+    padding: 10px 10px;
+}
+
+.result-box ul li:hover{
+    background: rgb(71, 143, 192);
+    color: white
+}
+
+
 .loader {
     background-image: url('image/background.png');
     position: fixed;
