@@ -5,28 +5,26 @@ import java.sql.Timestamp;
 public class Evaluate {
 
     private int id;
-    private Integer star;
+    private int star;
     private String comment;
-    private int vehicleid;
+    private int accountId;
+    private int routeId;
+    private int routeDetailId;
     private Timestamp created_at;
     private Timestamp updated_at;
-    public Account account;
-    public Vehicle vehiclelicensePlate;
-    public Route route;
 
     public Evaluate() {
     }
 
-    public Evaluate(int id, Integer star, String comment, int vehicleid, Timestamp created_at, Timestamp updated_at, Account account, Vehicle vehiclelicensePlate, Route route) {
+    public Evaluate(int id, int star, String comment, int accountId, int routeId, int routeDetailId, Timestamp created_at, Timestamp updated_at) {
         this.id = id;
         this.star = star;
         this.comment = comment;
-        this.vehicleid = vehicleid;
+        this.accountId = accountId;
+        this.routeId = routeId;
+        this.routeDetailId = routeDetailId;
         this.created_at = created_at;
         this.updated_at = updated_at;
-        this.account = account;
-        this.vehiclelicensePlate = vehiclelicensePlate;
-        this.route = route;
     }
 
     public int getId() {
@@ -37,11 +35,11 @@ public class Evaluate {
         this.id = id;
     }
 
-    public Integer getStar() {
+    public int getStar() {
         return star;
     }
 
-    public void setStar(Integer star) {
+    public void setStar(int star) {
         this.star = star;
     }
 
@@ -53,12 +51,28 @@ public class Evaluate {
         this.comment = comment;
     }
 
-    public int getVehicleid() {
-        return vehicleid;
+    public int getAccountId() {
+        return accountId;
     }
 
-    public void setVehicleid(int vehicleid) {
-        this.vehicleid = vehicleid;
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
+    }
+
+    public int getRouteId() {
+        return routeId;
+    }
+
+    public void setRouteId(int routeId) {
+        this.routeId = routeId;
+    }
+
+    public int getRouteDetailId() {
+        return routeDetailId;
+    }
+
+    public void setRouteDetailId(int routeDetailId) {
+        this.routeDetailId = routeDetailId;
     }
 
     public Timestamp getCreated_at() {
@@ -76,29 +90,8 @@ public class Evaluate {
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
     }
+    
+    
 
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    public Vehicle getVehiclelicensePlate() {
-        return vehiclelicensePlate;
-    }
-
-    public void setVehiclelicensePlate(Vehicle vehiclelicensePlate) {
-        this.vehiclelicensePlate = vehiclelicensePlate;
-    }
-
-    public Route getRoute() {
-        return route;
-    }
-
-    public void setRoute(Route route) {
-        this.route = route;
-    }
-
+    
 }

@@ -24,7 +24,7 @@ public class RouteDAO extends DBContext {
 //        rd.updateRoute(new Route(2007, "Hà Nội Hải Phòng", 10002, Date.valueOf("2024-12-12"),
 //                Time.valueOf("12:12:00"), new Timestamp(System.currentTimeMillis()), null, 1,
 //                "98A-12345", 2));
-        System.out.println(rd.getVehicleCatImageByRouteId(1));
+        System.out.println(rd.getAllFilteredRoute("Hà Nội", "Bắc Giang", 100000));
     }
 
     public List<Route> getAllRoute() {
@@ -32,6 +32,55 @@ public class RouteDAO extends DBContext {
         String sql = "SELECT * FROM [dbo].[Route]";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Route a = new Route(rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getInt("price"),
+                        rs.getInt("departure_Locationid"),
+                        rs.getInt("arrival_Locationid"),
+                        rs.getString("detail"),
+                        rs.getTimestamp("created_at"),
+                        rs.getTimestamp("updated_at"));
+                ls.add(a);
+            }
+            return ls;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public List<Route> getAllFilteredRoute(String departureLocation, String arrivalLocation, int price) {
+        List<Route> ls = new ArrayList<>();
+        String sql = "SELECT * FROM [dbo].[Route] WHERE 1=1";
+
+        if (departureLocation != null && !departureLocation.isEmpty()) {
+            sql += " AND departure_Locationid = ("
+                    + "SELECT id FROM Location WHERE name = ?"
+                    + ")";
+        }
+        if (arrivalLocation != null && !arrivalLocation.isEmpty()) {
+            sql += " AND arrival_Locationid = ("
+                    + "SELECT id FROM Location WHERE name = ?"
+                    + ")";
+        }
+        if (price != -1) {
+            sql += " AND price <= ?";
+        }
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            int i = 1;
+            if (departureLocation != null && !departureLocation.isEmpty()) {
+                ps.setString(i++, departureLocation);
+            }
+            if (arrivalLocation != null && !arrivalLocation.isEmpty()) {
+                ps.setString(i++, arrivalLocation );
+            }
+            if (price != -1) {
+                ps.setInt(i++, price );
+            }
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Route a = new Route(rs.getInt("id"),
@@ -119,7 +168,6 @@ public class RouteDAO extends DBContext {
 
         }
     }
-
 
     public void deleteRouteByVehicleCatId(int vehicleCatId) {
         String sql = "DELETE FROM [dbo].[Route] "
@@ -213,13 +261,13 @@ public class RouteDAO extends DBContext {
             ps.setInt(1, routeId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    for(String ei : listImage){
-                        if(ei.equals(rs.getString("image"))){
+                    for (String ei : listImage) {
+                        if (ei.equals(rs.getString("image"))) {
                             check = 1;
                             break;
-                        }       
+                        }
                     }
-                    if(check==0){
+                    if (check == 0) {
                         listImage.add(rs.getString("image"));
                     } else {
                         check = 0;

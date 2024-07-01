@@ -66,9 +66,24 @@ public class RouteTicketServlet extends HttpServlet {
         Integer id = (Integer) session.getAttribute("id");
         int i = (id != null) ? id : -1; 
         
+        String fDepartureLocation = request.getParameter("fDepartureLocation");
+        String fArrivalLocation = request.getParameter("fArrivalLocation");
+        String fPriceStr = request.getParameter("fPrice");
+        
+        if(fDepartureLocation == null && fArrivalLocation==null && fPriceStr==null){
+            request.setAttribute("allRoute", rd.getAllRoute()); 
+        } else {
+            try{
+                int fPrice = Integer.parseInt(fPriceStr);
+                request.setAttribute("allRoute", rd.getAllFilteredRoute(fDepartureLocation, fArrivalLocation, fPrice)); 
+            }catch(Exception e){
+                
+            }
+        }
+        
         Account acc = ad.getAccountById(i);
         request.setAttribute("account", acc);
-        request.setAttribute("allRoute", rd.getAllRoute());
+        
         request.getRequestDispatcher("routeTicket.jsp").forward(request, response);
     } 
 

@@ -6,12 +6,14 @@
             <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/components/header.jsp</file>
         </group>
         <group name="PRJ301">
-            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/model/Vehicle_Category.java</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/dal/Route_DetailDAO.java</file>
             <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/css/styleRouteTicket.css</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/model/Evaluate.java</file>
             <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/routeTicket.jsp</file>
-            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/routeDetailTicket.jsp</file>
-            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/controller/VehicleCatControllerServlet.java</file>
-            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/dal/LocationDAO.java</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/buyingHistory.jsp</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/controller/EvaluateServlet.java</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/evaluate.jsp</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/dal/EvaluateDAO.java</file>
         </group>
     </open-files>
 </project-private>

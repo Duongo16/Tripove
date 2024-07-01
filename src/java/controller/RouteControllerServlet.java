@@ -88,7 +88,9 @@ public class RouteControllerServlet extends HttpServlet {
         request.setAttribute("vehicleList", vd.getAllVehicle());
         request.setAttribute("locationList", ld.getAllLocation());
 
-        String id_raw = request.getParameter("id");
+        String idStr = request.getParameter("id");
+        String routeDetailIdStr = request.getParameter("routeDetailId");
+        String seatName = request.getParameter("seatName");
         String action = request.getParameter("action");
 
         request.setAttribute("allRouteDetail", rdd.getAllRouteDetail());
@@ -115,7 +117,7 @@ public class RouteControllerServlet extends HttpServlet {
         }
         if (action != null && !action.equals("search")) {
             try {
-                int id = Integer.parseInt(id_raw);
+                int id = Integer.parseInt(idStr);
                 if (action.equals("delete")) {
                     sd.deleteSeatByRouteId(id);
                     rdd.deleteRouteDetailByRouteId(id);
@@ -130,6 +132,10 @@ public class RouteControllerServlet extends HttpServlet {
                     response.sendRedirect("routeController");
                 } else if (action.equals("updateDetail")) {
                     request.setAttribute("currentRouteDetail", rdd.getRouteDetailById(id));
+                    request.getRequestDispatcher("routeController.jsp").forward(request, response);
+                } else if (action.equals("updateSeat")) {
+                    int routeDetailId = Integer.parseInt(routeDetailIdStr);
+                    request.setAttribute("currentSeat", sd.getSeatByRouteDetailIdAndSeatName(routeDetailId, seatName));
                     request.getRequestDispatcher("routeController.jsp").forward(request, response);
                 }
             } catch (Exception e) {

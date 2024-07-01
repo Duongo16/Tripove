@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
+import model.Route;
 import model.Route_Detail;
 import model.Seat;
 
@@ -22,7 +23,7 @@ public class Route_DetailDAO extends DBContext {
     public static void main(String[] args) {
         Route_DetailDAO rdd = new Route_DetailDAO();
         //rdd.addRouteDetail(new Route_Detail(1, null, null, "98A-12345", new Timestamp(System.currentTimeMillis()), null));
-        System.out.println(rdd.getPriceByRouteDetailId(1044));
+        System.out.println(rdd.getRouteByRouteDetailId(1048));
 
     }
 
@@ -91,6 +92,30 @@ public class Route_DetailDAO extends DBContext {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public Route getRouteByRouteDetailId(int id) {
+        String sql = "SELECT * FROM Route WHERE id = ("
+                + "SELECT Routeid FROM [dbo].[Route_Detail] WHERE id = ?"
+                + ")";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Route(rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getInt("price"),
+                        rs.getInt("departure_Locationid"),
+                        rs.getInt("arrival_Locationid"),
+                        rs.getString("detail"),
+                        rs.getTimestamp("created_at"),
+                        rs.getTimestamp("updated_at"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
     }
 
     public boolean deleteRouteDetailById(int id) {

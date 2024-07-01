@@ -6,6 +6,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
 <%@ page import="model.Seat"%>
+<%@ page import="model.Route"%>
 <%@ page import="model.Account"%>
 <%@ page import="model.Route_Detail"%>
 <%@ page import="dal.SeatDAO" %>
@@ -35,21 +36,24 @@
                         <th>Giờ xuất phát</th>
                         <th>Thời gian thanh toán</th>
                         <th>Trạng thái</th>
+                        <th>Đánh giá</th>
                     </tr>
                 </thead>
                 <tbody>
                     <% 
                         for (Seat s : sd.getSeatByAccountId((int)request.getAttribute("accountId"))) {
                             Route_Detail rd = rdd.getRouteDetailById(s.getRouteDetailId());
+                            Route r = rdd.getRouteByRouteDetailId(s.getRouteDetailId());
                     %>
                     <tr>
-                        <td><%= s.getRouteDetailId() %></td>
-                        <td><%= s.getName() %></td>
-                        <td><%= s.getPickUp() %></td>
-                        <td><%= rd.getDepartureDate() %></td>
-                        <td><%= rd.getDepartureTime() %></td>
-                        <td><%= s.getPaymentDate() %></td>
+                        <td><%= r.getName()%></td>
+                        <td><%= s.getName()%></td>
+                        <td><%= s.getPickUp()%></td>
+                        <td><%= rd.getDepartureDate()%></td>
+                        <td><%= rd.getDepartureTime()%></td>
+                        <td><%= s.getPaymentDate()%></td>
                         <td><strong style="color: green">Đã thanh toán</strong></td>
+                        <td><a href="evaluate?routeDetailId=<%= s.getRouteDetailId()%>&seatName=<%= s.getName()%>">Đánh giá</a></td>
                     </tr>
                     <% 
                         }

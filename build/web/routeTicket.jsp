@@ -29,6 +29,7 @@
             body{
                 background-color: rgb(242, 242, 242);
             }
+*          
         </style>
     </head>
     <body>
@@ -40,21 +41,23 @@
                     <div class="route">
                         <div style="padding: 20px">
                             <h5 style="margin-bottom: 20px"><strong>Sắp xếp</strong></h5>
-                            <div style="display: flex">
-                                <input type="radio" value="default" name="sort" checked/> 
-                                <p>Mặc định </p>
-                            </div>
-                            <div style="display: flex">
-                                <input type="radio" value="minToMax" name="sort"/>
-                                <p>Giá tăng dần</p>
-                            </div>
-                            <div style="display: flex">
-                                <input type="radio" value="maxToMin" name="sort"/>
-                                <p>Giá giảm dần </p>
-                            </div>
-                            <div style="display: flex">
-                                <input type="radio" value="minToMax" name="sort"/> 
-                                <p>Đánh giá cao nhất</p>
+                            <div style="font-size: 15px">
+                                <div style="display: flex">
+                                    <input type="radio" value="default" name="sort" checked/> 
+                                    <p>Mặc định </p>
+                                </div>
+                                <div style="display: flex">
+                                    <input type="radio" value="minToMax" name="sort"/>
+                                    <p>Giá tăng dần</p>
+                                </div>
+                                <div style="display: flex">
+                                    <input type="radio" value="maxToMin" name="sort"/>
+                                    <p>Giá giảm dần </p>
+                                </div>
+                                <div style="display: flex">
+                                    <input type="radio" value="minToMax" name="sort"/> 
+                                    <p>Đánh giá cao nhất</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -62,24 +65,28 @@
                         <div style="padding: 20px">
                             <h5 style="margin-bottom: 20px"><strong>Bộ lọc</strong></h5>
                             <form action="routeTicket">
-                                <strong>Điểm xuất phát</strong>
-                                <select name="departureLocation">
+                                <strong>Điểm xuất phát:</strong>
+                                <select name="fDepartureLocation" style="margin-bottom: 16px">
+                                    <option value=""></option>
                                     <% for(Location l : ld.getAllLocation()){
                                     %>
                                     <option value="<%=l.getName()%>"><%=l.getName()%></option>
                                     <% } %>
                                 </select>
                                 <br>
-                                <strong>Điểm đến</strong>
-                                <select name="arrivalLocation">
+                                <strong>Điểm đến: </strong>
+                                <select name="fArrivalLocation" style="margin-bottom: 16px">
+                                    <option value=""></option>
                                     <% for(Location l : ld.getAllLocation()){
                                     %>
                                     <option value="<%=l.getName()%>"><%=l.getName()%></option>
                                     <% } %>
                                 </select>
                                 <br>
-                                <strong>Giá tiền</strong>
-                                <input type="range" min="0" max="1000000" step="10000" name="priceRange ">
+                                <strong>Giá tiền: </strong> <span id="priceValue">100.000</span>đ
+                                <div style="display: flex">
+                                    0đ<input type="range" min="0" max="600000" step="10000" name="fPrice" id="priceRange" value="600000">600kđ
+                                </div>
                                 <br>
                                 <input type="submit" value="Lọc"/>
                             </form>
@@ -98,12 +105,13 @@
                     <div class="route-content col-md-6" style="position: relative;padding-top: 10px">
                         <h4 style="margin-bottom: 8px"><strong><%=r.getName()%></strong></h4>
                         <div style="font-size: 14px;width: 100%">
-                            <p style="margin-bottom: 10px">
+                            <p style="margin-bottom: 0px">
                                 <svg width="16px" height="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="#898989" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
                                 <strong>Xuất phát:</strong> <%=ld.getLocationNameById(r.getDeparture_Locationid())%>
                             </p>
+                            <svg style="margin: 3px 0" width="16px" height="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z"/></svg>
                             <p>
-                                <svg width="16px" height="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="#009900" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                                <svg width="16px" height="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="#f20000" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
                                 <strong>Điểm đến:</strong> <%=ld.getLocationNameById(r.getArrival_Locationid())%>
                             </p>
                         </div>
@@ -136,7 +144,7 @@
                                text-decoration: none;
                                background: rgb(255, 199, 0);
                                color: rgb(72, 72, 72);
-                               font-weight: 500;
+                               font-weight: 800;
                                border-radius: 2px;
                                border: none;
                                padding: 8px 12px;"
@@ -166,6 +174,14 @@
         <%@include file="footer.jsp" %>
 
         <script type="text/javascript">
+            const priceRange = document.getElementById('priceRange');
+            const priceValue = document.getElementById('priceValue');
+
+            function updatePrice() {
+                priceValue.textContent = Number(priceRange.value).toLocaleString('vi-VN');
+            }
+            priceRange.addEventListener('input', updatePrice);
+
             function displayDetail(id) {
                 var detail = document.getElementById("route-detail" + id);
                 var arrow = document.getElementById("arrow" + id);
@@ -175,6 +191,7 @@
                     arrow.classList.add("ti-arrow-up");
                 } else {
                     detail.style.display = 'none';
+                    F
                     arrow.classList.remove("ti-arrow-up");
                     arrow.classList.add("ti-arrow-down");
                 }
