@@ -14,12 +14,22 @@
     <body>
         <%@ include file="header.jsp" %> 
         <div style="margin: 100px">
-            <form method="" action=""> 
-                <textarea id="comment" name="comment" rows="5" cols="10"></textarea>
+            <form method="post" action="evaluate"> 
+                <input type="hidden" name="accountId" value="${sessionScope.id}"/>
+                <input type="hidden" name="routeDetailId" value="${requestScope.routeDetailId}"/>
+                <textarea id="editor" name="editor" rows="5" cols="10"></textarea>
                 <input type="submit" value="Submit"/>
             </form>
         </div>
-        <%@ include file="footer.jsp" %>
+        <script src="https://cdn.ckeditor.com/ckeditor5/12.3.1/classic/ckeditor.js"></script>
+        <script>
+            ClassicEditor
+                    .create(document.querySelector('#editor'))
+                    .catch(error => {
+                        console.error(error);
+                    });
+        </script>
+        <%@ include file="footer.jsp" %>z
     </body>
 
 </html>

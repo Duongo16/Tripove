@@ -7,9 +7,10 @@
         </group>
         <group name="PRJ301">
             <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/home.jsp</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/css/styleRouteTicket.css</file>
             <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/routeTicket.jsp</file>
             <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/controller/RouteTicketServlet.java</file>
-            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/css/styleHome.css</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/js/locationBox.js</file>
         </group>
     </open-files>
 </project-private>

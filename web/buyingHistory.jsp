@@ -53,7 +53,7 @@
                         <td><%= rd.getDepartureTime()%></td>
                         <td><%= s.getPaymentDate()%></td>
                         <td><strong style="color: green">Đã thanh toán</strong></td>
-                        <td><a href="evaluate?routeDetailId=<%= s.getRouteDetailId()%>&seatName=<%= s.getName()%>">Đánh giá</a></td>
+                        <td><a href="evaluate?routeDetailId=<%= s.getRouteDetailId()%>">Đánh giá</a></td>
                     </tr>
                     <% 
                         }

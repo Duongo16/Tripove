@@ -8,7 +8,6 @@ public class Evaluate {
     private int star;
     private String comment;
     private int accountId;
-    private int routeId;
     private int routeDetailId;
     private Timestamp created_at;
     private Timestamp updated_at;
@@ -16,12 +15,11 @@ public class Evaluate {
     public Evaluate() {
     }
 
-    public Evaluate(int id, int star, String comment, int accountId, int routeId, int routeDetailId, Timestamp created_at, Timestamp updated_at) {
+    public Evaluate(int id, int star, String comment, int accountId, int routeDetailId, Timestamp created_at, Timestamp updated_at) {
         this.id = id;
         this.star = star;
         this.comment = comment;
         this.accountId = accountId;
-        this.routeId = routeId;
         this.routeDetailId = routeDetailId;
         this.created_at = created_at;
         this.updated_at = updated_at;
@@ -59,14 +57,6 @@ public class Evaluate {
         this.accountId = accountId;
     }
 
-    public int getRouteId() {
-        return routeId;
-    }
-
-    public void setRouteId(int routeId) {
-        this.routeId = routeId;
-    }
-
     public int getRouteDetailId() {
         return routeDetailId;
     }
@@ -90,8 +80,10 @@ public class Evaluate {
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
     }
-    
-    
 
-    
+    @Override
+    public String toString() {
+        return "Evaluate{" + "id=" + id + ", star=" + star + ", comment=" + comment + ", accountId=" + accountId + ", routeDetailId=" + routeDetailId + ", created_at=" + created_at + ", updated_at=" + updated_at + '}';
+    }
+
 }

@@ -12,20 +12,23 @@ import java.sql.PreparedStatement;
  * @author Admin
  */
 public class EvaluateDAO extends DBContext {
+    
+    public static void main(String[] args) {
+        EvaluateDAO ed = new EvaluateDAO();
+        ed.addEvaluate(new Evaluate(1, 5, "rất ok", 1, 1, null, null));
+    }
 
     public void addEvaluate(Evaluate e) {
-        String sql = "INSERT INTO [dbo].[Evaluate] (id, star, comment, accountId, routeId, routeDetailId, created_at, updated_at) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO [dbo].[Evaluate] (star, comment, accountId, Route_Detailid, created_at, updated_at) "
+                + "VALUES (?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, e.getId());
-            ps.setInt(2, e.getStar());
-            ps.setString(3, e.getComment());
-            ps.setInt(4, e.getAccountId());
-            ps.setInt(5, e.getRouteId());
-            ps.setInt(6, e.getRouteDetailId());
-            ps.setTimestamp(7, e.getCreated_at());
-            ps.setTimestamp(8, e.getUpdated_at());
+            ps.setInt(1, e.getStar());
+            ps.setString(2, e.getComment());
+            ps.setInt(3, e.getAccountId());
+            ps.setInt(4, e.getRouteDetailId());
+            ps.setTimestamp(5, e.getCreated_at());
+            ps.setTimestamp(6, e.getUpdated_at());
             ps.executeUpdate();
         } catch (Exception ex) {
             System.out.println(ex);
