@@ -30,22 +30,23 @@
                         <form action="vehicleController" method="get" style="margin-bottom: 20px;">
                             <input type="hidden" name="action" value="search">
                             <strong>License plate: </strong>
-                            <input class="filterElm" type="text" name="flicensePlate" placeholder="Enter license plate">
+                            <input class="filterElm" type="text" name="flicensePlate" value="${param.flicensePlate}" placeholder="Enter license plate">
                             <strong>Vehicle category: </strong>
                             <select class="filterElm" name="fVehicleCat">
                                 <option value="">All</option>
                                 <c:forEach items="${requestScope.vehicleCatList}" var="vcl">
-                                    <option value="${vcl.id}" >
+                                    <option value="${vcl.id}" ${(param.fVehicleCat==vcl.id)?'selected':''} >
                                         ${vcl.name}
                                     </option>
                                 </c:forEach>
                             </select>
                             <strong>Status: </strong>
-                            <input class="filterElm" type="number" name="fStatus" placeholder="Enter status">
-                            <button class="entity-update" type="submit" style="width: 80px" >
+                            <input class="filterElm" type="number" value="${param.fStatus}" name="fStatus" placeholder="Enter status">
+                            <button class="entity-update" type="submit" style="width: 60px" >
                                 <i class="ti-search"></i>
-                                Search
+                                Lọc
                             </button>
+                            <a class="entity-delete" href="vehicleController">Huỷ</a>
                         </form>
                     </div>
                     <table class="entity">

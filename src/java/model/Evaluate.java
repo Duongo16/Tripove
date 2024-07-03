@@ -14,6 +14,15 @@ public class Evaluate {
 
     public Evaluate() {
     }
+    
+    public Evaluate(int star, String comment, int accountId, int routeDetailId, Timestamp created_at, Timestamp updated_at) {
+        this.star = star;
+        this.comment = comment;
+        this.accountId = accountId;
+        this.routeDetailId = routeDetailId;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
 
     public Evaluate(int id, int star, String comment, int accountId, int routeDetailId, Timestamp created_at, Timestamp updated_at) {
         this.id = id;

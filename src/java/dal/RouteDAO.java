@@ -24,7 +24,7 @@ public class RouteDAO extends DBContext {
 //        rd.updateRoute(new Route(2007, "Hà Nội Hải Phòng", 10002, Date.valueOf("2024-12-12"),
 //                Time.valueOf("12:12:00"), new Timestamp(System.currentTimeMillis()), null, 1,
 //                "98A-12345", 2));
-        System.out.println(rd.getAllFilteredRoute("Hà Nội", "Bắc Giang", 100000));
+        System.out.println(rd.findRoute(null,-1,-1,100000));
     }
 
     public List<Route> getAllRoute() {
@@ -211,7 +211,7 @@ public class RouteDAO extends DBContext {
             sql.append(" AND arrival_Locationid = ?");
         }
         if (price != -1) {
-            sql.append(" AND originPrice <= ?");
+            sql.append(" AND price <= ?");
         }
 
         try {

@@ -5,6 +5,7 @@
 package controller;
 
 import dal.AccountDAO;
+import dal.SeatDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 import model.Account;
 
 /**
@@ -63,6 +65,7 @@ public class AccountControllerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         AccountDAO ad = new AccountDAO();
+        SeatDAO sd = new SeatDAO();
         HttpSession session = request.getSession();
 
         Integer idd = (Integer) session.getAttribute("id");
@@ -70,6 +73,7 @@ public class AccountControllerServlet extends HttpServlet {
 
         Account acc = ad.getAccountById(i);
         request.setAttribute("account", acc);
+
         String action = request.getParameter("action");
         String fRole = request.getParameter("fRole");
         String fName = request.getParameter("fName");
@@ -77,21 +81,51 @@ public class AccountControllerServlet extends HttpServlet {
 
         int itemOnPage = 3;
         int index = 1;
-        int numOfItems = ad.getNumberOfAccounts();
-        int numOfPage = numOfItems / itemOnPage;
-        if (numOfItems != 0 && numOfItems % itemOnPage != 0) {
-            numOfPage++;//lẻ trang
+
+        boolean isFiltering = (fRole != null && !fRole.isEmpty())
+                || (fName != null && !fName.isEmpty())
+                || (fPhoneNumber != null && !fPhoneNumber.isEmpty());
+
+        int numOfItems;
+        if (isFiltering) {
+            numOfItems = ad.getNumberOfFilteredAccounts(fRole, fName, fPhoneNumber);
+        } else {
+            numOfItems = ad.getNumberOfAccounts();
         }
+
+        int numOfPage = (int) Math.ceil((double) numOfItems / itemOnPage);
+
         try {
             index = Integer.parseInt(request.getParameter("index"));
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
+            index = 1;
         }
+
         request.setAttribute("index", index);
         request.setAttribute("numOfPage", numOfPage);
-        if (fRole == null && fName == null && fPhoneNumber == null) {
-            request.setAttribute("allAccount", ad.getAllAccount(index,itemOnPage));
+
+        if (isFiltering) {
+            List<Account> lss = ad.findAccounts(fRole, fName, fPhoneNumber);
+            int purchaseCounts[] = new int[lss.size()];
+            int j = 0;
+
+            for (Account a : lss) {
+                purchaseCounts[j++] = sd.getNumberOfBookingByAccountId(a.getId());
+            }
+            request.setAttribute("purchaseCounts", purchaseCounts);
+            request.setAttribute("allAccountWithoutPaging", lss);
+            request.setAttribute("allAccount", ad.findAccounts(fRole, fName, fPhoneNumber, index, itemOnPage));
         } else {
-            request.setAttribute("allAccount", ad.findAccounts(fRole, fName, fPhoneNumber));
+            List<Account> lss = ad.getAllAccount();
+            int purchaseCounts[] = new int[lss.size()];
+            int j = 0;
+
+            for (Account a : lss) {
+                purchaseCounts[j++] = sd.getNumberOfBookingByAccountId(a.getId());
+            }
+            request.setAttribute("purchaseCounts", purchaseCounts);
+            request.setAttribute("allAccountWithoutPaging", lss);
+            request.setAttribute("allAccount", ad.getAllAccount(index, itemOnPage));
         }
 
         if (action != null && !action.equals("search")) {
@@ -100,18 +134,17 @@ public class AccountControllerServlet extends HttpServlet {
                 try {
                     int id = Integer.parseInt(id_raw);
                     ad.deleteAccount(id);
-                } catch (Exception e) {
+                } catch (NumberFormatException e) {
                 }
                 response.sendRedirect("accountController");
             } else if (action.equals("update")) {
                 String id_raw = request.getParameter("id");
-
                 try {
                     int id = Integer.parseInt(id_raw);
                     Account a = ad.getAccountById(id);
                     request.setAttribute("currentAccount", a);
                     request.getRequestDispatcher("admin.jsp").forward(request, response);
-                } catch (Exception e) {
+                } catch (NumberFormatException e) {
                 }
             }
         } else {

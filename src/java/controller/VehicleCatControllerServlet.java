@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.Timestamp;
+import java.util.List;
 import model.Account;
 import model.Vehicle_Category;
 
@@ -86,13 +87,30 @@ public class VehicleCatControllerServlet extends HttpServlet {
         String fSeatQuantityStr = request.getParameter("fSeatQuantity");
 
         if (fSeatType == null && fName == null && fSeatQuantityStr == null) {
-            request.setAttribute("allVehicleCat", vd.getAllVehicleCat());
+            List<Vehicle_Category> vcls = vd.getAllVehicleCat();
+            int ticketCounts[] = new int[vcls.size()];
+            int j = 0;
+
+            for (Vehicle_Category vco : vcls) {
+                ticketCounts[j++] = vd.getNumberOfBookedSeatByVehicleCategory(vco.getId());
+            }
+            request.setAttribute("ticketCounts", ticketCounts);
+            request.setAttribute("allVehicleCat", vcls);
+
         } else {
             int fSeatQuantity = 0;
             if (fSeatQuantityStr != null && !fSeatQuantityStr.isEmpty()) {
                 fSeatQuantity = Integer.parseInt(fSeatQuantityStr);
             }
-            request.setAttribute("allVehicleCat", vd.findVehicleCat(fName, fSeatType, fSeatQuantity));
+            List<Vehicle_Category> vcls = vd.findVehicleCat(fName, fSeatType, fSeatQuantity);
+            int ticketCounts[] = new int[vcls.size()];
+            int j = 0;
+
+            for (Vehicle_Category vco : vcls) {
+                ticketCounts[j++] = vd.getNumberOfBookedSeatByVehicleCategory(vco.getId());
+            }
+            request.setAttribute("ticketCounts", ticketCounts);
+            request.setAttribute("allVehicleCat", vcls);
         }
 
         if (action != null && !action.equals("search")) {

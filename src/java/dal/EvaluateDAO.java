@@ -6,16 +6,19 @@ package dal;
 
 import model.Evaluate;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Admin
  */
 public class EvaluateDAO extends DBContext {
-    
+
     public static void main(String[] args) {
         EvaluateDAO ed = new EvaluateDAO();
-        ed.addEvaluate(new Evaluate(1, 5, "rất ok", 1, 1, null, null));
+        System.out.println(ed.getAllEvaluateByRouteId(1));
     }
 
     public void addEvaluate(Evaluate e) {
@@ -33,6 +36,27 @@ public class EvaluateDAO extends DBContext {
         } catch (Exception ex) {
             System.out.println(ex);
         }
+    }
+
+    public List<Evaluate> getAllEvaluateByRouteId(int routeId) {
+        List<Evaluate> ls = new ArrayList<>();
+        String sql = "SELECT * FROM Evaluate WHERE Route_Detailid IN ("
+                + "SELECT id FROM Route_Detail WHERE Routeid = ?"
+                + ")";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, routeId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Evaluate e = new Evaluate(rs.getInt("star"), rs.getString("comment"),
+                        rs.getInt("Accountid"), rs.getInt("Route_Detailid"),
+                        rs.getTimestamp("created_at"), rs.getTimestamp("updated_at"));
+                ls.add(e);
+            }
+        } catch (Exception e) {
+
+        }
+        return ls;
     }
 
 }

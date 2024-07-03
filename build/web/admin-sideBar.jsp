@@ -31,6 +31,11 @@ Admin --%> <%@page contentType="text/html" pageEncoding="UTF-8"%>
                         Quản lí tuyến xe chạy
                     </a>
                 </li>
+                <li>
+                    <a href="accountController" class="<%= currentPage.equals("/tripove/new.jsp") ? "current-page" : "" %>">
+                        Quản lý bài viết 
+                    </a>
+                </li>
             </ul>
         </div>
     </body>

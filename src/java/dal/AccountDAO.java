@@ -23,7 +23,7 @@ public class AccountDAO extends DBContext {
     public static void main(String[] args) {
         AccountDAO a = new AccountDAO();
 
-        System.out.println(a.getAllAccount(1,3));
+        System.out.println(a.getAllAccount(1, 3));
     }
 
     public void addNewAccount(Account a) {
@@ -163,6 +163,21 @@ public class AccountDAO extends DBContext {
         return null;
     }
 
+    public String getNameById(int id) {
+        String sql = "SELECT name FROM [dbo].[Account] WHERE id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getString("name");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
     public int getIdByUsername(String username) {
         String sql = "select id from [dbo].[Account] where username = ?";
         try {
@@ -198,57 +213,55 @@ public class AccountDAO extends DBContext {
         }
         return null;
     }
-    
+
     public List<Account> getAllAccount(int index, int numOfPage) {
-    List<Account> ls = new ArrayList<>();
-    String sql = "SELECT * FROM [dbo].[Account] ORDER BY id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-    try {
-        PreparedStatement ps = connection.prepareStatement(sql);
-        ps.setInt(1, numOfPage * (index - 1));
-        ps.setInt(2, numOfPage);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            Account a = new Account(
-                    rs.getInt("id"), 
-                    rs.getString("role"), 
-                    rs.getString("username"),
-                    rs.getString("password"), 
-                    rs.getString("name"), 
-                    rs.getString("gender"),
-                    rs.getDate("dateOfBirth"), 
-                    rs.getInt("phoneNumber"), 
-                    rs.getString("email"), 
-                    rs.getString("address"), 
-                    rs.getString("image"),
-                    rs.getTimestamp("created_at"), 
-                    rs.getTimestamp("updated_at")
-            );
-            ls.add(a);
+        List<Account> ls = new ArrayList<>();
+        String sql = "SELECT * FROM [dbo].[Account] ORDER BY id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, numOfPage * (index - 1));
+            ps.setInt(2, numOfPage);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Account a = new Account(
+                        rs.getInt("id"),
+                        rs.getString("role"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("name"),
+                        rs.getString("gender"),
+                        rs.getDate("dateOfBirth"),
+                        rs.getInt("phoneNumber"),
+                        rs.getString("email"),
+                        rs.getString("address"),
+                        rs.getString("image"),
+                        rs.getTimestamp("created_at"),
+                        rs.getTimestamp("updated_at")
+                );
+                ls.add(a);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
         }
-    } catch (Exception e) {
-        System.out.println(e);
+        return ls;
     }
-    return ls;
-}
-
-
+    
     public List<Account> findAccounts(String role, String name, String phoneNumber) {
         List<Account> ls = new ArrayList<>();
-        String sql = "SELECT * FROM [dbo].[Account] WHERE 1=1";
+        StringBuilder sql = new StringBuilder("SELECT * FROM [dbo].[Account] WHERE 1=1");
 
         if (role != null && !role.isEmpty()) {
-            sql += " AND role = ?";
+            sql.append(" AND role = ?");
         }
         if (name != null && !name.isEmpty()) {
-            sql += " AND name LIKE ?";
+            sql.append(" AND name LIKE ?");
         }
         if (phoneNumber != null && !phoneNumber.isEmpty()) {
-            sql += " AND phoneNumber LIKE ?";
+            sql.append(" AND phoneNumber LIKE ?");
         }
 
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-
+            PreparedStatement ps = connection.prepareStatement(sql.toString());
             int i = 1;
             if (role != null && !role.isEmpty()) {
                 ps.setString(i++, role);
@@ -264,17 +277,73 @@ public class AccountDAO extends DBContext {
                 ps.setString(i++, "%" + vp + "%");
             }
 
+
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Account a = new Account(rs.getInt("id"), rs.getString("role"), rs.getString("username"),
+                Account a = new Account(
+                        rs.getInt("id"), rs.getString("role"), rs.getString("username"),
                         rs.getString("password"), rs.getString("name"), rs.getString("gender"),
                         rs.getDate("dateOfBirth"), rs.getInt("phoneNumber"), rs.getString("email"),
                         rs.getString("address"), rs.getString("image"),
-                        rs.getTimestamp("created_at"), rs.getTimestamp("updated_at"));
+                        rs.getTimestamp("created_at"), rs.getTimestamp("updated_at")
+                );
                 ls.add(a);
             }
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
+        }
+        return ls;
+    }
+
+
+    public List<Account> findAccounts(String role, String name, String phoneNumber, int index, int numOfPage) {
+        List<Account> ls = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM [dbo].[Account] WHERE 1=1");
+
+        if (role != null && !role.isEmpty()) {
+            sql.append(" AND role = ?");
+        }
+        if (name != null && !name.isEmpty()) {
+            sql.append(" AND name LIKE ?");
+        }
+        if (phoneNumber != null && !phoneNumber.isEmpty()) {
+            sql.append(" AND phoneNumber LIKE ?");
+        }
+
+        sql.append(" ORDER BY id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql.toString());
+            int i = 1;
+            if (role != null && !role.isEmpty()) {
+                ps.setString(i++, role);
+            }
+            if (name != null && !name.isEmpty()) {
+                ps.setString(i++, "%" + name + "%");
+            }
+            if (phoneNumber != null && !phoneNumber.isEmpty()) {
+                String vp = phoneNumber;
+                if (vp.startsWith("0")) {
+                    vp = vp.substring(1);
+                }
+                ps.setString(i++, "%" + vp + "%");
+            }
+            ps.setInt(i++, numOfPage * (index - 1));
+            ps.setInt(i++, numOfPage);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Account a = new Account(
+                        rs.getInt("id"), rs.getString("role"), rs.getString("username"),
+                        rs.getString("password"), rs.getString("name"), rs.getString("gender"),
+                        rs.getDate("dateOfBirth"), rs.getInt("phoneNumber"), rs.getString("email"),
+                        rs.getString("address"), rs.getString("image"),
+                        rs.getTimestamp("created_at"), rs.getTimestamp("updated_at")
+                );
+                ls.add(a);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return ls;
     }
@@ -317,18 +386,75 @@ public class AccountDAO extends DBContext {
             e.printStackTrace();
         }
     }
-    
+
     public int getNumberOfAccounts() {
-    String sql = "SELECT COUNT(*) FROM [dbo].[Account]";
-    try {
-        PreparedStatement ps = connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            return rs.getInt(1); 
+        String sql = "SELECT COUNT(*) FROM [dbo].[Account]";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
         }
-    } catch (SQLException e) {
-        System.out.println(e);
+        return 0;
     }
-    return 0;  
-}
+
+    public int getNumberOfFilteredAccounts(String role, String name, String phoneNumber) {
+        String sql = "SELECT COUNT(*) FROM [dbo].[Account] WHERE 1=1";
+
+        if (role != null && !role.isEmpty()) {
+            sql += " AND role = ?";
+        }
+        if (name != null && !name.isEmpty()) {
+            sql += " AND name LIKE ?";
+        }
+        if (phoneNumber != null && !phoneNumber.isEmpty()) {
+            sql += " AND phoneNumber LIKE ?";
+        }
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            int i = 1;
+            if (role != null && !role.isEmpty()) {
+                ps.setString(i++, role);
+            }
+            if (name != null && !name.isEmpty()) {
+                ps.setString(i++, "%" + name + "%");
+            }
+            if (phoneNumber != null && !phoneNumber.isEmpty()) {
+                String vp = phoneNumber;
+                if (vp.startsWith("0")) {
+                    vp = vp.substring(1);
+                }
+                ps.setString(i++, "%" + vp + "%");
+            }
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return -1;
+    }
+
+    public String getImageByAccountId(int accountId) {
+        String sql = "SELECT image FROM [dbo].[Account] WHERE id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, accountId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("image");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
 }

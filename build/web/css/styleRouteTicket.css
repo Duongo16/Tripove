@@ -129,3 +129,65 @@ input[type=radio]:checked {
     background: rgb(71, 143, 192);
     color: white
 }
+
+.comments-section {
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+.comments-section h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 24px;
+    color: #333;
+}
+
+.comment {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 35px;
+    position: relative;
+}
+
+.comment-header {
+    font-size: 14px;
+    color: #555;
+}
+
+.comment-author{
+    position: absolute;
+    top: -22.5px;
+    display: flex;
+}
+
+.comment-author p {
+    font-size: 15px;
+    margin: 0;
+    margin-left: 5px
+}
+
+.comment-author img{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.comment-date {
+    font-style: italic;
+}
+
+.comment-info{
+    display: flex
+}
+
+.comment-body {
+    font-size: 16px;
+    color: #333;
+}
+
+.comment-body p {
+   margin: -15px 50px 15px 50px;
+}

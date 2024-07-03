@@ -23,7 +23,7 @@
         <ul id="header-nav1" style="font-weight: 550">
             <li class="<%= currentPage.equals("/tripove/home.jsp") ? "current-page" : "" %>"><a href="home" >Trang chủ</a></li>
             <li class="<%= currentPage.equals("/tripove/routeTicket.jsp") ? "current-page" : "" %>"><a href="routeTicket" >Mua vé</a></li>
-            <li><a href="#">Tin tức</a></li>
+            <li class="<%= currentPage.equals("/tripove/news.jsp") ? "current-page" : "" %>"><a href="news">Tin tức</a></li>
             <li class="<%= currentPage.equals("/tripove/home#footer") ? "current-page" : "" %>"><a href="#footer" >Liên hệ</a></li>
         </ul>
 

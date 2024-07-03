@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.Timestamp;
 import model.Account;
 import model.Evaluate;
 
@@ -84,18 +85,29 @@ public class EvaluateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        AccountDAO ad = new AccountDAO();
+        HttpSession session = request.getSession();
+
+        Integer idd = (Integer) session.getAttribute("id");
+        int i = (idd != null) ? idd : -1;
+
+        Account acc = ad.getAccountById(i);
+        request.setAttribute("account", acc);
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         EvaluateDAO ed = new EvaluateDAO();
         String accountIdStr = request.getParameter("accountId");
         String routeDetailIdStr = request.getParameter("routeDetailId");
+        String ratingValueStr = request.getParameter("ratingValue");
         String comment = request.getParameter("editor");
 
         try {
             int accountId = Integer.parseInt(accountIdStr);
             int routeDetailId = Integer.parseInt(routeDetailIdStr);
-            Evaluate e = new Evaluate(1, 5, comment, accountId, routeDetailId, null, null);
+            int ratingValue = Integer.parseInt(ratingValueStr);
+            Evaluate e = new Evaluate(ratingValue, comment, accountId, routeDetailId, new Timestamp(System.currentTimeMillis()), null);
             ed.addEvaluate(e);
+            request.getRequestDispatcher("successfulEvaluate.jsp").forward(request, response);
         } catch (Exception e) {
         }
     }

@@ -60,27 +60,28 @@
                         <form action="routeController" method="get" style="margin-bottom: 20px;">
                             <input type="hidden" name="action" value="search">
                             <strong>Name: </strong>
-                            <input class="filterElm" type="text" name="fName" placeholder="Enter name">
+                            <input class="filterElm" type="text" name="fName" value="${param.fName}" placeholder="Enter name">
                             <strong>Departure location: </strong>
                             <select class="filterElm" name="fDepartureLocation">
                                 <option value="">All</option>
                                 <c:forEach items="${requestScope.locationList}" var="ll">
-                                    <option value="${ll.id}">${ll.name}</option>
+                                    <option value="${ll.id}" ${(param.fDepartureLocation==ll.id)?'selected':''}>${ll.name}</option>
                                 </c:forEach>
                             </select>
                             <strong>Arrival location: </strong>
                             <select class="filterElm" name="fArrivalLocation">
                                 <option value="">All</option>
                                 <c:forEach items="${requestScope.locationList}" var="ll">
-                                    <option value="${ll.id}">${ll.name} </option>
+                                    <option value="${ll.id}" ${(param.fArrivalLocation==ll.id)?'selected':''}>${ll.name} </option>
                                 </c:forEach>
                             </select>
                             <strong>Price:  </strong>
-                            <input class="filterElm" type="number" name="fPrice">
-                            <button class="entity-update" type="submit" style="width: 80px" >
+                            <input class="filterElm" value="${param.fPrice}" style="width: 105px;" type="number" name="fPrice">
+                            <button class="entity-update" type="submit" style="width: 60px" >
                                 <i class="ti-search"></i>
-                                Search
+                                Lọc
                             </button>
+                            <a class="entity-delete" href="routeController">Huỷ</a>
                         </form>
                     </div>
 

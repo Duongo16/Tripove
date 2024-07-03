@@ -19,7 +19,7 @@ public class VehicleCatDAO extends DBContext {
 
     public static void main(String[] args) {
         VehicleCatDAO v = new VehicleCatDAO();
-        System.out.println(v.getImageByVehicleCatId(1));
+        System.out.println(v.getNumberOfBookedSeatByVehicleCategory(6));
     }
 
     public List<Vehicle_Category> getAllVehicleCat() {
@@ -275,6 +275,26 @@ public class VehicleCatDAO extends DBContext {
         }
 
         return null;
+    }
+
+    public int getNumberOfBookedSeatByVehicleCategory(int vehicleCategoryId) {
+        String sql = "SELECT COUNT(*) AS number_of_booked_seats FROM Vehicle_Category vc "
+                + "JOIN Vehicle v ON v.Vehicle_Categoryid = vc.id "
+                + "JOIN Route_Detail rd ON rd.VehiclelicensePlate = v.licensePlate "
+                + "JOIN Seat s ON s.Route_Detailid = rd.id "
+                + "WHERE vc.id = ? AND s.Accountid IS NOT NULL";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, vehicleCategoryId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("number_of_booked_seats");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return 0;
     }
 
 }

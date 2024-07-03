@@ -7,6 +7,7 @@ package dal;
 import java.sql.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Seat;
@@ -19,7 +20,7 @@ public class SeatDAO extends DBContext {
 
     public static void main(String[] args) {
         SeatDAO sd = new SeatDAO();
-        System.out.println(sd.getSeatByRouteDetailIdAndSeatName(1048,"S0"));;
+        System.out.println(sd.getSeatByRouteDetailIdAndSeatName(1048, "S0"));;
     }
 
     public void addSeatForNewRouteDetail(int routeDetailId, int n) {
@@ -57,7 +58,7 @@ public class SeatDAO extends DBContext {
         }
         return ls;
     }
-    
+
     public List<Seat> getSeatByRouteDetailIdAndSeatName(int routeDetailId, String seatName) {
         List<Seat> ls = new ArrayList<>();
         String sql = "SELECT * FROM [dbo].[Seat] WHERE Route_Detailid = ? AND name = ?";
@@ -104,6 +105,21 @@ public class SeatDAO extends DBContext {
             e.printStackTrace();
         }
         return num;
+    }
+
+    public int getNumberOfBookingByAccountId(int accountId) {
+        String sql = "SELECT COUNT(*) FROM [dbo].[Seat] WHERE Accountid = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, accountId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return 0;
     }
 
     public void deleteSeatByVehicleCatId(int vehicleCatId) {

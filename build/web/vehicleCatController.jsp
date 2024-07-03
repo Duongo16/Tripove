@@ -14,25 +14,30 @@ Author : Admin --%> <%@page contentType="text/html" pageEncoding="UTF-8"%>
         <div id="main-content">
             <div class="row" style="padding: 50px 0; margin: 0">
                 <div class="col-md-10" id="left-column">
+
                     <div class="filterController">
                         <form action="vehicleCatController" method="get" style="margin-bottom: 20px;">
                             <input type="hidden" name="action" value="search">
                             <strong>Name: </strong>
-                            <input class="filterElm" type="text" name="fName" placeholder="Enter name">
+                            <input class="filterElm" type="text" name="fName" value="${param.fName}" placeholder="Enter name">
                             <strong class="filterElm">Seat type:</strong>
                             <select class="filterElm" name="fSeatType">
                                 <option value="">All</option>
-                                <option value="Ngồi">Ngồi</option>
-                                <option value="Nằm">Nằm</option>
-                                <option value="Cabin">Cabin</option>
+                                <option value="Ngồi" ${param.fSeatType.equals("Ngồi")?'selected':''}>Ngồi</option>
+                                <option value="Nằm" ${param.fSeatType.equals("Nằm")?'selected':''}>Nằm</option>
+                                <option value="Cabin" ${param.fSeatType.equals("Cabin")?'selected':''}>Cabin</option>
                             </select>
                             <strong>Seat quantity: </strong>
-                            <input class="filterElm" type="number" name="fSeatQuantity" placeholder="Enter number of seat">
-                            <button class="entity-update" type="submit" style="width: 80px" >
+                            <input class="filterElm" type="number" name="fSeatQuantity" value="${param.fSeatQuantity}" placeholder="Enter number of seat">
+                            <button class="entity-update" type="submit" style="width: 60px" >
                                 <i class="ti-search"></i>
-                                Search
+                                Lọc
                             </button>
+                            <a class="entity-delete" href="vehicleCatController">Huỷ</a>
                         </form>
+                    </div>
+                    <div class="vehicleCatChart">
+                        <canvas id="myChart" style="width:100%;max-width:700px;margin:0 auto"></canvas>
                     </div>
                     <table class="entity">
                         <thead>
@@ -49,41 +54,42 @@ Author : Admin --%> <%@page contentType="text/html" pageEncoding="UTF-8"%>
                         </thead>
                         <tbody>
                             <c:forEach items="${requestScope.allVehicleCat}" var="list">
-                                <tr>
-                                    <td>${list.name}</td>
-                                    <td><img src="${list.image}"/></td>
-                                    <td>${list.seatType}</td>
-                                    <td>${list.seatQuantity}</td>
-                                    <td>${list.utilities}</td>
-                                    <td>
-                                        <fmt:formatDate
-                                            pattern="dd/MM/yyyy HH:mm"
-                                            value="${list.created_at}"
-                                            />
-                                    </td>
-                                    <td>
-                                        <fmt:formatDate
-                                            pattern="dd/MM/yyyy HH:mm"
-                                            value="${list.updated_at}"
-                                            />
-                                    </td>
-                                    <td>
-                                        <a
-                                            style="text-decoration: none"
-                                            class="entity-update"
-                                            href="vehicleCatController?action=update&id=${list.id}"
-                                            >Update</a
-                                        >
-                                        <a
-                                            style="text-decoration: none"
-                                            class="entity-delete"
-                                            href="#"
-                                            onclick="doDelete('${list.id}', '${list.name}')"
-                                            >Delete</a
-                                        >
-                                    </td>
-                                </tr>
-                            </c:forEach>
+                            <input type="hidden" value="${list}" class="aVehicleCat"/>
+                            <tr>
+                                <td>${list.name}</td>
+                                <td><img src="${list.image}"/></td>
+                                <td>${list.seatType}</td>
+                                <td>${list.seatQuantity}</td>
+                                <td>${list.utilities}</td>
+                                <td>
+                                    <fmt:formatDate
+                                        pattern="dd/MM/yyyy HH:mm"
+                                        value="${list.created_at}"
+                                        />
+                                </td>
+                                <td>
+                                    <fmt:formatDate
+                                        pattern="dd/MM/yyyy HH:mm"
+                                        value="${list.updated_at}"
+                                        />
+                                </td>
+                                <td>
+                                    <a
+                                        style="text-decoration: none"
+                                        class="entity-update"
+                                        href="vehicleCatController?action=update&id=${list.id}"
+                                        >Update</a
+                                    >
+                                    <a
+                                        style="text-decoration: none"
+                                        class="entity-delete"
+                                        href="#"
+                                        onclick="doDelete('${list.id}', '${list.name}')"
+                                        >Delete</a
+                                    >
+                                </td>
+                            </tr>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>
@@ -131,12 +137,59 @@ Author : Admin --%> <%@page contentType="text/html" pageEncoding="UTF-8"%>
             </div>
         </div>
 
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+        </script>
+
         <script type="text/javascript">
             function doDelete(id, name) {
                 if (confirm("Bạn có muốn xoá loại xe " + name + "? \nLưu ý: nếu loại xe bị xoá, các xe và tuyến xe liên quan sẽ bị xoá theo!")) {
                     window.location = "vehicleCatController?action=delete&id=" + id;
                 }
             }
+
+            const labels = [];
+            const ticketCounts = [];
+            const colors = [
+                'rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 206, 86)', 'rgb(75, 192, 192)',
+                'rgb(153, 102, 255)', 'rgb(255, 159, 64)', 'rgb(199, 199, 199)', 'rgb(83, 102, 255)',
+                'rgb(255, 102, 204)', 'rgb(102, 255, 102)', 'rgb(255, 153, 51)', 'rgb(204, 255, 153)',
+                'rgb(102, 102, 255)', 'rgb(255, 204, 255)', 'rgb(255, 204, 102)', 'rgb(255, 255, 102)',
+                'rgb(204, 102, 255)', 'rgb(255, 102, 153)', 'rgb(102, 204, 255)', 'rgb(153, 255, 102)'
+            ];
+            <c:forEach var="item" items="${requestScope.allVehicleCat}">
+            labels.push('${item.name}');
+            </c:forEach>
+            <c:forEach var="count" items="${requestScope.ticketCounts}">
+            ticketCounts.push(parseInt('${count}'));
+            </c:forEach>
+
+            const minValue = Math.min(...ticketCounts);
+            new Chart("myChart", {
+                type: "bar",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                            data: ticketCounts,
+                            backgroundColor: colors,
+                            fill: true
+                        }]
+                },
+                options: {
+                    legend: {display: false},
+                    scales: {
+                        yAxes: [{
+                                ticks: {
+                                    min: minValue > 0 ? minValue - 1 : 0
+                                }
+                            }]
+                    },
+                    title: {
+                        display: true,
+                        text: "Number of customers buying tickets for each type of vehicle"
+                    }
+                }
+            });
         </script>
         <%@include file="footer.jsp" %>
     </body>
