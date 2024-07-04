@@ -98,10 +98,15 @@
                                 <div class="home-search-item">
                                     <div style="display: flex">
                                         <strong style="margin: 3px 3px 3px 0;">Giá tiền: </strong>
-                                        <strong style="margin: auto 0"><p style="color: rgb(71, 143, 192);margin: auto 0" id="priceValue">600.000đ</p></strong>
-                                    </div>
-                                    <div class="price-range-container" style="display: flex">
-                                        <input style="padding: 5px" type="range" min="0" max="600000" step="50000" name="fPrice" id="priceRange" value="600000">
+                                        <strong style="margin: auto 0">
+                                            <p style="color: rgb(71, 143, 192);margin: auto 0" id="priceValue">
+                                                <fmt:formatNumber value="${param.fPrice}" pattern="###,###.###"></fmt:formatNumber>
+                                                    đ
+                                                </p>
+                                            </strong>
+                                        </div>
+                                        <div class="price-range-container" style="display: flex">
+                                            <input style="padding: 5px" type="range" min="0" max="600000" step="50000" name="fPrice" id="priceRange" value="${param.fPrice}">
                                     </div>
                                 </div>
                                 <button type="submit" id="home-search-button" 
