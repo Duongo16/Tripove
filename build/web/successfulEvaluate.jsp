@@ -26,7 +26,7 @@
                 height: 100px;
                 fill: #32b877;
                 margin: 0 auto 20px;
-                animation: rotateIcon 4s infinite linear;
+                animation: rotateIcon 1s infinite linear;
             }
             @keyframes rotateIcon {
                 0% {
@@ -65,6 +65,43 @@
                 text-decoration: none;
                 background-color: rgb(71, 143, 192);
             }
+            .loader {
+                background-image: url('image/background.png');
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 9999;
+                transition: all 3s;
+            }
+
+            .loader-hidden {
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            .loader::after {
+                content: "";
+                width: 75px;
+                height: 75px;
+                border: 15px solid white;
+                border-top-color: var(--tripoveMainColor) ;
+                border-radius: 50%;
+                animation: loading 2s ease infinite;
+            }
+
+            @keyframes loading {
+                from {
+                    transform: rotate(0turn);
+                }
+                to {
+                    transform: rotate(1turn);
+                }
+            }
         </style>
     </head>
     <body>
@@ -77,6 +114,16 @@
             <p>Cảm ơn bạn đã đánh giá chuyến đi!<br>Chúng tôi sẽ tham khảo ý kiến của bạn và nâng cao chất lượng dịch vụ</p>
             <a href="home" class="button">Trang chủ</a>
         </div>
+        <div class="loader" style=" background-image: url('image/background.png')"></div>
         <%@include file="footer.jsp" %>
+        <script>
+            window.addEventListener("load", () => {
+                const loader = document.querySelector(".loader");
+                loader.classList.add("loader-hidden");
+                loader.addEventListener("transitionend", () => {
+                    document.body.removeChild("loader");
+                });
+            });
+        </script>
     </body>
 </html>

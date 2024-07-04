@@ -98,7 +98,7 @@ input {
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    transition: all 3s;
+    transition: all 0.75s ease 1s;
 }
 
 .loader-hidden {
@@ -111,16 +111,16 @@ input {
     width: 75px;
     height: 75px;
     border: 15px solid white;
-    border-top-color: var(--tripoveMainColor) ;
+    border-top-color: var(--tripoveMainColor);
     border-radius: 50%;
-    animation: loading 2s ease infinite;
+    animation: loading 0.75s ease infinite;
 }
 
 @keyframes loading {
-    from {
-        transform: rotate(0turn);
+    0% {
+        transform: rotate(0deg);
     }
-    to {
-        transform: rotate(1turn);
+    100% {
+        transform: rotate(360deg);
     }
 }

@@ -68,8 +68,9 @@
                         </div>
                     </div>
                     <div class="route">
-                        <div style="padding: 20px">
+                        <div style="padding: 20px;position: relative">
                             <h5 style="margin-bottom: 20px"><strong>Bộ lọc</strong></h5>
+                            <a href="routeTicket" style="position: absolute;top: 22px;right: 20px">Huỷ</a>
                             <form action="routeTicket">
                                 <ul id="all-location" style="display: none">
                                     <% for(Location l : ld.getAllLocation()){

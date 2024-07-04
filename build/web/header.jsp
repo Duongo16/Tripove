@@ -20,7 +20,7 @@
                 <img src="image/logo2.png" />
             </a>
         </div>
-        <ul id="header-nav1" style="font-weight: 550">
+        <ul id="header-nav1" style="font-weight: 520">
             <li class="<%= currentPage.equals("/tripove/home.jsp") ? "current-page" : "" %>"><a href="home" >Trang chủ</a></li>
             <li class="<%= currentPage.equals("/tripove/routeTicket.jsp") ? "current-page" : "" %>"><a href="routeTicket" >Mua vé</a></li>
             <li class="<%= currentPage.equals("/tripove/news.jsp") ? "current-page" : "" %>"><a href="news">Tin tức</a></li>
