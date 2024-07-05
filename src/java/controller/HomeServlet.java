@@ -5,6 +5,7 @@
 package controller;
 
 import dal.AccountDAO;
+import dal.NewsDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -59,13 +60,15 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         AccountDAO ad = new AccountDAO();
+        NewsDAO nd = new NewsDAO();
         HttpSession session = request.getSession();
-        
-        Integer id = (Integer) session.getAttribute("id");
-        int i = (id != null) ? id : -1; 
-        
+
+        Integer idd = (Integer) session.getAttribute("id");
+        int i = (idd != null) ? idd : -1;
+
         Account acc = ad.getAccountById(i);
         request.setAttribute("account", acc);
+        request.setAttribute("allNews", nd.getAllNews());
         request.getRequestDispatcher("home.jsp").forward(request, response);
     }
 

@@ -5,20 +5,27 @@ import java.sql.Timestamp;
 public class News {
 
     private int id;
-    private String image;
     private String title;
-    private String description;
+    private String content;
+    private String image;
     private Timestamp created_at;
     private Timestamp updated_at;
 
     public News() {
     }
-
-    public News(int id, String image, String title, String description, Timestamp created_at, Timestamp updated_at) {
-        this.id = id;
-        this.image = image;
+    
+    public News(String title, String content, String image, Timestamp created_at) {
         this.title = title;
-        this.description = description;
+        this.content = content;
+        this.image = image;
+        this.created_at = created_at;
+    }
+
+    public News(int id, String title, String content, String image, Timestamp created_at, Timestamp updated_at) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.image = image;
         this.created_at = created_at;
         this.updated_at = updated_at;
     }
@@ -31,14 +38,6 @@ public class News {
         this.id = id;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -47,12 +46,20 @@ public class News {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getContent() {
+        return content;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Timestamp getCreated_at() {
@@ -70,6 +77,5 @@ public class News {
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
     }
-    
-    
+
 }

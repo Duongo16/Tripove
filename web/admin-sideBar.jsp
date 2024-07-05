@@ -32,7 +32,7 @@ Admin --%> <%@page contentType="text/html" pageEncoding="UTF-8"%>
                     </a>
                 </li>
                 <li>
-                    <a href="accountController" class="<%= currentPage.equals("/tripove/new.jsp") ? "current-page" : "" %>">
+                    <a href="newsController" class="<%= currentPage.equals("/tripove/new.jsp") ? "current-page" : "" %>">
                         Quản lý bài viết 
                     </a>
                 </li>

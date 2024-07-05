@@ -1,7 +1,10 @@
 <%-- Document : home Created on : May 12, 2024, 2:46:40 PM Author : Admin --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page import="model.Location" %>
 <%@page import="dal.LocationDAO" %>
+<%@page import="model.News" %>
+<%@page import="java.util.List" %>
 <% 
    LocationDAO ld = new LocationDAO();
 %>
@@ -14,143 +17,9 @@
         <title>Tripove</title>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="css/styleHome.css" />
+        <link rel="stylesheet" href="css/styleNews.css"/>
         <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-        <style>
-            
-            #introduction {
-                padding: 20px;
-                background-image: linear-gradient(rgb(71, 143, 192), white);
-                text-align: center;
-                color: white;
-                height: 150px;
-            }
-
-            #introduction h1 {
-                color: white;
-                margin-top: 15px
-            }
-
-            #promotion {
-                display: flex;
-                justify-content: space-around;
-                margin: 50px 0;
-            }
-
-            #promotion h3 {
-                color: rgb(71, 143, 192)
-            }
-
-            #promotion p {
-                text-align: justify
-            }
-
-            .promotion-item {
-                text-align: center;
-                width: 45%;
-                margin: 10px;
-                padding: 10px;
-                box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-                background-color: #fff;
-            }
-
-            .promotion-item img {
-                max-width: 100%;
-                height: 100%;
-                border-radius: 5px;
-                object-fit: cover;
-            }
-            #statistics {
-                padding: 50px 20px;
-                background: linear-gradient(135deg, rgb(71, 143, 192), rgb(28, 98, 169));
-                text-align: center;
-                color: white;
-                display: flex;
-                justify-content: space-around;
-                flex-wrap: wrap;
-                gap: 20px;
-            }
-
-            .statistics-heading {
-                width: 100%
-            }
-
-
-            .stat-item {
-                margin: 20px;
-                padding: 30px;
-                border-radius: 15px;
-                background-color: rgba(255, 255, 255, 0.2);
-                width: 300px;
-                transition: transform 0.3s, box-shadow 0.3s;
-            }
-
-            .stat-item:hover {
-                transform: scale(1.05);
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            }
-
-            .stat-item h3 {
-                font-size: 3em;
-                margin-bottom: 10px;
-            }
-
-            .stat-item p {
-                font-size: 1.3em;
-            }
-
-            .stat-icon {
-                font-size: 4em;
-                margin-bottom: 20px;
-                color: rgba(255, 255, 255, 0.8);
-            }
-
-            @media (max-width: 768px) {
-                .stat-item {
-                    width: 100%;
-                }
-            }
-
-            .icon{
-                margin-top: 30px
-            }
-
-            .icon svg {
-                width: 125px;
-                height: 125px
-            }
-
-            .ticket-button-container {
-                text-align: center;
-                padding-bottom: 30px;
-                margin-top: 50px
-            }
-
-            .ticket-button {
-                display: block;
-                width: 200px;
-                font-weight: 500;
-                padding: 15px 30px;
-                margin: 0 auto;
-                background-color: rgb(255, 193, 7);
-                color: black;
-                text-decoration: none;
-                font-size: 1.2em;
-                border-radius: 30px;
-                transition: background-color 0.3s, transform 0.3s;
-            }
-
-            .ticket-button:hover {
-                background-color: rgb(218, 165, 0);
-                transform: scale(1.05);
-                text-decoration: none;
-                color: black;
-            }
-
-
-
-
-        </style>
     </head>
     <body>
         <%@include file="header.jsp" %> 
@@ -273,6 +142,42 @@
                 </div>
             </div>
 
+        </div>
+
+        <div id="body-3" style="padding-bottom: 110px">
+            <h1 style="text-align: center; margin-bottom: 30px;margin-top: 50px">Tin tức</h1>
+            <div class="news-container">
+                <% 
+                    List<News> allNews = (List<News>) request.getAttribute("allNews");
+                    if (allNews != null) {
+                    int count = 1;
+                        for (int i = allNews.size() - 1; i >= 0; i--) {
+                            count++;
+                            if(count<=5){
+                            News n = allNews.get(i);
+                %>
+                <div class="news-item">
+                    <img src="<%= n.getImage() %>" alt="<%= n.getTitle() %>">
+                    <h2><%= n.getTitle() %></h2>
+                    <div class="news-content" style="display: none;">
+                        <p><%= n.getContent() %></p>
+                    </div>
+                    <div class="news-time">
+                        <p><fmt:formatDate pattern="dd/MM/yyyy HH:mm" value="<%=n.getCreated_at()%>"/></p>
+                    </div>
+                </div>
+                <% 
+                    } else {
+break;
+}
+                        }
+                    }
+                %>
+
+            </div>
+            <div style="text-align: center;margin-top: 40px">
+                <a href="news">Xem thêm</a>
+            </div>
         </div>
 
 
