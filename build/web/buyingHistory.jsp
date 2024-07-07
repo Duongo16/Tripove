@@ -19,6 +19,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="shortcut icon" type="image/jpg" href="image/logo-icon.png" />
         <title>Lịch sử mua vé</title>
         <link rel="stylesheet" href="css/styleAdminController.css"/>
     </head>

@@ -27,6 +27,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="shortcut icon" type="image/jpg" href="image/logo-icon.png" />
         <title>Route Detail Ticket</title>
         <link rel="stylesheet" href="css/styleRouteDetailTicket.css"/>
     </head>
@@ -35,6 +36,12 @@
         <div style="margin: 100px">
             <div class="box row" style="padding: 20px">
                 <div class="col-md-7">
+                    <div style="margin-bottom: 20px">
+                        <a href="routeTicket" style="color: rgb(71, 143, 192)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 512 512"><path fill="rgb(71, 143, 192)" d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/></svg>
+                        Trở về
+                    </a>
+                    </div>
                     <h2><%= cr.getName() %></h2>
                     <div class="bar">
                         <p>Ngày xuất phát:</p>

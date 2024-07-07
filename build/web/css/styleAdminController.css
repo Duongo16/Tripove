@@ -37,9 +37,6 @@ table.entity td img {
 table.entity td a {
     text-decoration: none;
     margin-right: 10px;
-    display: flex;
-    margin-bottom: 5px;
-    text-align: center;
 }
 
 table.entity td a:hover {

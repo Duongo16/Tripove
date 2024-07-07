@@ -156,7 +156,7 @@
                             if(count<=5){
                             News n = allNews.get(i);
                 %>
-                <div class="news-item">
+                <div class="news-item" onclick="viewNews('<%= n.getId() %>');">
                     <img src="<%= n.getImage() %>" alt="<%= n.getTitle() %>">
                     <h2><%= n.getTitle() %></h2>
                     <div class="news-content" style="display: none;">
@@ -205,6 +205,10 @@ break;
             priceValue.textContent = Number(priceRange.value).toLocaleString('vi-VN') + "đ";
         }
         priceRange.addEventListener('input', updatePrice);
+        
+        function viewNews(newsId) {
+                window.location.href = 'news?id=' + newsId;
+            }
     </script>
 </body>
 </html>

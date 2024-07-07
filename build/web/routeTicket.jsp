@@ -28,7 +28,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <link rel="shortcut icon" type="image/jpg" href="image/logo-icon.png" />
+        <title>Mua vé</title>
         <link rel="stylesheet" href="css/styleRouteTicket.css"/>
         <script src="js/locationBox.js" type="text/javascript"></script>
         <style>

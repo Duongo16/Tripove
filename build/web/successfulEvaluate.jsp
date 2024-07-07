@@ -9,7 +9,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Thanh toán thành công</title>
+        <link rel="shortcut icon" type="image/jpg" href="image/logo-icon.png" />
+        <title>Đánh giá thành công</title>
         <style>
             .box {
                 background-color: #fff;

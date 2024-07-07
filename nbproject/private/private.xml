@@ -6,10 +6,8 @@
             <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/components/header.jsp</file>
         </group>
         <group name="PRJ301">
-            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/newsController.jsp</file>
-            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/dal/NewsDAO.java</file>
-            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/controller/NewsControllerServlet.java</file>
-            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/src/java/dal/RouteDAO.java</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/successfulEvaluate.jsp</file>
+            <file>file:/F:/2.%20WORK/IT-WORKSPACE/tripove/web/evaluate.jsp</file>
         </group>
     </open-files>
 </project-private>
