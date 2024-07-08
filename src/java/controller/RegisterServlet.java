@@ -82,8 +82,11 @@ public class RegisterServlet extends HttpServlet {
         String pass = request.getParameter("pass");
 
         RegisterDAO d = new RegisterDAO();
-        if (d.checkExisted(user)) {
+        if (d.checkUsernameExisted(user)) {
             request.setAttribute("existedUsername", "Tên tài khoản đã được đăng ký!");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+        } else if (d.checkEmailExisted(email)) {
+            request.setAttribute("existedUsername", "Gmail đã được đăng ký!");
             request.getRequestDispatcher("register.jsp").forward(request, response);
         } else {
             Timestamp created_at = new Timestamp(System.currentTimeMillis());

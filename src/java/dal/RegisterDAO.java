@@ -15,10 +15,22 @@ import model.Account;
  */
 public class RegisterDAO extends DBContext {
 
-    public boolean checkExisted(String username) {
+    public boolean checkUsernameExisted(String username) {
         String sql = "select * from Account where username=?";
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setString(1, username);
+            try (ResultSet rs = st.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+    
+    public boolean checkEmailExisted(String email) {
+        String sql = "select * from Account where email=?";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, email);
             try (ResultSet rs = st.executeQuery()) {
                 return rs.next();
             }

@@ -64,7 +64,7 @@
                     </p></div>
                 <br />
                 <p id="capslock-warning" style="display: none; margin-bottom: 30px">⚠️ Caps Lock is on</p>
-                <h3 style="color: red">${requestScope.existedUsername}</h3>
+                <p style="color: red">${requestScope.existedUsername}</p>
                 <div class="button">
                     <input id="submit" type="submit" value="Đăng ký" /><br /><br />
                 </div>
