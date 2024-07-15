@@ -27,6 +27,10 @@
         <filter-name>LoginFilter</filter-name>
         <url-pattern>/infoUpdate</url-pattern>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/routeDetailTicket</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>HomeServlet</servlet-name>
         <servlet-class>controller.HomeServlet</servlet-class>

@@ -183,7 +183,7 @@ break;
 
     </div>
     <%@include file="footer.jsp" %>
-    <!--    <div class="loader" style=" background-image: url('image/background.png')"></div>-->
+    <div class="loader" style=" background-image: url('image/background.png')"></div>
     <script src="js/locationBox.js" type="text/javascript"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
