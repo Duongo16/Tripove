@@ -20,7 +20,7 @@ public class SeatDAO extends DBContext {
 
     public static void main(String[] args) {
         SeatDAO sd = new SeatDAO();
-        sd.deleteSeatByAccountId(11);
+        sd.clearSeatByAccountId(11);
     }
 
     public void addSeatForNewRouteDetail(int routeDetailId, int n) {
@@ -157,17 +157,18 @@ public class SeatDAO extends DBContext {
         }
     }
     
-    public void deleteSeatByAccountId(int accountId) {
-        String sql = "DELETE FROM [dbo].[Seat] WHERE Accountid IN ("
-                + "SELECT id FROM [dbo].[Account] "
-                + "WHERE id = ?)";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, accountId);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void clearSeatByAccountId(int accountId) {
+    String sql = "UPDATE [dbo].[Seat] SET Accountid = NULL, paymentDate = NULL, pickUp = NULL " +
+                 "WHERE Accountid IN (" +
+                 "SELECT id FROM [dbo].[Account] WHERE id = ?)";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, accountId);
+        ps.executeUpdate();
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
+
 
     public void deleteSeatByLicensePlate(String licensePlate) {
         String sql = "DELETE FROM [dbo].[Seat] WHERE Route_Detailid IN ("

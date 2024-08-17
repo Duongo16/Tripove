@@ -138,7 +138,7 @@ public class AccountControllerServlet extends HttpServlet {
                 try {
                     int id = Integer.parseInt(id_raw);
                     ed.deleteEvaluateByAccountId(id);
-                    sd.deleteSeatByAccountId(id);
+                    sd.clearSeatByAccountId(id);
                     ad.deleteAccount(id);
                 } catch (NumberFormatException e) {
                 }

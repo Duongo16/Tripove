@@ -24,7 +24,8 @@ public class RouteDAO extends DBContext {
 //        rd.updateRoute(new Route(2007, "Hà Nội Hải Phòng", 10002, Date.valueOf("2024-12-12"),
 //                Time.valueOf("12:12:00"), new Timestamp(System.currentTimeMillis()), null, 1,
 //                "98A-12345", 2));
-        System.out.println(rd.findRoute(null,-1,-1,100000));
+//        System.out.println(rd.findRoute(null, -1, -1, 100000));
+        System.out.println(rd.getAvarageStar(1));
     }
 
     public List<Route> getAllRoute() {
@@ -76,10 +77,10 @@ public class RouteDAO extends DBContext {
                 ps.setString(i++, departureLocation);
             }
             if (arrivalLocation != null && !arrivalLocation.isEmpty()) {
-                ps.setString(i++, arrivalLocation );
+                ps.setString(i++, arrivalLocation);
             }
             if (price != -1) {
-                ps.setInt(i++, price );
+                ps.setInt(i++, price);
             }
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -278,5 +279,24 @@ public class RouteDAO extends DBContext {
             e.printStackTrace();
         }
         return listImage;
+    }
+
+    public float getAvarageStar(int routeId) {
+        String sql = "select (CAST(SUM(star) AS FLOAT) / COUNT(*)) AS average_star"
+                + "  from [dbo].[Evaluate] where Route_Detailid in (\n"
+                + "	SELECT id from [dbo].[Route_Detail] where Routeid = ?)";
+        float res = 0;
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, routeId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                res = rs.getFloat("average_star");
+                res = Math.round(res * 10) / 10.0f;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return res;
     }
 }
