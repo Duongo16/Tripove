@@ -5,6 +5,7 @@
 package controller;
 
 import dal.AccountDAO;
+import dal.EvaluateDAO;
 import dal.SeatDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,6 +19,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 import model.Account;
+import model.Evaluate;
 
 /**
  *
@@ -66,6 +68,7 @@ public class AccountControllerServlet extends HttpServlet {
             throws ServletException, IOException {
         AccountDAO ad = new AccountDAO();
         SeatDAO sd = new SeatDAO();
+        EvaluateDAO ed = new EvaluateDAO();
         HttpSession session = request.getSession();
 
         Integer idd = (Integer) session.getAttribute("id");
@@ -130,9 +133,12 @@ public class AccountControllerServlet extends HttpServlet {
 
         if (action != null && !action.equals("search")) {
             if (action.equals("delete")) {
+                
                 String id_raw = request.getParameter("id");
                 try {
                     int id = Integer.parseInt(id_raw);
+                    ed.deleteEvaluateByAccountId(id);
+                    sd.deleteSeatByAccountId(id);
                     ad.deleteAccount(id);
                 } catch (NumberFormatException e) {
                 }

@@ -23,7 +23,7 @@ public class AccountDAO extends DBContext {
     public static void main(String[] args) {
         AccountDAO a = new AccountDAO();
 
-        System.out.println(a.getAllAccount(1, 3));
+        a.deleteAccount(11);
     }
 
     public void addNewAccount(Account a) {

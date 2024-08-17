@@ -58,5 +58,17 @@ public class EvaluateDAO extends DBContext {
         }
         return ls;
     }
+    
+    public void deleteEvaluateByAccountId(int accountId) {
+        String sql = "DELETE FROM [dbo].[Evaluate] WHERE Accountid IN ("
+                + "SELECT id FROM [dbo].[Account] "
+                + "WHERE id = ?)";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, accountId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

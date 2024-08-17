@@ -20,7 +20,7 @@ public class SeatDAO extends DBContext {
 
     public static void main(String[] args) {
         SeatDAO sd = new SeatDAO();
-        System.out.println(sd.getSeatByRouteDetailIdAndSeatName(1048, "S0"));;
+        sd.deleteSeatByAccountId(11);
     }
 
     public void addSeatForNewRouteDetail(int routeDetailId, int n) {
@@ -151,6 +151,18 @@ public class SeatDAO extends DBContext {
                 + "WHERE Routeid = ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, routeId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void deleteSeatByAccountId(int accountId) {
+        String sql = "DELETE FROM [dbo].[Seat] WHERE Accountid IN ("
+                + "SELECT id FROM [dbo].[Account] "
+                + "WHERE id = ?)";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, accountId);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
