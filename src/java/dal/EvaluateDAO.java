@@ -21,7 +21,7 @@ public class EvaluateDAO extends DBContext {
         System.out.println(ed.getAllEvaluateByRouteId(1));
     }
 
-    public void addEvaluate(Evaluate e) {
+    public boolean addEvaluate(Evaluate e) {
         String sql = "INSERT INTO [dbo].[Evaluate] (star, comment, accountId, Route_Detailid, created_at, updated_at) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
         try {
@@ -32,9 +32,11 @@ public class EvaluateDAO extends DBContext {
             ps.setInt(4, e.getRouteDetailId());
             ps.setTimestamp(5, e.getCreated_at());
             ps.setTimestamp(6, e.getUpdated_at());
-            ps.executeUpdate();
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
+            return false;
         }
     }
 
@@ -59,15 +61,17 @@ public class EvaluateDAO extends DBContext {
         return ls;
     }
     
-    public void deleteEvaluateByAccountId(int accountId) {
+     public boolean deleteEvaluateByAccountId(int accountId) {
         String sql = "DELETE FROM [dbo].[Evaluate] WHERE Accountid IN ("
                 + "SELECT id FROM [dbo].[Account] "
                 + "WHERE id = ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, accountId);
-            ps.executeUpdate();
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 

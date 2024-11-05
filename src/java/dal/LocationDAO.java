@@ -32,21 +32,37 @@ public class LocationDAO extends DBContext {
         }
         return locations;
     }
-    
+
     public String getLocationNameById(int id) {
-    String locationName = null;
-    String sql = "SELECT name FROM [dbo].[Location] WHERE id = ?";
-    try {
-        PreparedStatement ps = connection.prepareStatement(sql);
-        ps.setInt(1, id);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            locationName = rs.getString("name");
+        String locationName = null;
+        String sql = "SELECT name FROM [dbo].[Location] WHERE id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                locationName = rs.getString("name");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
+        return locationName;
     }
-    return locationName;
-}
+
+    public String getLocationNameById2(String id) {
+        String locationName = null;
+        String sql = "SELECT name FROM [dbo].[Location] WHERE id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, Integer.parseInt(id));
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                locationName = rs.getString("name");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return locationName;
+    }
 
 }

@@ -36,7 +36,7 @@
                 <textarea style="padding: 2px" name="address" cols="20" rows="3" value="${requestScope.account.address}">${requestScope.account.address}</textarea>
                 <br>
                 <button id="info-update" type="submit">Cập nhật</button>
-                <button id="info-home" onclick="window.location.href = 'info'">Huỷ</button>
+                <a id="info-home" href="info">Huỷ</a>
             </form>
         </div>
         <%@include file="footer.jsp" %>

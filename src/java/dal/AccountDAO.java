@@ -26,7 +26,7 @@ public class AccountDAO extends DBContext {
         a.deleteAccount(11);
     }
 
-    public void addNewAccount(Account a) {
+    public boolean addNewAccount(Account a) {
         String sql = "INSERT INTO [dbo].[Account] "
                 + "([role], [username], [password], [name], [gender], [dateOfBirth], "
                 + "[phoneNumber], [email], [address], [image], [created_at]) "
@@ -44,11 +44,12 @@ public class AccountDAO extends DBContext {
             ps.setString(9, a.getAddress());
             ps.setString(10, a.getImage());
             ps.setTimestamp(11, a.getCreated_at());
-            ps.executeUpdate();
+            int rowsInserted = ps.executeUpdate();
+            return rowsInserted > 0;
         } catch (Exception e) {
             System.out.println(e);
+            return false;
         }
-
     }
 
     public void updateAccount(Account a) {
@@ -245,7 +246,7 @@ public class AccountDAO extends DBContext {
         }
         return ls;
     }
-    
+
     public List<Account> findAccounts(String role, String name, String phoneNumber) {
         List<Account> ls = new ArrayList<>();
         StringBuilder sql = new StringBuilder("SELECT * FROM [dbo].[Account] WHERE 1=1");
@@ -277,7 +278,6 @@ public class AccountDAO extends DBContext {
                 ps.setString(i++, "%" + vp + "%");
             }
 
-
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Account a = new Account(
@@ -294,7 +294,6 @@ public class AccountDAO extends DBContext {
         }
         return ls;
     }
-
 
     public List<Account> findAccounts(String role, String name, String phoneNumber, int index, int numOfPage) {
         List<Account> ls = new ArrayList<>();

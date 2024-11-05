@@ -20,6 +20,19 @@ public class News {
         this.image = image;
         this.created_at = created_at;
     }
+    
+    public News(String title, String content, String image) {
+        this.title = title;
+        this.content = content;
+        this.image = image;
+    }
+    
+    public News(int id, String title, String content, String image) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.image = image;
+    }
 
     public News(int id, String title, String content, String image, Timestamp created_at, Timestamp updated_at) {
         this.id = id;

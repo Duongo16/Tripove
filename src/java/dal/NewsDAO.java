@@ -51,7 +51,7 @@ public class NewsDAO extends DBContext {
         return null;
     }
 
-    public void addNews(News news) {
+    public boolean addNews(News news) {
         String sql = "INSERT INTO News (title, content, image, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -60,14 +60,16 @@ public class NewsDAO extends DBContext {
             ps.setString(3, news.getImage());
             ps.setTimestamp(4, news.getCreated_at());
             ps.setTimestamp(5, news.getUpdated_at());
-            ps.executeUpdate();
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
-    public void updateNews(News news) {
-        String sql = "UPDATE News SET title = ?, content = ?, image=?,  updated_at = ? WHERE id = ?";
+     public boolean updateNews(News news) {
+        String sql = "UPDATE News SET title = ?, content = ?, image = ?, updated_at = ? WHERE id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, news.getTitle());
@@ -75,20 +77,24 @@ public class NewsDAO extends DBContext {
             ps.setString(3, news.getImage());
             ps.setTimestamp(4, news.getUpdated_at());
             ps.setInt(5, news.getId());
-            ps.executeUpdate();
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
-    public void deleteNewsById(int id) {
+    public boolean deleteNewsById(int id) {
         String sql = "DELETE FROM News WHERE id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
-            ps.executeUpdate();
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 }
