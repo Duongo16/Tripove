@@ -96,12 +96,12 @@ public class LoginDAOTest {
         String password = "123";
         LoginDAO instance = new LoginDAO();
         Account expResult = new Account(
-                1, "admin", "admin", "123", "Ngô Tùng Beng", "male",
+                1, "admin", "admin", "123", "Ngô Tùng Dương", "male",
                 Date.valueOf("2004-11-16"), 862521226, "duongo1604@gmail.com",
                 "106, đường Vi Đức Thăng, phường Xương Giang, thành phố Bắc Giang",
                 "image/avatar/avatar.jpg",
                 Timestamp.valueOf("2024-06-03 09:11:32"),
-                Timestamp.valueOf("2024-10-30 11:21:42"));
+                Timestamp.valueOf("2024-06-26 08:06:07.170"));
         Account result = instance.checkPassword(username, password);
         assertEquals(expResult.getId(), result.getId());
         assertEquals(expResult.getRole(), result.getRole());

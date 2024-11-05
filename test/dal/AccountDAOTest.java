@@ -130,7 +130,7 @@ public class AccountDAOTest {
         AccountDAO instance = new AccountDAO();
 
         Account expResult = new Account(
-                1, "admin", "admin", "123", "Ngô Tùng Beng", "male",
+                1, "admin", "admin", "123", "Ngô Tùng Dương", "male",
                 Date.valueOf("2004-11-16"), 862521226, "duongo1604@gmail.com",
                 "106, đường Vi Đức Thăng, phường Xương Giang, thành phố Bắc Giang",
                 "image/avatar/avatar.jpg",
@@ -152,6 +152,19 @@ public class AccountDAOTest {
         assertEquals(expResult.getImage(), result.getImage());
         assertEquals(expResult.getCreated_at().getTime() / 1000, result.getCreated_at().getTime() / 1000);
         assertEquals(expResult.getUpdated_at().getTime() / 1000, result.getUpdated_at().getTime() / 1000);
+    }
+    
+    @Test
+    public void testGetAccountByNotExistedId() {
+        System.out.println("getAccountByNotExistedId");
+        int id = 9;
+        AccountDAO instance = new AccountDAO();
+
+        Account expResult = null;
+
+        Account result = instance.getAccountById(id); 
+
+        assertEquals(expResult, result);
     }
 
     /**
